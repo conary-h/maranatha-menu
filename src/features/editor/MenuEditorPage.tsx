@@ -92,7 +92,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
   const atSectionLimit = menu.sections.length >= LIMITS.maxSections
 
   return (
-    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) minmax(380px, 480px)' }, minHeight: '100dvh' }}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) minmax(320px, 420px)' }, minHeight: '100dvh' }}>
       <Box sx={{ minWidth: 0 }}>
         <TopBar
           title={formatLongDate(menu.date)}
@@ -109,7 +109,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           spacing={2}
           sx={{
             width: '100%',
-            maxWidth: { xs: 720, lg: 780 },
+            maxWidth: { xs: 720, md: 760 },
             mx: 'auto',
             p: 2,
             pb: `calc(${BOTTOM_BAR_SPACE * 8}px + env(safe-area-inset-bottom, 0px))`,
@@ -189,7 +189,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           elevation={0}
           sx={{
             position: 'fixed',
-            insetInline: { xs: 0, lg: '0 min(480px, 44%)' },
+            insetInline: { xs: 0, md: '0 min(420px, 36%)' },
             bottom: 0,
             zIndex: 30,
             borderTop: 1,
@@ -229,7 +229,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
       <Box
         component="aside"
         sx={{
-          display: { xs: 'none', lg: 'flex' },
+          display: { xs: 'none', md: 'flex' },
           position: 'sticky',
           top: 0,
           flexDirection: 'column',

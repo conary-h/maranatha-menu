@@ -21,6 +21,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -36,6 +37,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog'
 import type { ImageMap } from '@/hooks/useMenuImages'
 import { useDishSuggestions } from '@/hooks/useDishSuggestions'
 import { LIMITS, parsePrice, validatePrice } from '@/lib/validation'
+import { sectionBadge } from '@/templates/shared'
 import type { Dish, Menu, MenuSection, PriceMode } from '@/types/menu'
 import { DishRow } from './DishRow'
 
@@ -108,55 +110,83 @@ export function SectionCard({
     if (from >= 0 && to >= 0) onDishReorder(from, to)
   }
 
+  const badge = sectionBadge(section, currency)
   const flatError = section.priceMode === 'flat' ? validatePrice(flatDraft, false) : undefined
   const atDishLimit = section.dishes.length >= LIMITS.maxDishesPerSection
 
   return (
-    <Paper variant="outlined" component="section" sx={{ overflow: 'hidden' }} aria-label={section.title || 'Sección'}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, p: 1.5, bgcolor: '#f4ede3' }}>
-        <InputBase
-          value={section.title}
-          onChange={(event) => onSectionChange({ title: event.target.value })}
-          placeholder="Nombre de la sección"
-          // `width: 0` matters: an <input> keeps an intrinsic width from its
-          // `size` attribute, which would push the page wider than a phone.
-          sx={{
-            flex: '1 1 auto',
-            width: 0,
-            minWidth: 0,
-            px: 1,
-            borderRadius: 1,
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.15rem',
-            fontWeight: 800,
-            '&:hover, &.Mui-focused': { bgcolor: 'background.paper' },
-          }}
-          slotProps={{ input: { maxLength: LIMITS.sectionTitle, 'aria-label': 'Nombre de la sección' } }}
-        />
-        <Tooltip title="Subir sección">
-          <span>
-            <IconButton onClick={() => onMove(-1)} disabled={!canMoveUp} aria-label="Subir sección">
-              <KeyboardArrowUpIcon />
+    <Paper variant="outlined" component="section" sx={{ overflow: 'hidden', borderRadius: 2 }} aria-label={section.title || 'Sección'}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          px: 1.5,
+          py: 1.25,
+          borderBottom: 1,
+          borderColor: 'divider',
+          background: 'linear-gradient(180deg, #f7f1e7 0%, #f2e9dc 100%)',
+        }}
+      >
+        <Box sx={{ flex: '1 1 auto', minWidth: 0 }}>
+          <InputBase
+            value={section.title}
+            onChange={(event) => onSectionChange({ title: event.target.value })}
+            placeholder="Nombre de la sección"
+            // `width: 0` matters: an <input> keeps an intrinsic width from its
+            // `size` attribute, which would push the page wider than a phone.
+            sx={{
+              width: 0,
+              minWidth: '100%',
+              px: 0.75,
+              borderRadius: 1,
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.25rem',
+              fontWeight: 800,
+              lineHeight: 1.2,
+              '&:hover, &.Mui-focused': { bgcolor: 'background.paper' },
+            }}
+            slotProps={{ input: { maxLength: LIMITS.sectionTitle, 'aria-label': 'Nombre de la sección' } }}
+          />
+          {/* The pricing rule used to be invisible until you opened the panel;
+              as a chip it is readable at a glance, which is what it is for. */}
+          <Stack direction="row" spacing={0.75} sx={{ pl: 0.75, pt: 0.5, flexWrap: 'wrap' }} useFlexGap>
+            <Chip
+              size="small"
+              variant="outlined"
+              label={`${section.dishes.length} ${section.dishes.length === 1 ? 'platillo' : 'platillos'}`}
+            />
+            {badge ? <Chip size="small" color="secondary" variant="outlined" label={badge} /> : null}
+          </Stack>
+        </Box>
+
+        <Stack direction="row" sx={{ flex: 'none' }}>
+          <Tooltip title="Subir sección">
+            <span>
+              <IconButton size="small" onClick={() => onMove(-1)} disabled={!canMoveUp} aria-label="Subir sección">
+                <KeyboardArrowUpIcon fontSize="small" />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Bajar sección">
+            <span>
+              <IconButton size="small" onClick={() => onMove(1)} disabled={!canMoveDown} aria-label="Bajar sección">
+                <KeyboardArrowDownIcon fontSize="small" />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Opciones de la sección">
+            <IconButton
+              size="small"
+              onClick={() => setSettingsOpen((open) => !open)}
+              aria-expanded={settingsOpen}
+              aria-label="Opciones de la sección"
+            >
+              {/* A distinct glyph: two chevrons already mean "move" in this row. */}
+              <TuneIcon fontSize="small" color={settingsOpen ? 'primary' : 'inherit'} />
             </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="Bajar sección">
-          <span>
-            <IconButton onClick={() => onMove(1)} disabled={!canMoveDown} aria-label="Bajar sección">
-              <KeyboardArrowDownIcon />
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="Opciones de la sección">
-          <IconButton
-            onClick={() => setSettingsOpen((open) => !open)}
-            aria-expanded={settingsOpen}
-            aria-label="Opciones de la sección"
-          >
-            {/* A distinct glyph: two chevrons already mean "move" in this row. */}
-            <TuneIcon color={settingsOpen ? 'primary' : 'inherit'} />
-          </IconButton>
-        </Tooltip>
+          </Tooltip>
+        </Stack>
       </Box>
 
       <Collapse in={settingsOpen} unmountOnExit>
@@ -218,7 +248,7 @@ export function SectionCard({
         </Stack>
       </Collapse>
 
-      <Stack spacing={1} sx={{ p: 1.5 }}>
+      <Stack spacing={0.75} sx={{ p: 1.5 }}>
         {section.dishes.length === 0 ? (
           <Typography
             variant="body2"
@@ -238,7 +268,7 @@ export function SectionCard({
               items={section.dishes.map((dish) => dish.id)}
               strategy={verticalListSortingStrategy}
             >
-              <Stack spacing={1}>
+              <Stack spacing={0.75}>
                 {section.dishes.map((dish) => (
                   <DishRow
                     key={dish.id}
@@ -257,12 +287,21 @@ export function SectionCard({
           </DndContext>
         )}
 
+        {/* A dashed slot rather than a pill: it reads as "there is room for one
+            more here", and does not compete with the real actions below. */}
         <Button
           startIcon={<AddIcon />}
           onClick={onDishAdd}
           disabled={atDishLimit}
           title={atDishLimit ? `Máximo ${LIMITS.maxDishesPerSection} platillos por sección` : undefined}
           fullWidth
+          sx={{
+            borderRadius: 1.25,
+            borderStyle: 'dashed',
+            bgcolor: 'transparent',
+            color: 'text.secondary',
+            '&:hover': { borderStyle: 'dashed', bgcolor: 'rgb(190 26 13 / 4%)', color: 'primary.main' },
+          }}
         >
           Agregar platillo
         </Button>

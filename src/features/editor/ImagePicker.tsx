@@ -65,16 +65,17 @@ export function DishPhotoButton({ dishName, image, onPicked, onRemoved }: DishPh
         disabled={busy}
         sx={{
           position: 'relative',
-          width: 56,
-          height: 56,
+          width: 44,
+          height: 44,
           flex: 'none',
-          borderRadius: 2,
+          borderRadius: 1.25,
           overflow: 'hidden',
           border: 1,
           borderStyle: image ? 'solid' : 'dashed',
-          borderColor: image ? 'divider' : 'text.disabled',
-          bgcolor: '#f4ede3',
+          borderColor: 'divider',
+          bgcolor: image ? 'transparent' : 'rgb(0 0 0 / 3%)',
           color: 'text.disabled',
+          '&:hover': { borderColor: 'text.disabled' },
         }}
       >
         {image ? (
@@ -86,7 +87,7 @@ export function DishPhotoButton({ dishName, image, onPicked, onRemoved }: DishPh
             style={{ objectPosition: `${image.focalX * 100}% ${image.focalY * 100}%` }}
           />
         ) : (
-          <AddPhotoIcon />
+          <AddPhotoIcon fontSize="small" />
         )}
         {busy ? (
           <Box
@@ -98,7 +99,7 @@ export function DishPhotoButton({ dishName, image, onPicked, onRemoved }: DishPh
               bgcolor: 'rgb(255 255 255 / 78%)',
             }}
           >
-            <CircularProgress size={22} aria-label="Procesando foto" />
+            <CircularProgress size={18} aria-label="Procesando foto" />
           </Box>
         ) : null}
       </ButtonBase>

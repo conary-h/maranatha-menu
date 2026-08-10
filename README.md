@@ -70,6 +70,21 @@ forma uniforme, como imprimir un afiche más pequeño.
 Cuando ni al mínimo legible cabe (por ejemplo, 24 platillos en formato 1:1), la
 vista previa muestra un aviso en lugar de recortar platillos en silencio.
 
+### El editor es un espacio de trabajo, no un formulario
+
+Cada platillo ocupa **una línea**: arrastre, foto, nombre, precio y destacado.
+Las acciones poco frecuentes (descripción, eliminar) viven en un menú de
+desbordamiento. Antes cada fila medía 126 px y un menú de 24 platillos eran más
+de 4 000 px de scroll; ahora la fila mide 58 px en escritorio y una sección
+completa cabe en pantalla.
+
+El nombre y el precio no envuelven por media query sino por `flex-wrap`: el
+nombre conserva una base de 180 px y el precio baja a una segunda línea solo
+cuando de verdad no cabe, así que la misma fila sirve en teléfono y en escritorio.
+
+La vista previa en vivo aparece desde 900 px (antes 1200), que es justo el ancho
+de la mayoría de ventanas de portátil.
+
 ### Versículo del día
 
 El menú impreso ya llevaba un versículo al pie, así que la portada muestra uno
