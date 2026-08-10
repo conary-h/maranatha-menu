@@ -22,7 +22,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { ResolvedImage } from '@/lib/imageStore'
-import { allowsDescription } from '@/lib/menuOps'
+import { allowsDescription, allowsFeatured } from '@/lib/menuOps'
 import { LIMITS, parsePrice, validateDishName, validatePrice } from '@/lib/validation'
 import type { Dish, MenuSection } from '@/types/menu'
 import { DishPhotoButton } from './ImagePicker'
@@ -72,6 +72,7 @@ export function DishRow({
 
   const priceRequired = section.priceMode === 'per-item'
   const canDescribe = allowsDescription(section)
+  const canFeature = allowsFeatured(section)
   // The draft is kept as text so half-typed values like "13" or "130." survive;
   // it re-syncs whenever the price changes from outside (duplicate, restore).
   const [priceDraft, setPriceDraft] = useState(priceToText(dish.price))
@@ -228,17 +229,21 @@ export function DishRow({
         ) : null}
 
         <Box sx={{ display: 'flex', flex: 'none', ml: 'auto' }}>
-          <Tooltip title={dish.featured ? 'Quitar de especial del día' : 'Especial del día'}>
-            <IconButton
-              size="small"
-              onClick={onToggleFeatured}
-              aria-pressed={Boolean(dish.featured)}
-              aria-label={dish.featured ? 'Quitar de especial del día' : 'Marcar como especial del día'}
-              sx={{ color: dish.featured ? 'secondary.main' : 'text.disabled' }}
-            >
-              {dish.featured ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
-            </IconButton>
-          </Tooltip>
+          {canFeature ? (
+            <Tooltip title={dish.featured ? 'Quitar de especial del día' : 'Especial del día'}>
+              <IconButton
+                size="small"
+                onClick={onToggleFeatured}
+                aria-pressed={Boolean(dish.featured)}
+                aria-label={
+                  dish.featured ? 'Quitar de especial del día' : 'Marcar como especial del día'
+                }
+                sx={{ color: dish.featured ? 'secondary.main' : 'text.disabled' }}
+              >
+                {dish.featured ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
+          ) : null}
 
           <IconButton
             size="small"

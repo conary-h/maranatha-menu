@@ -1,7 +1,7 @@
 import type { ImageMap } from '@/hooks/useMenuImages'
 import { focalPosition } from '@/lib/image'
 import type { ResolvedImage } from '@/lib/imageStore'
-import { allowsDescription } from '@/lib/menuOps'
+import { allowsDescription, allowsFeatured } from '@/lib/menuOps'
 import { effectivePrice, formatPrice } from '@/lib/validation'
 import type { Dish, Menu, MenuSection } from '@/types/menu'
 
@@ -36,6 +36,9 @@ export function sectionBadge(section: MenuSection, currency: string): string | u
 /** The single highlighted dish, if the user marked one. */
 export function featuredOf(menu: Menu): { dish: Dish; section: MenuSection } | undefined {
   for (const section of menu.sections) {
+    // Cubre además los menús guardados antes de la regla, que pueden tener un
+    // complemento marcado como especial.
+    if (!allowsFeatured(section)) continue
     const dish = section.dishes.find((candidate) => candidate.featured)
     if (dish) return { dish, section }
   }

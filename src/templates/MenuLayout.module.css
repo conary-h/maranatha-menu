@@ -1,28 +1,47 @@
-/* Classic — cream, calm, restaurant-menu typography.
-   All measurements are absolute px against the 1080px-wide canvas. */
+/* La única maquetación del menú impreso. Las tres plantillas la comparten y
+   solo cambian las variables de color (ver palettes.ts), así que aquí no hay ni
+   un color literal salvo los que no dependen de la paleta.
+
+   Todas las medidas son px absolutos contra el lienzo de 1080 px de ancho. */
 
 .root {
   position: relative;
   display: flex;
   flex-direction: column;
-  background:
-    radial-gradient(120% 70% at 50% 0%, #fffdf8 0%, #fff5e6 45%, #fbe9d1 100%);
-  color: #241b11;
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-body);
   overflow: hidden;
 }
 
-/* Inset keyline: the detail that reads as "printed" rather than "screenshot". */
+/* Filete interior: el detalle que hace que se lea como algo impreso y no como
+   una captura de pantalla. */
 .root::before {
   content: '';
   position: absolute;
   inset: 26px;
-  border: 2px solid rgb(190 26 13 / 22%);
+  border: 2px solid var(--rule);
   border-radius: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Grano: impide que un fondo tan grande se vea plano. */
+.root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.1;
+  mix-blend-mode: overlay;
   pointer-events: none;
 }
 
+/* -------------------------------- cabecera -------------------------------- */
+
 .header {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,13 +50,20 @@
   text-align: center;
 }
 
+.logoPlate {
+  padding: 16px 30px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 10px 26px var(--shadow);
+}
+
 .logo {
-  width: 420px;
+  width: 380px;
   height: auto;
 }
 
 .kicker {
-  color: #be1a0d;
+  color: var(--accent);
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 700;
@@ -51,14 +77,14 @@
   font-size: 58px;
   font-weight: 800;
   line-height: 1;
-  color: #241b11;
+  color: var(--ink);
 }
 
 .rule {
   display: flex;
   align-items: center;
   gap: 14px;
-  color: #be1a0d;
+  color: var(--accent);
 }
 
 .ruleLine {
@@ -76,13 +102,15 @@
   background: currentcolor;
 }
 
-/* --------------------------------- body ---------------------------------- */
+/* ---------------------------------- cuerpo -------------------------------- */
 
 .frame {
+  position: relative;
+  z-index: 2;
   flex: 1 1 auto;
   min-height: 0;
-  /* No vertical padding: `clientHeight` is the fit budget and padding would
-     silently inflate it. */
+  /* Sin padding vertical: `clientHeight` es el presupuesto del ajuste y el
+     padding lo inflaría en silencio. */
   padding: 0 88px;
   overflow: hidden;
 }
@@ -93,7 +121,7 @@
   gap: 42px;
 }
 
-/* --------------------------------- hero ---------------------------------- */
+/* --------------------------------- especial ------------------------------- */
 
 .hero {
   display: flex;
@@ -106,7 +134,7 @@
   height: 400px;
   object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 18px 40px rgb(90 52 20 / 22%);
+  box-shadow: 0 18px 40px var(--shadow);
 }
 
 .heroCard {
@@ -116,15 +144,16 @@
   width: 88%;
   margin-top: -66px;
   padding: 26px 34px;
+  border: 2px solid var(--card-border);
   border-radius: 16px;
-  background: #fffdf8;
-  box-shadow: 0 14px 34px rgb(90 52 20 / 18%);
+  background: var(--card);
+  box-shadow: 0 14px 34px var(--shadow);
 }
 
 .heroCardNoPhoto {
   width: 100%;
   margin-top: 0;
-  border-left: 10px solid #be1a0d;
+  border-left: 10px solid var(--accent);
 }
 
 .heroText {
@@ -133,7 +162,7 @@
 }
 
 .heroKicker {
-  color: #be1a0d;
+  color: var(--accent);
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.22em;
@@ -150,7 +179,7 @@
 
 .heroDescription {
   margin-top: 6px;
-  color: #6d5c48;
+  color: var(--muted);
   font-size: 24px;
   line-height: 1.3;
 }
@@ -159,15 +188,15 @@
   flex: none;
   padding: 14px 26px;
   border-radius: 999px;
-  background: #be1a0d;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   font-family: var(--font-display);
   font-size: 38px;
   font-weight: 800;
   white-space: nowrap;
 }
 
-/* ------------------------------- sections -------------------------------- */
+/* -------------------------------- secciones ------------------------------- */
 
 .section {
   display: flex;
@@ -187,13 +216,14 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--ink);
   white-space: nowrap;
 }
 
 .sectionLine {
   flex: 1 1 auto;
   height: 3px;
-  background: rgb(190 26 13 / 30%);
+  background: var(--rule);
   border-radius: 2px;
 }
 
@@ -201,8 +231,9 @@
   flex: none;
   padding: 8px 20px;
   border-radius: 999px;
-  background: rgb(190 26 13 / 10%);
-  color: #be1a0d;
+  border: 2px solid var(--card-border);
+  background: var(--card);
+  color: var(--accent);
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -210,7 +241,7 @@
 }
 
 .note {
-  color: #877158;
+  color: var(--muted);
   font-size: 23px;
   font-style: italic;
   margin-bottom: 6px;
@@ -229,7 +260,7 @@
 }
 
 .row + .row {
-  border-top: 1px solid rgb(190 26 13 / 10%);
+  border-top: 1px solid var(--rule);
 }
 
 .thumb {
@@ -238,8 +269,8 @@
   height: 88px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #fffdf8;
-  box-shadow: 0 4px 14px rgb(90 52 20 / 20%);
+  border: 3px solid var(--card);
+  box-shadow: 0 4px 14px var(--shadow);
 }
 
 .rowBody {
@@ -260,14 +291,14 @@
   line-height: 1.15;
 }
 
-/* The dotted leader is what makes a price impossible to misread against the
-   wrong dish — the exact failure of the menu this replaces. */
+/* El guion punteado es lo que hace imposible leer un precio en la línea
+   equivocada — exactamente el fallo del menú al que sustituye esta app. */
 .leader {
   flex: 1 1 auto;
   min-width: 24px;
   height: 0;
   margin-bottom: 10px;
-  border-bottom: 3px dotted rgb(109 92 72 / 42%);
+  border-bottom: 3px dotted var(--rule);
 }
 
 .price {
@@ -275,23 +306,18 @@
   font-family: var(--font-display);
   font-size: 34px;
   font-weight: 800;
-  color: #be1a0d;
+  color: var(--accent);
   white-space: nowrap;
 }
 
 .description {
   margin-top: 2px;
-  color: #6d5c48;
+  color: var(--muted);
   font-size: 23px;
   line-height: 1.3;
 }
 
-.featuredMark {
-  color: #e08a1e;
-  font-size: 26px;
-}
-
-/* Included sections read better as a wrapped set of chips than as a price list. */
+/* Los complementos se leen mejor como etiquetas que como lista de precios. */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -304,9 +330,9 @@
   align-items: center;
   gap: 12px;
   padding: 11px 24px;
-  border: 2px solid rgb(190 26 13 / 16%);
+  border: 2px solid var(--card-border);
   border-radius: 999px;
-  background: rgb(255 255 255 / 70%);
+  background: var(--card);
   font-size: 27px;
   font-weight: 600;
 }
@@ -319,7 +345,7 @@
   margin: -4px -10px -4px -8px;
 }
 
-/* Flat-priced sections are a plain two-column list: the price is in the badge. */
+/* Precio único: el importe va en la insignia, así que basta una lista. */
 .columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -341,13 +367,15 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #e08a1e;
+  background: var(--accent);
   flex: none;
 }
 
-/* -------------------------------- footer --------------------------------- */
+/* ----------------------------------- pie ---------------------------------- */
 
 .footer {
+  position: relative;
+  z-index: 2;
   flex: none;
   display: flex;
   flex-direction: column;
@@ -358,7 +386,7 @@
 }
 
 .verse {
-  color: #6d5c48;
+  color: var(--muted);
   font-size: 22px;
   font-style: italic;
   line-height: 1.35;
@@ -368,7 +396,7 @@
 .verseRef {
   display: block;
   margin-top: 4px;
-  color: #be1a0d;
+  color: var(--accent);
   font-weight: 800;
   font-style: normal;
   letter-spacing: 0.1em;
@@ -382,8 +410,8 @@
   gap: 16px;
   padding: 16px 38px;
   border-radius: 999px;
-  background: #be1a0d;
-  color: #fff;
+  background: var(--contact-bg);
+  color: var(--contact-ink);
   font-family: var(--font-display);
   font-size: 36px;
   font-weight: 800;
@@ -395,11 +423,11 @@
 }
 
 .footNote {
-  color: #877158;
+  color: var(--muted);
   font-size: 21px;
 }
 
-/* Tighter rhythm where there is simply less canvas. */
+/* Menos lienzo, mismo ritmo. */
 .root[data-format='square'] .header,
 .root[data-format='post'] .header {
   padding-top: 54px;
@@ -407,7 +435,7 @@
 }
 
 .root[data-format='square'] .logo {
-  width: 340px;
+  width: 300px;
 }
 
 .root[data-format='square'] .date {
@@ -420,20 +448,6 @@
   gap: 12px;
 }
 
-.root[data-format='post'] .heroPhoto {
-  height: 320px;
-}
-
-/* 1:1 is the tightest canvas by far. The verse is the one element the menu can
-   lose without losing information, so it goes before the type gets too small. */
 .root[data-format='square'] .heroPhoto {
-  height: 240px;
-}
-
-.root[data-format='square'] .verse {
-  display: none;
-}
-
-.root[data-format='square'] .footer {
-  padding-bottom: 36px;
+  height: 300px;
 }

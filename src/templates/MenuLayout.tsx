@@ -1,9 +1,9 @@
 import { useRef } from 'react'
-import { WhatsappMark } from './WhatsappMark'
-import { formatLongDate } from '@/lib/date'
 import { fitStyle, useFitScale } from '@/hooks/useFitScale'
+import { formatLongDate } from '@/lib/date'
 import type { MenuSection } from '@/types/menu'
 import { LOGO_ALT, LOGO_SRC } from './logo'
+import { paletteVars, type Palette } from './palettes'
 import {
   featuredOf,
   photoOf,
@@ -14,30 +14,49 @@ import {
   sectionBadge,
 } from './shared'
 import type { TemplateProps } from './types'
-import styles from './ClassicTemplate.module.css'
+import { WhatsappMark } from './WhatsappMark'
+import styles from './MenuLayout.module.css'
 
 /**
- * Classic — cream paper, display serif-weight headings, dotted price leaders.
- * The leader is the point: it ties every price to its own dish, which is the
- * single worst failure of the menu this replaces.
+ * La maquetación del menú impreso, compartida por las tres plantillas.
+ *
+ * Cabecera con logotipo y fecha → especial del día → secciones → versículo y
+ * WhatsApp. Lo único que distingue a «Clásica», «Moderna» y «Redes» es la
+ * paleta, que entra como variables CSS en la raíz.
  */
-export function ClassicTemplate({ menu, business, images, format }: TemplateProps) {
+export function MenuLayout({
+  menu,
+  business,
+  images,
+  format,
+  palette,
+}: TemplateProps & { palette: Palette }) {
   const frameRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const fit = useFitScale(frameRef, contentRef, [menu, images, format.id])
+  // Hasta 1.12: un menú corto crece un poco para no flotar en medio de la
+  // página. La búsqueda con intervalo garantiza que nunca recorte.
+  const fit = useFitScale(frameRef, contentRef, [menu, images, format.id], { maxScale: 1.12 })
 
   const sections = printableSections(menu)
   const featured = featuredOf(menu)
   const featuredPhoto = featured ? photoOf(featured.dish, images) : undefined
+  const featuredPrice = featured
+    ? priceLabel(featured.dish, featured.section, business.currency)
+    : undefined
+  const featuredDescription = featured
+    ? printableDescription(featured.dish, featured.section)
+    : undefined
 
   return (
     <div
       className={styles.root}
       data-format={format.id}
-      style={{ width: format.width, height: format.height }}
+      style={{ width: format.width, height: format.height, ...paletteVars(palette) }}
     >
       <header className={styles.header}>
-        <img className={styles.logo} src={LOGO_SRC} alt={LOGO_ALT} />
+        <div className={styles.logoPlate}>
+          <img className={styles.logo} src={LOGO_SRC} alt={LOGO_ALT} />
+        </div>
         <span className={styles.kicker}>{menu.title}</span>
         <h1 className={styles.date}>{formatLongDate(menu.date)}</h1>
         <div className={styles.rule} aria-hidden="true">
@@ -67,17 +86,11 @@ export function ClassicTemplate({ menu, business, images, format }: TemplateProp
                 <div className={styles.heroText}>
                   <span className={styles.heroKicker}>Especial de hoy</span>
                   <p className={styles.heroName}>{featured.dish.name}</p>
-                  {printableDescription(featured.dish, featured.section) ? (
-                    <p className={styles.heroDescription}>
-                      {printableDescription(featured.dish, featured.section)}
-                    </p>
+                  {featuredDescription ? (
+                    <p className={styles.heroDescription}>{featuredDescription}</p>
                   ) : null}
                 </div>
-                {priceLabel(featured.dish, featured.section, business.currency) ? (
-                  <span className={styles.heroPrice}>
-                    {priceLabel(featured.dish, featured.section, business.currency)}
-                  </span>
-                ) : null}
+                {featuredPrice ? <span className={styles.heroPrice}>{featuredPrice}</span> : null}
               </div>
             </div>
           ) : null}
@@ -119,7 +132,7 @@ interface SectionProps {
 
 function Section({ section, currency, images, skipDishId }: SectionProps) {
   const badge = sectionBadge(section, currency)
-  // The featured dish already has its own hero block; repeating it reads as an error.
+  // El especial ya tiene su propio bloque arriba; repetirlo parece un error.
   const dishes = section.dishes.filter((dish) => dish.id !== skipDishId)
   if (dishes.length === 0) return null
 
@@ -159,6 +172,7 @@ function Section({ section, currency, images, skipDishId }: SectionProps) {
           {dishes.map((dish) => {
             const photo = photoOf(dish, images)
             const price = priceLabel(dish, section, currency)
+            const description = printableDescription(dish, section)
             return (
               <div className={styles.row} key={dish.id}>
                 {photo ? (
@@ -170,7 +184,7 @@ function Section({ section, currency, images, skipDishId }: SectionProps) {
                     <span className={styles.leader} aria-hidden="true" />
                     {price ? <span className={styles.price}>{price}</span> : null}
                   </div>
-                  {dish.description ? <p className={styles.description}>{dish.description}</p> : null}
+                  {description ? <p className={styles.description}>{description}</p> : null}
                 </div>
               </div>
             )

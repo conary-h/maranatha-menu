@@ -54,9 +54,19 @@ export function allowsDescription(section: Pick<MenuSection, 'priceMode'>): bool
 }
 
 /**
+ * Whether a dish in this section can be the day's highlight.
+ *
+ * Un complemento no puede ser el especial del día: es un acompañamiento que va
+ * incluido con el almuerzo, no un platillo que se vende ni se anuncia.
+ */
+export function allowsFeatured(section: Pick<MenuSection, 'priceMode'>): boolean {
+  return section.priceMode !== 'included'
+}
+
+/**
  * Switching how a section is priced also cleans up the values that no longer
- * apply, so a section can never silently keep stale prices or descriptions that
- * would reappear if the user switched back and exported.
+ * apply, so a section can never silently keep stale prices, descriptions or
+ * highlights that would reappear if the user switched back and exported.
  */
 export function updateSection(menu: Menu, sectionId: string, patch: Partial<MenuSection>): Menu {
   return inSection(menu, sectionId, (section) => {
@@ -67,6 +77,9 @@ export function updateSection(menu: Menu, sectionId: string, patch: Partial<Menu
     }
     if (!allowsDescription(next)) {
       next.dishes = next.dishes.map(({ description: _description, ...dish }) => dish)
+    }
+    if (!allowsFeatured(next)) {
+      next.dishes = next.dishes.map(({ featured: _featured, ...dish }) => dish)
     }
     return next
   })

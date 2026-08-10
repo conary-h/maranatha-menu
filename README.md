@@ -43,12 +43,21 @@ con Supabase y cambiar una línea en los imports no requiere tocar ni un compone
 
 ### El editor y el menú impreso están separados
 
-- `src/features/editor/` — interfaz de trabajo: sencilla, funcional, táctil.
-- `src/templates/` — el diseño que ve el cliente.
+Una plantilla es una función pura del menú: sin acceso al almacenamiento, sin
+carga de datos, sin saber nada del editor. Por eso los dos pueden evolucionar
+por separado.
 
-Un template es una función pura de `(Menu, BusinessInfo, fotos, formato) → JSX`.
-No lee del almacenamiento ni sabe que existe un editor. Agregar un cuarto diseño es
-un archivo nuevo más una línea en [`src/templates/index.ts`](src/templates/index.ts).
+**Las tres plantillas comparten hoy una sola maquetación** (`MenuLayout`) y solo
+cambian de paleta ([`src/templates/palettes.ts`](src/templates/palettes.ts)),
+que entra como variables CSS en la raíz del lienzo. La hoja de estilo no
+contiene ni un color literal.
+
+Es una decisión deliberada: mantener tres maquetaciones distintas multiplicaba
+por tres el trabajo de cada corrección —el recorte del ajuste automático, la
+regla de descripciones, la de destacados— y triplicaba la superficie donde algo
+se podía romper. El registro sigue admitiendo cualquier componente en
+`TemplateDefinition.Component`, así que una plantilla con una forma realmente
+distinta se añade sin tocar el editor.
 
 ### Las fotos se guardan sin recortar
 
@@ -137,12 +146,13 @@ sin precio y «Refrescos» tienen un precio único. Por eso el precio se modela 
 
 ---
 
-Los **complementos no llevan descripción**: se imprimen como etiquetas y no hay
-sitio ni motivo para una frase bajo cada una. La regla vive en
-`allowsDescription()` ([`src/lib/menuOps.ts`](src/lib/menuOps.ts)): el editor no
-ofrece el campo, cambiar una sección a «Incluidos» borra las descripciones que
-tuviera, y `printableDescription()` protege además a los menús guardados antes
-del cambio.
+Los **complementos no llevan descripción ni pueden ser el especial del día**:
+son acompañamientos incluidos con el almuerzo, no platillos que se vendan o se
+anuncien. Las dos reglas viven en `allowsDescription()` y `allowsFeatured()`
+([`src/lib/menuOps.ts`](src/lib/menuOps.ts)): el editor no ofrece el campo ni la
+estrella, cambiar una sección a «Incluidos» borra lo que tuviera, y
+`printableDescription()` y `featuredOf()` protegen además a los menús guardados
+antes del cambio.
 
 ## Qué mejora respecto al menú anterior
 
