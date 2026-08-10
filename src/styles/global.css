@@ -1,0 +1,45 @@
+@import './tokens.css';
+
+/*
+ * MUI's <CssBaseline> handles the reset, body background and typography.
+ * What remains here is only what the *printed templates* depend on — they are
+ * plain CSS Modules on a fixed 1080px canvas, deliberately outside MUI, so the
+ * rasterised export never depends on runtime-injected styles.
+ */
+
+#root {
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+/* Templates lay out photos as blocks and size them in absolute pixels. */
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

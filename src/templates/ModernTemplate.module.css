@@ -1,0 +1,323 @@
+/* Modern — dark, photo-led. Dishes with a photo become cards; everything else
+   stays a tight list so the pictures keep their impact. */
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(70% 40% at 85% 0%, rgb(224 138 30 / 32%) 0%, transparent 62%),
+    radial-gradient(60% 40% at 0% 100%, rgb(190 26 13 / 34%) 0%, transparent 60%),
+    linear-gradient(175deg, #191009 0%, #120c06 55%, #0d0805 100%);
+  color: #fff8ee;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+.header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 62px 72px 30px;
+}
+
+.logo {
+  width: 330px;
+  height: auto;
+  /* The logo's black wordmark disappears on a dark ground. */
+  filter: drop-shadow(0 0 1px rgb(255 248 238 / 90%))
+    drop-shadow(0 0 3px rgb(255 248 238 / 65%));
+}
+
+.dateBlock {
+  text-align: right;
+}
+
+.weekday {
+  display: block;
+  color: #f7c24b;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.day {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.title {
+  flex: none;
+  padding: 0 72px 22px;
+  font-family: var(--font-display);
+  font-size: 78px;
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.titleAccent {
+  color: #f7c24b;
+}
+
+.frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 72px;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+/* --------------------------------- cards --------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* `max-height` is load-bearing, not decoration. Shrink-to-fit widens the layout
+   and scales it back down; a purely `aspect-ratio` box grows in height exactly
+   as fast as it is scaled down, so its rendered height never changes and a long
+   menu can never be made to fit. Capping the height breaks that stalemate. */
+.card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #241810;
+  aspect-ratio: 1 / 1;
+  max-height: 460px;
+}
+
+.cardWide {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+  max-height: 520px;
+}
+
+.cardPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(10 6 3 / 92%) 0%, rgb(10 6 3 / 45%) 38%, transparent 68%);
+}
+
+.cardBody {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 24px 26px;
+}
+
+.cardText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cardTag {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #be1a0d;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.08;
+}
+
+.cardWide .cardName {
+  font-size: 52px;
+}
+
+.cardDescription {
+  margin-top: 4px;
+  color: #d8c3a7;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.cardPrice {
+  flex: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: #f7c24b;
+  color: #17110a;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* -------------------------------- sections ------------------------------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  color: #f7c24b;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sectionLine {
+  flex: 1 1 auto;
+  height: 2px;
+  background: rgb(247 194 75 / 28%);
+}
+
+.badge {
+  flex: none;
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 2px solid rgb(247 194 75 / 45%);
+  color: #f7c24b;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.note {
+  margin-bottom: 6px;
+  color: #b8a184;
+  font-size: 22px;
+  font-style: italic;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 11px 0;
+}
+
+.row + .row {
+  border-top: 1px solid rgb(255 248 238 / 10%);
+}
+
+.name {
+  font-size: 31px;
+  font-weight: 600;
+}
+
+.leader {
+  flex: 1 1 auto;
+  min-width: 20px;
+  height: 0;
+  margin-bottom: 11px;
+  border-bottom: 2px dotted rgb(255 248 238 / 26%);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: 31px;
+  font-weight: 800;
+  color: #f7c24b;
+  white-space: nowrap;
+}
+
+.inlineList {
+  color: #e6d6c2;
+  font-size: 27px;
+  line-height: 1.5;
+}
+
+.inlineSep {
+  color: #be6a3d;
+  padding: 0 8px;
+}
+
+/* --------------------------------- footer -------------------------------- */
+
+.footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 26px;
+  padding: 28px 72px calc(28px + 22px);
+  background: #be1a0d;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 800;
+}
+
+.contact svg {
+  width: 38px;
+  height: 38px;
+}
+
+.footNote {
+  max-width: 420px;
+  color: rgb(255 255 255 / 88%);
+  font-size: 20px;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.root[data-format='square'] .title,
+.root[data-format='post'] .title {
+  font-size: 62px;
+}
+
+.root[data-format='square'] .header {
+  padding-top: 46px;
+}
+
+.root[data-format='square'] .logo {
+  width: 270px;
+}

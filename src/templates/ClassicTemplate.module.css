@@ -1,0 +1,439 @@
+/* Classic — cream, calm, restaurant-menu typography.
+   All measurements are absolute px against the 1080px-wide canvas. */
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(120% 70% at 50% 0%, #fffdf8 0%, #fff5e6 45%, #fbe9d1 100%);
+  color: #241b11;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* Inset keyline: the detail that reads as "printed" rather than "screenshot". */
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 26px;
+  border: 2px solid rgb(190 26 13 / 22%);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 74px 88px 26px;
+  text-align: center;
+}
+
+.logo {
+  width: 420px;
+  height: auto;
+}
+
+.kicker {
+  color: #be1a0d;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  padding-left: 0.34em;
+}
+
+.date {
+  font-family: var(--font-display);
+  font-size: 58px;
+  font-weight: 800;
+  line-height: 1;
+  color: #241b11;
+}
+
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #be1a0d;
+}
+
+.ruleLine {
+  width: 92px;
+  height: 3px;
+  background: currentcolor;
+  border-radius: 2px;
+  opacity: 0.55;
+}
+
+.ruleDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+/* --------------------------------- body ---------------------------------- */
+
+.frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* No vertical padding: `clientHeight` is the fit budget and padding would
+     silently inflate it. */
+  padding: 0 88px;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+/* --------------------------------- hero ---------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroPhoto {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgb(90 52 20 / 22%);
+}
+
+.heroCard {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  width: 88%;
+  margin-top: -66px;
+  padding: 26px 34px;
+  border-radius: 16px;
+  background: #fffdf8;
+  box-shadow: 0 14px 34px rgb(90 52 20 / 18%);
+}
+
+.heroCardNoPhoto {
+  width: 100%;
+  margin-top: 0;
+  border-left: 10px solid #be1a0d;
+}
+
+.heroText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.heroKicker {
+  color: #be1a0d;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.heroName {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-top: 4px;
+}
+
+.heroDescription {
+  margin-top: 6px;
+  color: #6d5c48;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.heroPrice {
+  flex: none;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: #be1a0d;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ------------------------------- sections -------------------------------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sectionLine {
+  flex: 1 1 auto;
+  height: 3px;
+  background: rgb(190 26 13 / 30%);
+  border-radius: 2px;
+}
+
+.badge {
+  flex: none;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgb(190 26 13 / 10%);
+  color: #be1a0d;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.note {
+  color: #877158;
+  font-size: 23px;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 13px 0;
+}
+
+.row + .row {
+  border-top: 1px solid rgb(190 26 13 / 10%);
+}
+
+.thumb {
+  flex: none;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fffdf8;
+  box-shadow: 0 4px 14px rgb(90 52 20 / 20%);
+}
+
+.rowBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rowTop {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* The dotted leader is what makes a price impossible to misread against the
+   wrong dish — the exact failure of the menu this replaces. */
+.leader {
+  flex: 1 1 auto;
+  min-width: 24px;
+  height: 0;
+  margin-bottom: 10px;
+  border-bottom: 3px dotted rgb(109 92 72 / 42%);
+}
+
+.price {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 800;
+  color: #be1a0d;
+  white-space: nowrap;
+}
+
+.description {
+  margin-top: 2px;
+  color: #6d5c48;
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.featuredMark {
+  color: #e08a1e;
+  font-size: 26px;
+}
+
+/* Included sections read better as a wrapped set of chips than as a price list. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px;
+  border: 2px solid rgb(190 26 13 / 16%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 70%);
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.chipThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: -4px -10px -4px -8px;
+}
+
+/* Flat-priced sections are a plain two-column list: the price is in the badge. */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  margin-top: 6px;
+}
+
+.columnItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.columnItem::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e08a1e;
+  flex: none;
+}
+
+/* -------------------------------- footer --------------------------------- */
+
+.footer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 30px 88px 64px;
+  text-align: center;
+}
+
+.verse {
+  color: #6d5c48;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.35;
+  max-width: 780px;
+}
+
+.verseRef {
+  display: block;
+  margin-top: 4px;
+  color: #be1a0d;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 19px;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 38px;
+  border-radius: 999px;
+  background: #be1a0d;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.contact svg {
+  width: 38px;
+  height: 38px;
+}
+
+.footNote {
+  color: #877158;
+  font-size: 21px;
+}
+
+/* Tighter rhythm where there is simply less canvas. */
+.root[data-format='square'] .header,
+.root[data-format='post'] .header {
+  padding-top: 54px;
+  gap: 12px;
+}
+
+.root[data-format='square'] .logo {
+  width: 340px;
+}
+
+.root[data-format='square'] .date {
+  font-size: 48px;
+}
+
+.root[data-format='square'] .footer,
+.root[data-format='post'] .footer {
+  padding-bottom: 46px;
+  gap: 12px;
+}
+
+.root[data-format='post'] .heroPhoto {
+  height: 320px;
+}
+
+/* 1:1 is the tightest canvas by far. The verse is the one element the menu can
+   lose without losing information, so it goes before the type gets too small. */
+.root[data-format='square'] .heroPhoto {
+  height: 240px;
+}
+
+.root[data-format='square'] .verse {
+  display: none;
+}
+
+.root[data-format='square'] .footer {
+  padding-bottom: 36px;
+}

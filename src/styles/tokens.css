@@ -1,0 +1,67 @@
+/*
+ * Design tokens.
+ *
+ * The palette is lifted from the business's own assets — the logo red
+ * (#BE1A0D) and the orange of the current printed menu — then extended into a
+ * usable warm-neutral scale so the admin UI and the printed menu feel like one
+ * product instead of two.
+ */
+
+:root {
+  /* Brand */
+  --brand-red: #be1a0d;
+  --brand-red-dark: #8f1209;
+  --brand-red-light: #d93a26;
+  --brand-orange: #e08a1e;
+  --brand-orange-dark: #b96c11;
+  --brand-amber: #f7c24b;
+  --brand-cream: #fff4e4;
+  --brand-ink: #17110a;
+
+  /* Neutrals, warm-tinted to sit next to the brand colours */
+  --bg: #faf6f0;
+  --surface: #ffffff;
+  --surface-sunken: #f4ede3;
+  --border: #e8ddcd;
+  --border-strong: #d6c7b1;
+  --text: #241b11;
+  --text-muted: #6d5c48;
+  --text-subtle: #9c8b76;
+
+  /* Feedback */
+  --danger: #c02717;
+  --danger-bg: #fdecea;
+  --success: #1f7a4d;
+  --success-bg: #e7f6ee;
+  --warning-bg: #fff4dc;
+
+  /* Type */
+  --font-display: 'Baloo 2', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgb(36 27 17 / 6%), 0 1px 3px rgb(36 27 17 / 4%);
+  --shadow-md: 0 4px 12px rgb(36 27 17 / 8%), 0 1px 3px rgb(36 27 17 / 5%);
+  --shadow-lg: 0 12px 32px rgb(36 27 17 / 14%), 0 4px 8px rgb(36 27 17 / 6%);
+
+  /* Layout */
+  --tap-target: 44px;
+  --header-height: 56px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}

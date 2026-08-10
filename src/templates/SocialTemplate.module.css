@@ -1,0 +1,281 @@
+/* Social — maximum contrast and the biggest type of the three, so it survives
+   WhatsApp's compression and still reads as a thumbnail in a chat list. */
+
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(165deg, #e8951f 0%, #d2691a 42%, #be1a0d 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* Soft light burst behind the logo, keeps the flat gradient from looking cheap. */
+.root::before {
+  content: '';
+  position: absolute;
+  top: -260px;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 240 210 / 45%) 0%, transparent 62%);
+}
+
+.header {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 56px 60px 26px;
+  text-align: center;
+}
+
+.logoPlate {
+  padding: 22px 40px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 14px 30px rgb(80 26 6 / 28%);
+}
+
+.logo {
+  width: 360px;
+  height: auto;
+}
+
+.kicker {
+  padding: 8px 26px;
+  border-radius: 999px;
+  background: rgb(23 17 10 / 28%);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  padding-left: calc(26px + 0.26em);
+}
+
+.date {
+  font-family: var(--font-display);
+  font-size: 66px;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 4px 14px rgb(90 20 4 / 30%);
+}
+
+/* --------------------------------- panel --------------------------------- */
+
+.panel {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 6px 44px 0;
+  padding: 40px 44px;
+  border-radius: 34px 34px 0 0;
+  background: #fffaf1;
+  color: #241b11;
+  box-shadow: 0 -10px 40px rgb(80 26 6 / 22%);
+  overflow: hidden;
+}
+
+/* The measured fit budget: padding lives on .panel so it is excluded here. */
+.frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sectionTitle {
+  padding: 8px 24px;
+  border-radius: 12px;
+  background: #be1a0d;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge {
+  flex: none;
+  margin-left: auto;
+  padding: 7px 20px;
+  border-radius: 999px;
+  background: #ffe9c2;
+  color: #a35a0c;
+  font-size: 24px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.note {
+  color: #7d6a52;
+  font-size: 24px;
+  font-style: italic;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.thumb {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgb(90 52 20 / 22%);
+}
+
+.rowBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.featured .name {
+  color: #be1a0d;
+}
+
+.description {
+  color: #7d6a52;
+  font-size: 23px;
+  line-height: 1.25;
+}
+
+.price {
+  flex: none;
+  min-width: 132px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: #241b11;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.featured .price {
+  background: #be1a0d;
+}
+
+.star {
+  flex: none;
+  color: #e08a1e;
+  font-size: 30px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: #ffeed6;
+  color: #8f4a09;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* --------------------------------- footer -------------------------------- */
+
+.footer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 0 44px;
+  padding: 22px 40px calc(26px + 6px);
+  border-radius: 0 0 34px 34px;
+  background: #128c47;
+  color: #fff;
+  text-align: center;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.contact svg {
+  width: 42px;
+  height: 42px;
+}
+
+.footNote {
+  color: rgb(255 255 255 / 90%);
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.bottomPad {
+  flex: none;
+  height: 34px;
+}
+
+.root[data-format='square'] .header,
+.root[data-format='post'] .header {
+  padding-top: 42px;
+  gap: 12px;
+}
+
+.root[data-format='square'] .logo {
+  width: 290px;
+}
+
+.root[data-format='square'] .date {
+  font-size: 52px;
+}
+
+.root[data-format='square'] .bottomPad {
+  height: 24px;
+}
