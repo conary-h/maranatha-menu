@@ -22,6 +22,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { ResolvedImage } from '@/lib/imageStore'
+import { allowsDescription } from '@/lib/menuOps'
 import { LIMITS, parsePrice, validateDishName, validatePrice } from '@/lib/validation'
 import type { Dish, MenuSection } from '@/types/menu'
 import { DishPhotoButton } from './ImagePicker'
@@ -70,6 +71,7 @@ export function DishRow({
   const noteRef = useRef<HTMLInputElement>(null)
 
   const priceRequired = section.priceMode === 'per-item'
+  const canDescribe = allowsDescription(section)
   // The draft is kept as text so half-typed values like "13" or "130." survive;
   // it re-syncs whenever the price changes from outside (duplicate, restore).
   const [priceDraft, setPriceDraft] = useState(priceToText(dish.price))
@@ -187,7 +189,7 @@ export function DishRow({
               />
             )}
           />
-          {dish.description && !editingNote ? (
+          {canDescribe && dish.description && !editingNote ? (
             <Typography
               variant="body2"
               color="text.secondary"
@@ -249,7 +251,7 @@ export function DishRow({
         </Box>
       </Box>
 
-      <Collapse in={editingNote} unmountOnExit>
+      <Collapse in={canDescribe && editingNote} unmountOnExit>
         <Box sx={{ pl: { xs: 0, sm: 5.5 }, pr: 0.5, pt: 1, pb: 0.5 }}>
           <TextField
             inputRef={noteRef}
@@ -272,13 +274,19 @@ export function DishRow({
         onClose={() => setMenuAnchor(undefined)}
         slotProps={{ paper: { sx: { minWidth: 216 } } }}
       >
-        <MenuItem onClick={openNote}>
-          <ListItemIcon>
-            <NotesIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{dish.description ? 'Editar descripción' : 'Agregar descripción'}</ListItemText>
-        </MenuItem>
-        <Divider />
+        {canDescribe
+          ? [
+              <MenuItem key="note" onClick={openNote}>
+                <ListItemIcon>
+                  <NotesIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>
+                  {dish.description ? 'Editar descripción' : 'Agregar descripción'}
+                </ListItemText>
+              </MenuItem>,
+              <Divider key="divider" />,
+            ]
+          : null}
         <MenuItem
           onClick={() => {
             setMenuAnchor(undefined)

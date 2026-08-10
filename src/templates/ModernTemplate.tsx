@@ -4,7 +4,14 @@ import { formatDayMonth, formatWeekday } from '@/lib/date'
 import { fitStyle, useFitScale } from '@/hooks/useFitScale'
 import type { Dish, FormatId, MenuSection } from '@/types/menu'
 import { LOGO_ALT, LOGO_SRC } from './logo'
-import { photoOf, photoStyle, priceLabel, printableSections, sectionBadge } from './shared'
+import {
+  photoOf,
+  photoStyle,
+  priceLabel,
+  printableDescription,
+  printableSections,
+  sectionBadge,
+} from './shared'
 import type { TemplateProps } from './types'
 import styles from './ModernTemplate.module.css'
 
@@ -100,8 +107,10 @@ export function ModernTemplate({ menu, business, images, format }: TemplateProps
                       <div className={styles.cardText}>
                         {card.dish.featured ? <span className={styles.cardTag}>Especial</span> : null}
                         <p className={styles.cardName}>{card.dish.name}</p>
-                        {card.dish.description && wide ? (
-                          <p className={styles.cardDescription}>{card.dish.description}</p>
+                        {wide && printableDescription(card.dish, card.section) ? (
+                          <p className={styles.cardDescription}>
+                            {printableDescription(card.dish, card.section)}
+                          </p>
                         ) : null}
                       </div>
                       {price ? <span className={styles.cardPrice}>{price}</span> : null}

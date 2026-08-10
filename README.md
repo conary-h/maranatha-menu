@@ -125,6 +125,13 @@ sin precio y «Refrescos» tienen un precio único. Por eso el precio se modela 
 
 ---
 
+Los **complementos no llevan descripción**: se imprimen como etiquetas y no hay
+sitio ni motivo para una frase bajo cada una. La regla vive en
+`allowsDescription()` ([`src/lib/menuOps.ts`](src/lib/menuOps.ts)): el editor no
+ofrece el campo, cambiar una sección a «Incluidos» borra las descripciones que
+tuviera, y `printableDescription()` protege además a los menús guardados antes
+del cambio.
+
 ## Qué mejora respecto al menú anterior
 
 Del menú actual (`img/menu-old.jpg`):

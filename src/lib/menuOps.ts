@@ -43,8 +43,19 @@ export function moveSection(menu: Menu, from: number, to: number): Menu {
 }
 
 /**
+ * Whether a section's dishes can carry a description.
+ *
+ * Los complementos no la llevan: son una lista de acompañamientos que se
+ * imprime como etiquetas ("Arroz blanco", "Frijoles"), sin espacio ni razón
+ * para una frase debajo de cada uno.
+ */
+export function allowsDescription(section: Pick<MenuSection, 'priceMode'>): boolean {
+  return section.priceMode !== 'included'
+}
+
+/**
  * Switching how a section is priced also cleans up the values that no longer
- * apply, so an "included" section can never silently keep stale prices that
+ * apply, so a section can never silently keep stale prices or descriptions that
  * would reappear if the user switched back and exported.
  */
 export function updateSection(menu: Menu, sectionId: string, patch: Partial<MenuSection>): Menu {
@@ -53,6 +64,9 @@ export function updateSection(menu: Menu, sectionId: string, patch: Partial<Menu
     if (next.priceMode !== 'flat') delete next.flatPrice
     if (next.priceMode !== 'per-item') {
       next.dishes = next.dishes.map(({ price: _price, ...dish }) => dish)
+    }
+    if (!allowsDescription(next)) {
+      next.dishes = next.dishes.map(({ description: _description, ...dish }) => dish)
     }
     return next
   })

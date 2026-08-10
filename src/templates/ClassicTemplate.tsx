@@ -9,6 +9,7 @@ import {
   photoOf,
   photoStyle,
   priceLabel,
+  printableDescription,
   printableSections,
   sectionBadge,
 } from './shared'
@@ -66,8 +67,10 @@ export function ClassicTemplate({ menu, business, images, format }: TemplateProp
                 <div className={styles.heroText}>
                   <span className={styles.heroKicker}>Especial de hoy</span>
                   <p className={styles.heroName}>{featured.dish.name}</p>
-                  {featured.dish.description ? (
-                    <p className={styles.heroDescription}>{featured.dish.description}</p>
+                  {printableDescription(featured.dish, featured.section) ? (
+                    <p className={styles.heroDescription}>
+                      {printableDescription(featured.dish, featured.section)}
+                    </p>
                   ) : null}
                 </div>
                 {priceLabel(featured.dish, featured.section, business.currency) ? (
