@@ -56,11 +56,12 @@ export function allowsDescription(section: Pick<MenuSection, 'priceMode'>): bool
 /**
  * Whether a dish in this section can be the day's highlight.
  *
- * Un complemento no puede ser el especial del día: es un acompañamiento que va
- * incluido con el almuerzo, no un platillo que se vende ni se anuncia.
+ * Solo los platillos con precio propio. Un complemento va incluido con el
+ * almuerzo y un refresco cuesta lo mismo que los otros nueve: ninguno de los
+ * dos es algo que se anuncie como el especial del día.
  */
 export function allowsFeatured(section: Pick<MenuSection, 'priceMode'>): boolean {
-  return section.priceMode !== 'included'
+  return section.priceMode === 'per-item'
 }
 
 /**

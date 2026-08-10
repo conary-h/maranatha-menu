@@ -47,10 +47,21 @@ Una plantilla es una función pura del menú: sin acceso al almacenamiento, sin
 carga de datos, sin saber nada del editor. Por eso los dos pueden evolucionar
 por separado.
 
-**Las tres plantillas comparten hoy una sola maquetación** (`MenuLayout`) y solo
+**Las seis plantillas comparten una sola maquetación** (`MenuLayout`) y solo
 cambian de paleta ([`src/templates/palettes.ts`](src/templates/palettes.ts)),
 que entra como variables CSS en la raíz del lienzo. La hoja de estilo no
 contiene ni un color literal.
+
+| Plantilla | Fondo | Acento |
+|---|---|---|
+| Clásica | papel crema | rojo del logotipo |
+| Moderna | tinta oscura | ámbar |
+| Redes | naranja de marca | oro pálido |
+| Jade | verde bosque | oro |
+| Marina | azul noche | celeste |
+| Menta | verde muy claro | verde profundo |
+
+Añadir una paleta son dos entradas: una en `PALETTES` y otra en el registro.
 
 Es una decisión deliberada: mantener tres maquetaciones distintas multiplicaba
 por tres el trabajo de cada corrección —el recorte del ajuste automático, la
@@ -148,7 +159,9 @@ sin precio y «Refrescos» tienen un precio único. Por eso el precio se modela 
 
 Los **complementos no llevan descripción ni pueden ser el especial del día**:
 son acompañamientos incluidos con el almuerzo, no platillos que se vendan o se
-anuncien. Las dos reglas viven en `allowsDescription()` y `allowsFeatured()`
+anuncien. **Solo los platillos con precio propio pueden ser el especial del
+día**: un refresco que cuesta lo mismo que los otros nueve tampoco es algo que
+se anuncie. Las reglas viven en `allowsDescription()` y `allowsFeatured()`
 ([`src/lib/menuOps.ts`](src/lib/menuOps.ts)): el editor no ofrece el campo ni la
 estrella, cambiar una sección a «Incluidos» borra lo que tuviera, y
 `printableDescription()` y `featuredOf()` protegen además a los menús guardados

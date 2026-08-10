@@ -43,12 +43,36 @@ export const TEMPLATES: Record<TemplateId, TemplateDefinition> = {
     swatch: ['#e08a1e', '#a51708'],
     Component: withPalette('social'),
   },
+  jade: {
+    id: 'jade',
+    name: 'Jade',
+    description: 'Verde bosque con detalles en oro. Sobria y cálida.',
+    swatch: ['#0b2019', '#efc463'],
+    Component: withPalette('jade'),
+  },
+  marina: {
+    id: 'marina',
+    name: 'Marina',
+    description: 'Azul noche y celeste. Fría y muy legible.',
+    swatch: ['#0a1e33', '#6cc6ec'],
+    Component: withPalette('marina'),
+  },
+  menta: {
+    id: 'menta',
+    name: 'Menta',
+    description: 'Verde claro y fresco, sobre papel casi blanco.',
+    swatch: ['#e9f7ef', '#0e7a52'],
+    Component: withPalette('menta'),
+  },
 }
 
 export const TEMPLATE_LIST: readonly TemplateDefinition[] = [
   TEMPLATES.classic,
   TEMPLATES.modern,
   TEMPLATES.social,
+  TEMPLATES.jade,
+  TEMPLATES.marina,
+  TEMPLATES.menta,
 ]
 
 export * from './formats'

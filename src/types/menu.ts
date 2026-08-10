@@ -12,7 +12,14 @@
  * inconsistent (duplicates, gaps); an array cannot.
  */
 
-export const TEMPLATE_IDS = ['classic', 'modern', 'social'] as const
+export const TEMPLATE_IDS = [
+  'classic',
+  'modern',
+  'social',
+  'jade',
+  'marina',
+  'menta',
+] as const
 export type TemplateId = (typeof TEMPLATE_IDS)[number]
 
 export const FORMAT_IDS = ['story', 'post', 'square'] as const

@@ -71,6 +71,57 @@ export const PALETTES: Record<TemplateId, Palette> = {
     shadow: 'rgb(0 0 0 / 45%)',
   },
 
+  // Verde bosque y oro: la más sobria de las oscuras.
+  jade: {
+    paper:
+      'radial-gradient(70% 45% at 82% 0%, rgb(239 196 99 / 22%) 0%, transparent 62%),' +
+      'radial-gradient(60% 45% at 0% 100%, rgb(31 122 77 / 34%) 0%, transparent 60%),' +
+      'linear-gradient(172deg, #123529 0%, #0a2019 55%, #051411 100%)',
+    ink: '#f0f7f1',
+    muted: '#a8c3b4',
+    accent: '#efc463',
+    accentInk: '#0a2019',
+    rule: 'rgb(239 196 99 / 26%)',
+    card: 'rgb(240 247 241 / 7%)',
+    cardBorder: 'rgb(239 196 99 / 26%)',
+    contactBg: '#1f7a4d',
+    contactInk: '#ffffff',
+    shadow: 'rgb(0 0 0 / 45%)',
+  },
+
+  // Azul noche y celeste: fría, tranquila, muy legible sobre fondo oscuro.
+  marina: {
+    paper:
+      'radial-gradient(70% 45% at 82% 0%, rgb(108 198 236 / 24%) 0%, transparent 62%),' +
+      'radial-gradient(60% 45% at 0% 100%, rgb(27 110 168 / 38%) 0%, transparent 60%),' +
+      'linear-gradient(172deg, #12314f 0%, #0a1e33 55%, #061421 100%)',
+    ink: '#eaf3fb',
+    muted: '#9fbad3',
+    accent: '#6cc6ec',
+    accentInk: '#062033',
+    rule: 'rgb(108 198 236 / 28%)',
+    card: 'rgb(234 243 251 / 8%)',
+    cardBorder: 'rgb(108 198 236 / 28%)',
+    contactBg: '#1b6ea8',
+    contactInk: '#ffffff',
+    shadow: 'rgb(2 12 22 / 50%)',
+  },
+
+  // Verde muy claro: la contraparte luminosa de «Jade», fresca para el día.
+  menta: {
+    paper: 'radial-gradient(120% 70% at 50% 0%, #ffffff 0%, #f1fbf5 45%, #dcf0e5 100%)',
+    ink: '#12291f',
+    muted: '#54755f',
+    accent: '#0e7a52',
+    accentInk: '#ffffff',
+    rule: 'rgb(14 122 82 / 22%)',
+    card: '#ffffff',
+    cardBorder: 'rgb(14 122 82 / 16%)',
+    contactBg: '#0e7a52',
+    contactInk: '#ffffff',
+    shadow: 'rgb(20 70 50 / 18%)',
+  },
+
   // Naranja de marca saturado y texto blanco: máximo contraste para el feed.
   social: {
     paper:
