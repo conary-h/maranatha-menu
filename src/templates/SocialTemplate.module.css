@@ -1,45 +1,50 @@
-/* Social — maximum contrast and the biggest type of the three, so it survives
-   WhatsApp's compression and still reads as a thumbnail in a chat list. */
+/* Redes — la que tiene que leerse como miniatura en una lista de chats de
+   WhatsApp y sobrevivir a su compresión. Eso manda sobre todo lo demás:
+   menos elementos, más grandes, y un solo acento de color. */
 
 .root {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(165deg, #e8951f 0%, #d2691a 42%, #be1a0d 100%);
+  background:
+    radial-gradient(62% 48% at 82% 0%, rgb(250 199 92 / 92%) 0%, rgb(228 132 30 / 40%) 42%, transparent 74%),
+    radial-gradient(70% 55% at 0% 100%, rgb(120 14 4 / 78%) 0%, transparent 66%),
+    linear-gradient(158deg, #e08a1e 0%, #cc4a12 46%, #a51708 100%);
   color: #fff;
   font-family: var(--font-body);
   overflow: hidden;
 }
 
-/* Soft light burst behind the logo, keeps the flat gradient from looking cheap. */
-.root::before {
+/* Grano: evita que un campo de color tan grande se vea plano. */
+.root::after {
   content: '';
   position: absolute;
-  top: -260px;
-  left: 50%;
-  width: 900px;
-  height: 900px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 240 210 / 45%) 0%, transparent 62%);
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
+
+/* --------------------------------- cabecera ------------------------------- */
 
 .header {
   position: relative;
+  z-index: 1;
   flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 56px 60px 26px;
+  gap: 18px;
+  padding: 62px 56px 34px;
   text-align: center;
 }
 
 .logoPlate {
-  padding: 22px 40px;
-  border-radius: 24px;
+  padding: 20px 38px;
+  border-radius: 26px;
   background: #fff;
-  box-shadow: 0 14px 30px rgb(80 26 6 / 28%);
+  box-shadow: 0 16px 34px rgb(80 22 4 / 32%);
 }
 
 .logo {
@@ -48,42 +53,42 @@
 }
 
 .kicker {
-  padding: 8px 26px;
-  border-radius: 999px;
-  background: rgb(23 17 10 / 28%);
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  padding-left: calc(26px + 0.26em);
+  color: rgb(255 238 214 / 92%);
+  padding-left: 0.3em;
 }
 
 .date {
   font-family: var(--font-display);
-  font-size: 66px;
+  font-size: 68px;
   font-weight: 800;
   line-height: 1;
-  text-shadow: 0 4px 14px rgb(90 20 4 / 30%);
+  text-shadow: 0 4px 18px rgb(90 20 4 / 38%);
 }
 
-/* --------------------------------- panel --------------------------------- */
+/* ---------------------------------- panel --------------------------------- */
 
 .panel {
   position: relative;
+  z-index: 1;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  margin: 6px 44px 0;
-  padding: 40px 44px;
-  border-radius: 34px 34px 0 0;
+  margin: 0 40px;
+  padding: 46px 46px 34px;
+  border-radius: 36px 36px 0 0;
   background: #fffaf1;
   color: #241b11;
-  box-shadow: 0 -10px 40px rgb(80 26 6 / 22%);
+  box-shadow: 0 -12px 44px rgb(80 22 4 / 26%);
   overflow: hidden;
 }
 
-/* The measured fit budget: padding lives on .panel so it is excluded here. */
+/* El presupuesto de alto que mide el ajuste automático: el padding vive en
+   .panel para quedar fuera de la medición. */
 .frame {
   flex: 1 1 auto;
   min-height: 0;
@@ -93,8 +98,10 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 34px;
+  gap: 40px;
 }
+
+/* -------------------------------- secciones ------------------------------- */
 
 .section {
   display: flex;
@@ -102,62 +109,72 @@
   gap: 10px;
 }
 
+/* Etiqueta con regla, no una pastilla roja: tres pastillas apiladas competían
+   entre sí y parecían botones. */
 .sectionHead {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.sectionTitle {
-  padding: 8px 24px;
-  border-radius: 12px;
-  background: #be1a0d;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.badge {
-  flex: none;
-  margin-left: auto;
-  padding: 7px 20px;
-  border-radius: 999px;
-  background: #ffe9c2;
-  color: #a35a0c;
-  font-size: 24px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.note {
-  color: #7d6a52;
-  font-size: 24px;
-  font-style: italic;
-}
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.row {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #be1a0d;
+  white-space: nowrap;
+}
+
+.sectionRule {
+  flex: 1 1 auto;
+  height: 4px;
+  border-radius: 2px;
+  background: rgb(190 26 13 / 18%);
+}
+
+.badge {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: #a3590a;
+  white-space: nowrap;
+}
+
+.note {
+  color: #7d6a52;
+  font-size: 25px;
+  font-style: italic;
+  margin-top: -2px;
+}
+
+/* --------------------------------- platillos ------------------------------ */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0;
+}
+
+.row + .row {
+  border-top: 2px solid rgb(36 27 17 / 8%);
+}
+
 .thumb {
   flex: none;
-  width: 76px;
-  height: 76px;
-  border-radius: 18px;
+  width: 82px;
+  height: 82px;
+  border-radius: 20px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgb(90 52 20 / 22%);
+  box-shadow: 0 5px 14px rgb(90 52 20 / 24%);
 }
 
 .rowBody {
@@ -165,74 +182,101 @@
   min-width: 0;
 }
 
+.rowTop {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
 .name {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
-.featured .name {
-  color: #be1a0d;
+/* El guion punteado amarra cada precio a su platillo; es exactamente el fallo
+   del menú al que sustituye esta app. */
+.leader {
+  flex: 1 1 auto;
+  min-width: 26px;
+  height: 0;
+  margin-bottom: 12px;
+  border-bottom: 4px dotted rgb(36 27 17 / 22%);
 }
 
-.description {
-  color: #7d6a52;
-  font-size: 23px;
-  line-height: 1.25;
-}
-
+/* Precio como texto, no como insignia oscura: la insignia parecía un botón y
+   competía con el nombre. */
 .price {
   flex: none;
-  min-width: 132px;
-  padding: 10px 18px;
-  border-radius: 14px;
-  background: #241b11;
-  color: #fff;
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 800;
-  text-align: center;
+  color: #be1a0d;
   white-space: nowrap;
 }
 
+.description {
+  margin-top: 2px;
+  color: #7d6a52;
+  font-size: 25px;
+  line-height: 1.3;
+}
+
+.featured .name,
 .featured .price {
-  background: #be1a0d;
+  color: #a51708;
 }
 
 .star {
-  flex: none;
   color: #e08a1e;
-  font-size: 30px;
+  font-size: 34px;
 }
 
-.chips {
+/* Lista corrida en vez de decenas de pastillas pálidas: mismo contenido, mucha
+   más legibilidad al comprimirse, y llena el panel en lugar de puntearlo. */
+.inlineList {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #3f3327;
+}
+
+/* Contenedor flexible: el corte de línea ocurre entre elementos, nunca dentro
+   de un nombre ("Plátano / frito") ni antes de un separador huérfano. */
+.inlineList {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  align-items: baseline;
+  row-gap: 6px;
 }
 
-.chip {
-  padding: 10px 22px;
-  border-radius: 999px;
-  background: #ffeed6;
-  color: #8f4a09;
-  font-size: 26px;
-  font-weight: 700;
+.inlineItem {
+  white-space: nowrap;
 }
 
-/* --------------------------------- footer -------------------------------- */
+/* El punto viaja pegado a su nombre, así que jamás empieza una línea. */
+.inlineItem:not(:last-child)::after {
+  content: '·';
+  color: #e08a1e;
+  font-weight: 800;
+  padding: 0 12px;
+}
+
+/* --------------------------------- pie ------------------------------------ */
 
 .footer {
+  position: relative;
+  z-index: 1;
   flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin: 0 44px;
-  padding: 22px 40px calc(26px + 6px);
-  border-radius: 0 0 34px 34px;
-  background: #128c47;
+  gap: 8px;
+  margin: 0 40px 40px;
+  padding: 26px 40px 30px;
+  border-radius: 0 0 36px 36px;
+  background: #17110a;
   color: #fff;
   text-align: center;
 }
@@ -240,42 +284,39 @@
 .contact {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   font-family: var(--font-display);
-  font-size: 42px;
+  font-size: 46px;
   font-weight: 800;
 }
 
 .contact svg {
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
+  color: #25d366;
 }
 
 .footNote {
-  color: rgb(255 255 255 / 90%);
-  font-size: 21px;
+  color: rgb(255 255 255 / 72%);
+  font-size: 23px;
   line-height: 1.3;
 }
 
-.bottomPad {
-  flex: none;
-  height: 34px;
-}
-
+/* Menos lienzo, mismo ritmo. */
 .root[data-format='square'] .header,
 .root[data-format='post'] .header {
-  padding-top: 42px;
+  padding-top: 44px;
   gap: 12px;
 }
 
 .root[data-format='square'] .logo {
-  width: 290px;
+  width: 300px;
 }
 
 .root[data-format='square'] .date {
-  font-size: 52px;
+  font-size: 54px;
 }
 
-.root[data-format='square'] .bottomPad {
-  height: 24px;
+.root[data-format='square'] .panel {
+  padding: 36px 40px 26px;
 }

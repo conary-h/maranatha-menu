@@ -70,6 +70,18 @@ forma uniforme, como imprimir un afiche más pequeño.
 Cuando ni al mínimo legible cabe (por ejemplo, 24 platillos en formato 1:1), la
 vista previa muestra un aviso en lugar de recortar platillos en silencio.
 
+El ajuste no es una simple iteración de punto fijo: cambiar la escala cambia el
+ancho de maquetación, que reparte el texto de otra forma, que cambia el alto otra
+vez. Iterar a ciegas puede oscilar y, al agotarse los intentos, dejar contenido
+fuera del marco. Por eso la búsqueda mantiene un intervalo — `lo` es una escala
+que se comprobó que cabe, `hi` una que no — y **siempre termina en `lo`**. Puede
+quedar un pelo más pequeño que el óptimo teórico, pero nunca recorta: perder un
+platillo en silencio es mucho peor que una letra ligeramente menor.
+
+Con `maxScale > 1` el contenido además **crece** para llenar el marco, que es lo
+que usa «Redes»: un menú corto se agranda en vez de flotar en un panel medio
+vacío.
+
 ### El editor es un espacio de trabajo, no un formulario
 
 Cada platillo ocupa **una línea**: arrastre, foto, nombre, precio y destacado.
