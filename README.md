@@ -70,6 +70,21 @@ forma uniforme, como imprimir un afiche más pequeño.
 Cuando ni al mínimo legible cabe (por ejemplo, 24 platillos en formato 1:1), la
 vista previa muestra un aviso en lugar de recortar platillos en silencio.
 
+### Versículo del día
+
+El menú impreso ya llevaba un versículo al pie, así que la portada muestra uno
+distinto cada día ([`src/lib/verses.ts`](src/lib/verses.ts)) con un botón para
+ponerlo en los menús de un toque — sin ese botón sería solo adorno.
+
+La selección está curada alrededor de provisión, gratitud, mesa, trabajo y
+familia. El versículo se elige por número de día, así que es **determinista**: no
+se repite hasta agotar la lista y todos ven el mismo el mismo día. Todo local,
+sin API, funciona sin internet.
+
+El texto usa la **Reina-Valera de dominio público (1909)** con ortografía
+modernizada, a propósito, para no depender de una versión con derechos
+reservados. Se puede sustituir por otra en Ajustes.
+
 ### Las sugerencias de platillos se aprenden solas
 
 El campo de nombre es un autocompletado con dos fuentes
