@@ -13,6 +13,13 @@ export const DEFAULT_BUSINESS: BusinessInfo = {
   footerNote: 'Todos los almuerzos incluyen complementos a elección.',
 }
 
+/**
+ * La regla de la casa: el almuerzo trae tres complementos. Los platillos que
+ * traen otra cantidad lo dicen en su propia línea en «Carnes», así que la nota
+ * remite ahí en vez de intentar enumerar las excepciones.
+ */
+export const COMPLEMENTS_NOTE = '3 incluidos con tu almuerzo, salvo que se indique lo contrario en Carnes'
+
 export function createDish(name = '', price?: number): Dish {
   return { id: createId('d'), name, ...(price === undefined ? {} : { price }) }
 }
@@ -35,7 +42,7 @@ export function createMenu(date = todayIso()): Menu {
       { ...createSection('Carnes', 'per-item') },
       {
         ...createSection('Complementos', 'included'),
-        note: 'Incluidos con todos los almuerzos',
+        note: COMPLEMENTS_NOTE,
       },
       { ...createSection('Refrescos', 'flat'), flatPrice: 28 },
     ],

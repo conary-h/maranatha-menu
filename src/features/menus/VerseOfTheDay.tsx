@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import CheckIcon from '@mui/icons-material/Check'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import RefreshIcon from '@mui/icons-material/Refresh'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
@@ -17,11 +19,17 @@ import { useBusiness } from '@/features/business/BusinessContext'
  * No es decoración: el menú impreso ya lleva un versículo al pie, así que la
  * tarjeta ofrece ponerlo ahí de un toque. Sin ese botón sería un adorno; con
  * él, es la forma más rápida de cambiar el versículo del menú.
+ *
+ * El versículo del día es solo la primera propuesta: no todos le quedan bien a
+ * un menú, así que «Otro versículo» avanza por la lista hasta encontrar uno que
+ * sí. El desplazamiento es local a la tarjeta —lo que se guarda es el versículo
+ * que se aplica—, así que mañana vuelve a abrir con el del día.
  */
 export function VerseOfTheDay() {
   const { business, save } = useBusiness()
   const toast = useToast()
-  const verse = verseOfTheDay(todayIso())
+  const [offset, setOffset] = useState(0)
+  const verse = verseOfTheDay(todayIso(), offset)
   const inUse = business.verseRef === verse.ref && business.verseText === verse.text
 
   const apply = useAsyncAction(async () => {
@@ -95,16 +103,29 @@ export function VerseOfTheDay() {
           {verse.ref}
         </Typography>
 
-        <Button
-          size="small"
-          startIcon={inUse ? <CheckIcon /> : undefined}
-          disabled={inUse}
-          loading={apply.isPending}
-          onClick={() => void apply.run()}
-          sx={{ alignSelf: 'flex-start' }}
-        >
-          {inUse ? 'Ya está en tus menús' : 'Usar en mis menús'}
-        </Button>
+        {/* Dos acciones, un solo renglón: aplicar el que se ve, o pedir otro.
+            El de refrescar es texto y no un icono suelto porque en el teléfono
+            no hay tooltip que explique qué hace. */}
+        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }} useFlexGap>
+          <Button
+            size="small"
+            startIcon={inUse ? <CheckIcon /> : undefined}
+            disabled={inUse}
+            loading={apply.isPending}
+            onClick={() => void apply.run()}
+          >
+            {inUse ? 'Ya está en tus menús' : 'Usar en mis menús'}
+          </Button>
+          <Button
+            size="small"
+            color="inherit"
+            startIcon={<RefreshIcon />}
+            onClick={() => setOffset((current) => current + 1)}
+            sx={{ color: 'text.secondary' }}
+          >
+            Otro versículo
+          </Button>
+        </Stack>
       </Stack>
     </Paper>
   )

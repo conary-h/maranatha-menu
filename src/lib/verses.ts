@@ -41,8 +41,7 @@ export const VERSES: readonly Verse[] = [
   { ref: 'Proverbios 15:17', text: 'Mejor es la comida de legumbres donde hay amor, que de buey engordado donde hay odio.' },
   { ref: 'Proverbios 31:15', text: 'Levantóse aun de noche, y dio comida a su familia.' },
   { ref: 'Proverbios 12:11', text: 'El que labra su tierra, se hartará de pan.' },
-  { ref: 'Proverbios 13:4', text: 'El alma del perezoso desea, y nada alcanza; mas el alma de los diligentes será engordada.' },
-  { ref: 'Proverbios 11:25', text: 'El alma liberal será engordada; y el que saciare, él también será saciado.' },
+  { ref: 'Proverbios 11:25', text: 'El alma generosa será prosperada; y el que saciare, él también será saciado.' },
   { ref: 'Eclesiastés 3:13', text: 'Y también que es don de Dios que todo hombre coma y beba, y goce el bien de toda su labor.' },
   { ref: 'Eclesiastés 9:7', text: 'Anda, y come tu pan con gozo, y bebe tu vino con alegre corazón.' },
   { ref: 'Isaías 41:10', text: 'No temas, que yo soy contigo; no desmayes, que yo soy tu Dios que te esfuerzo.' },
@@ -66,7 +65,7 @@ export const VERSES: readonly Verse[] = [
   { ref: '1 Corintios 10:31', text: 'Si pues coméis, o bebéis, o hacéis otra cosa, hacedlo todo a gloria de Dios.' },
   { ref: '1 Tesalonicenses 5:18', text: 'Dad gracias en todo, porque esta es la voluntad de Dios.' },
   { ref: 'Santiago 1:17', text: 'Toda buena dádiva y todo don perfecto es de lo alto, que desciende del Padre de las luces.' },
-  { ref: 'Efesios 1:20', text: 'La cual operó en Cristo, resucitándole de los muertos y sentándole a su diestra en los lugares celestiales.' },
+  { ref: 'Efesios 4:32', text: 'Antes sed los unos con los otros benignos, misericordiosos, perdonándoos unos a otros.' },
 ]
 
 /**
@@ -75,10 +74,15 @@ export const VERSES: readonly Verse[] = [
  * Recorre la lista por número de día, así que no se repite hasta agotarla y
  * todos ven el mismo versículo el mismo día. Determinista: nada de `Math.random`
  * ni de `Date.now()`, para que el menú guardado ayer siga mostrando lo mismo.
+ *
+ * `offset` avanza dentro de la misma lista sin tocar la fecha: es lo que hace
+ * el botón de refrescar cuando el versículo del día no cae bien en el menú de
+ * hoy. Al ser un simple desplazamiento, nunca se sale del catálogo curado.
  */
-export function verseOfTheDay(iso: string): Verse {
+export function verseOfTheDay(iso: string, offset = 0): Verse {
   const MS_PER_DAY = 86_400_000
   const dayNumber = Math.floor(fromIso(iso).getTime() / MS_PER_DAY)
-  const index = ((dayNumber % VERSES.length) + VERSES.length) % VERSES.length
+  const raw = dayNumber + offset
+  const index = ((raw % VERSES.length) + VERSES.length) % VERSES.length
   return VERSES[index] ?? VERSES[0]!
 }

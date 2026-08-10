@@ -36,6 +36,7 @@ import Typography from '@mui/material/Typography'
 import { ConfirmDialog } from '@/components/ConfirmDialog'
 import type { ImageMap } from '@/hooks/useMenuImages'
 import { useDishSuggestions } from '@/hooks/useDishSuggestions'
+import { COMPLEMENTS_NOTE } from '@/lib/defaults'
 import { LIMITS, parsePrice, validatePrice } from '@/lib/validation'
 import { sectionBadge } from '@/templates/shared'
 import type { Dish, Menu, MenuSection, PriceMode } from '@/types/menu'
@@ -212,29 +213,9 @@ export function SectionCard({
             </ToggleButtonGroup>
           </Box>
 
-          {section.priceMode === 'flat' ? (
-            <TextField
-              label="Precio para todos"
-              placeholder="28"
-              value={flatDraft}
-              error={Boolean(flatError)}
-              helperText={flatError}
-              onChange={(event) => {
-                setFlatDraft(event.target.value)
-                if (!validatePrice(event.target.value, false)) {
-                  onSectionChange({ flatPrice: parsePrice(event.target.value) })
-                }
-              }}
-              slotProps={{
-                htmlInput: { inputMode: 'decimal' },
-                input: { startAdornment: <InputAdornment position="start">{currency}</InputAdornment> },
-              }}
-            />
-          ) : null}
-
           <TextField
             label="Nota (opcional)"
-            placeholder="Ej. Incluidos con todos los almuerzos"
+            placeholder={`Ej. ${COMPLEMENTS_NOTE}`}
             value={section.note ?? ''}
             onChange={(event) => onSectionChange({ note: event.target.value || undefined })}
             slotProps={{ htmlInput: { maxLength: LIMITS.sectionNote } }}
@@ -249,6 +230,43 @@ export function SectionCard({
       </Collapse>
 
       <Stack spacing={0.75} sx={{ p: 1.5 }}>
+        {/* El precio único vivía dentro del panel de opciones, donde nadie lo
+            encontraba: en «Refrescos» es el único precio de la sección y cambia
+            más seguido que el modo de cobro, así que va a la vista. */}
+        {section.priceMode === 'flat' ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', pb: 0.25 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+              Precio de todos
+            </Typography>
+            <TextField
+              size="small"
+              placeholder="28"
+              value={flatDraft}
+              error={Boolean(flatError)}
+              helperText={flatError}
+              onChange={(event) => {
+                setFlatDraft(event.target.value)
+                if (!validatePrice(event.target.value, false)) {
+                  onSectionChange({ flatPrice: parsePrice(event.target.value) })
+                }
+              }}
+              sx={{ flex: 'none', width: 132 }}
+              slotProps={{
+                htmlInput: { inputMode: 'decimal', 'aria-label': 'Precio para todos los platillos de la sección' },
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ mr: 0.5 }}>
+                      <Typography variant="body2" color="text.disabled">
+                        {currency}
+                      </Typography>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </Box>
+        ) : null}
+
         {section.dishes.length === 0 ? (
           <Typography
             variant="body2"
