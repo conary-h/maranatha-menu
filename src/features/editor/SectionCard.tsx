@@ -231,19 +231,19 @@ export function SectionCard({
 
       <Stack spacing={0.75} sx={{ p: 1.5 }}>
         {/* El precio único vivía dentro del panel de opciones, donde nadie lo
-            encontraba: en «Refrescos» es el único precio de la sección y cambia
+            encontraba: en «Refrescos» es el precio de casi toda la lista y cambia
             más seguido que el modo de cobro, así que va a la vista. */}
         {section.priceMode === 'flat' ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', pb: 0.25 }}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, flexWrap: 'wrap', pb: 0.25 }}>
             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
               Precio de todos
             </Typography>
             <TextField
               size="small"
               placeholder="28"
+              helperText={flatError}
               value={flatDraft}
               error={Boolean(flatError)}
-              helperText={flatError}
               onChange={(event) => {
                 setFlatDraft(event.target.value)
                 if (!validatePrice(event.target.value, false)) {
@@ -264,6 +264,11 @@ export function SectionCard({
                 },
               }}
             />
+            {/* Dicho aquí y no en cada renglón: el precio ya aparece escrito en
+                todos, lo que no se ve es que se puede escribir encima. */}
+            <Typography variant="caption" color="text.secondary" sx={{ flex: '1 1 140px', minWidth: 0 }}>
+              Cámbialo abajo en las que cuesten distinto.
+            </Typography>
           </Box>
         ) : null}
 

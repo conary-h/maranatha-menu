@@ -24,11 +24,24 @@ export function priceLabel(
   return price === undefined ? undefined : formatPrice(price, currency)
 }
 
+/**
+ * Si en una sección de precio único hay platillos con precio propio.
+ *
+ * Un precio igual al de la sección no cuenta: lo que importa es si el «c/u» del
+ * encabezado sigue siendo verdad para toda la lista.
+ */
+export function hasPriceOverrides(section: MenuSection): boolean {
+  if (section.priceMode !== 'flat') return false
+  return section.dishes.some((dish) => dish.price !== undefined && dish.price !== section.flatPrice)
+}
+
 /** The section-level price badge: "Incluidos" or "L. 28 c/u". */
 export function sectionBadge(section: MenuSection, currency: string): string | undefined {
   if (section.priceMode === 'included') return 'Incluidos'
   if (section.priceMode === 'flat' && section.flatPrice !== undefined) {
-    return `${formatPrice(section.flatPrice, currency)} c/u`
+    // Con precios distintos en la lista, un «L. 28 c/u» en el encabezado sería
+    // falso: ahí cada platillo imprime el suyo y el rótulo sobra.
+    return hasPriceOverrides(section) ? undefined : `${formatPrice(section.flatPrice, currency)} c/u`
   }
   return undefined
 }

@@ -58,13 +58,19 @@ export function formatPrice(value: number, currency: string): string {
   return `${currency} ${amount}`
 }
 
-/** The price a dish actually shows, given how its section is priced. */
+/**
+ * The price a dish actually shows, given how its section is priced.
+ *
+ * En una sección de precio único el precio del platillo manda cuando existe: la
+ * mayoría de los refrescos cuestan lo mismo, pero alguno siempre es más caro, y
+ * ese caso no debería obligar a repetir el precio en los otros nueve.
+ */
 export function effectivePrice(dish: Dish, section: MenuSection): number | undefined {
   switch (section.priceMode) {
     case 'per-item':
       return dish.price
     case 'flat':
-      return section.flatPrice
+      return dish.price ?? section.flatPrice
     case 'included':
       return undefined
   }

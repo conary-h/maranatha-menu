@@ -182,6 +182,41 @@ Del menú actual (`img/menu-old.jpg`):
 
 ---
 
+## Pruebas
+
+```bash
+npm test          # una pasada
+npm run test:watch
+npm run verify    # tipos + lint + pruebas + build, en ese orden
+```
+
+123 pruebas sobre **Vitest**, sin DOM y sin navegador: todo lo que se prueba es
+lógica pura o IndexedDB simulado con `fake-indexeddb`. Corren en menos de medio
+segundo, así que no hay excusa para no correrlas antes de subir.
+
+No cubren la interfaz a propósito. Lo que cubren es lo que **ya se rompió alguna
+vez** o lo que rompería en silencio:
+
+| Qué | Por qué |
+|---|---|
+| `stepFit` | El ajuste automático llegó a recortar contenido: la iteración oscilaba y se quedaba en una escala que no cabía. Se prueba contra modelos de alto adversarios —saltos, escaleras— exigiendo una sola propiedad: **nunca terminar en una escala que recorte**. |
+| `menuOps` | Las reglas que hemos ido cambiando: qué se borra al cambiar el modo de precio, quién puede ser el especial del día, que duplicar comparta la foto en vez de copiarla. |
+| `isMenu` / `isBusinessInfo` | Son la puerta de entrada de los archivos de respaldo, que son entrada no confiable. |
+| `restoreBackup` | Rechazo de archivos corruptos, de otra versión y de `data:` URLs que no son imágenes. |
+| Recolector de fotos | Las imágenes se comparten por referencia; un barrido mal hecho borra una foto en uso o acumula huérfanas. |
+| `date` | `new Date('2026-08-10')` se interpreta como UTC y en Honduras imprimiría «9 de agosto». |
+| `sectionKind` | La palabra `res` casaba dentro de «Refrescos» y las bebidas recibían sugerencias de carnes. |
+
+Tres de estas pruebas fallaron al escribirlas y las tres delataron algo real: dos
+funciones que ya no existían y un nombre de prueba que describía un
+comportamiento que el código no tiene.
+
+Lo que **no** está cubierto y hay que seguir mirando a mano: los componentes, la
+exportación a imagen y PDF (necesita navegador de verdad) y el comportamiento en
+un teléfono real.
+
+---
+
 ## Ejecutar en local
 
 Requiere **Node 20.19+** (hay un `.nvmrc` con la versión usada).

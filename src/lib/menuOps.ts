@@ -68,12 +68,18 @@ export function allowsFeatured(section: Pick<MenuSection, 'priceMode'>): boolean
  * Switching how a section is priced also cleans up the values that no longer
  * apply, so a section can never silently keep stale prices, descriptions or
  * highlights that would reappear if the user switched back and exported.
+ *
+ * El precio del platillo es la excepción: en «precio único» es una excepción
+ * legítima —la bebida que cuesta más que las otras— y solo se borra cuando la
+ * sección *cambia* de modo. Borrarlo en cada patch, como antes, vaciaba todos
+ * los precios propios con solo teclear el precio de la sección o su título.
  */
 export function updateSection(menu: Menu, sectionId: string, patch: Partial<MenuSection>): Menu {
   return inSection(menu, sectionId, (section) => {
     const next: MenuSection = { ...section, ...patch }
+    const modeChanged = patch.priceMode !== undefined && patch.priceMode !== section.priceMode
     if (next.priceMode !== 'flat') delete next.flatPrice
-    if (next.priceMode !== 'per-item') {
+    if (next.priceMode === 'included' || (modeChanged && next.priceMode === 'flat')) {
       next.dishes = next.dishes.map(({ price: _price, ...dish }) => dish)
     }
     if (!allowsDescription(next)) {

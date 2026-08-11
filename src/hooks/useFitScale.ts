@@ -46,19 +46,73 @@ export interface Fit {
   offset: number
 }
 
-interface FitState {
-  deps: readonly unknown[]
+/** The search state, without the React bookkeeping. Exported so it can be tested. */
+export interface FitSearch {
   scale: number
   offset: number
-  /** Largest scale seen to fit. The hook never returns anything above this. */
+  /** Largest scale seen to fit. The search never settles above this. */
   lo: number
   /** Smallest scale seen to overflow. */
   hi: number
   pass: number
 }
 
+/** What a rendered pass measured. */
+export interface FitMeasurement {
+  /** Height of the frame the content has to fit into. */
+  available: number
+  /** Un-scaled height of the content at the current layout width. */
+  natural: number
+}
+
+export function initialSearch(maxScale: number): FitSearch {
+  return { scale: maxScale, offset: 0, lo: MIN_SCALE, hi: maxScale, pass: 0 }
+}
+
+/**
+ * One pass of the search: given what the last render measured, decide the next
+ * scale. Pure on purpose — this is the part with the interesting failure mode,
+ * and a DOM-free function is the only way to test it against an adversarial
+ * height model (see useFitScale.test.ts).
+ *
+ * `done` means the caller can stop re-rendering.
+ */
+export function stepFit(
+  state: FitSearch,
+  { available, natural }: FitMeasurement,
+  maxScale: number,
+): { next: FitSearch; done: boolean } {
+  const rendered = state.scale * natural
+  const fits = rendered <= available + HEIGHT_SLACK
+
+  const lo = fits ? Math.max(state.lo, state.scale) : state.lo
+  const hi = fits ? state.hi : Math.min(state.hi, state.scale)
+
+  // Once the answer is settled, only the centring offset can still be stale:
+  // it depends on the height measured at this very scale.
+  const settled = state.pass + 1 >= MAX_PASSES || hi - lo < TOLERANCE
+  // Analytic guess — the scale that would exactly fill the frame — kept inside
+  // the bracket so a bad estimate can never undo what we already proved.
+  const guess = Math.min(maxScale, available / natural)
+  const scale = settled ? lo : Math.min(Math.max(guess, lo), hi)
+
+  // A menu with only four dishes should sit in the middle of its panel, not
+  // hang from the top with a pool of dead space underneath.
+  const offset = fits ? Math.max(0, (available - rendered) / 2) : state.offset
+
+  const stable = Math.abs(scale - state.scale) < TOLERANCE && Math.abs(offset - state.offset) < 1
+  return {
+    next: { scale, offset, lo, hi, pass: state.pass + 1 },
+    done: stable && (settled || fits),
+  }
+}
+
+interface FitState extends FitSearch {
+  deps: readonly unknown[]
+}
+
 function initialState(deps: readonly unknown[], maxScale: number): FitState {
-  return { deps, scale: maxScale, offset: 0, lo: MIN_SCALE, hi: maxScale, pass: 0 }
+  return { deps, ...initialSearch(maxScale) }
 }
 
 function sameDeps(a: readonly unknown[], b: readonly unknown[]): boolean {
@@ -93,28 +147,9 @@ export function useFitScale(
     const natural = content.scrollHeight
     if (available === 0 || natural === 0) return
 
-    const rendered = state.scale * natural
-    const fits = rendered <= available + HEIGHT_SLACK
-
-    const lo = fits ? Math.max(state.lo, state.scale) : state.lo
-    const hi = fits ? state.hi : Math.min(state.hi, state.scale)
-
-    // Once the answer is settled, only the centring offset can still be stale:
-    // it depends on the height measured at this very scale.
-    const settled = state.pass + 1 >= MAX_PASSES || hi - lo < TOLERANCE
-    // Analytic guess — the scale that would exactly fill the frame — kept inside
-    // the bracket so a bad estimate can never undo what we already proved.
-    const guess = Math.min(maxScale, available / natural)
-    const next = settled ? lo : Math.min(Math.max(guess, lo), hi)
-
-    // A menu with only four dishes should sit in the middle of its panel, not
-    // hang from the top with a pool of dead space underneath.
-    const offset = fits ? Math.max(0, (available - rendered) / 2) : state.offset
-
-    const stable = Math.abs(next - state.scale) < TOLERANCE && Math.abs(offset - state.offset) < 1
-    if (stable && (settled || fits)) return
-
-    setState((current) => ({ ...current, scale: next, offset, lo, hi, pass: current.pass + 1 }))
+    const { next, done } = stepFit(state, { available, natural }, maxScale)
+    if (done) return
+    setState((current) => ({ ...current, ...next }))
   })
 
   return { scale: state.scale, offset: state.offset }

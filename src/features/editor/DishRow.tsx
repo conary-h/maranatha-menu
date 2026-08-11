@@ -23,7 +23,13 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { ResolvedImage } from '@/lib/imageStore'
 import { allowsDescription, allowsFeatured } from '@/lib/menuOps'
-import { LIMITS, parsePrice, validateDishName, validatePrice } from '@/lib/validation'
+import {
+  LIMITS,
+  effectivePrice,
+  parsePrice,
+  validateDishName,
+  validatePrice,
+} from '@/lib/validation'
 import type { Dish, MenuSection } from '@/types/menu'
 import { DishPhotoButton } from './ImagePicker'
 
@@ -71,15 +77,21 @@ export function DishRow({
   const noteRef = useRef<HTMLInputElement>(null)
 
   const priceRequired = section.priceMode === 'per-item'
+  // En «precio único» el campo también se muestra, y llega con el precio de la
+  // sección ya escrito: así se ve lo que cuesta cada bebida y cambiar la que es
+  // más cara es escribir encima, no descubrir una opción escondida.
+  const showsPrice = priceRequired || section.priceMode === 'flat'
   const canDescribe = allowsDescription(section)
   const canFeature = allowsFeatured(section)
   // The draft is kept as text so half-typed values like "13" or "130." survive;
-  // it re-syncs whenever the price changes from outside (duplicate, restore).
-  const [priceDraft, setPriceDraft] = useState(priceToText(dish.price))
-  const [lastPrice, setLastPrice] = useState(dish.price)
-  if (lastPrice !== dish.price) {
-    setLastPrice(dish.price)
-    setPriceDraft(priceToText(dish.price))
+  // it re-syncs whenever the price changes from outside (duplicate, restore, o
+  // un cambio en el precio de la sección que este platillo no haya sobrescrito).
+  const price = effectivePrice(dish, section)
+  const [priceDraft, setPriceDraft] = useState(priceToText(price))
+  const [lastPrice, setLastPrice] = useState(price)
+  if (lastPrice !== price) {
+    setLastPrice(price)
+    setPriceDraft(priceToText(price))
   }
 
   const nameError = nameTouched ? validateDishName(dish.name) : undefined
@@ -201,7 +213,7 @@ export function DishRow({
           ) : null}
         </Box>
 
-        {priceRequired ? (
+        {showsPrice ? (
           <TextField
             size="small"
             placeholder="0"

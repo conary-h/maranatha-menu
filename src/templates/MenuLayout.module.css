@@ -345,7 +345,8 @@
   margin: -4px -10px -4px -8px;
 }
 
-/* Precio único: el importe va en la insignia, así que basta una lista. */
+/* Precio único: el importe va en la insignia mientras sea uno solo; si alguna
+   bebida se sale del precio común, cada renglón imprime el suyo a la derecha. */
 .columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -360,6 +361,16 @@
   padding: 9px 0;
   font-size: 28px;
   font-weight: 600;
+}
+
+.columnPrice {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 .columnItem::before {

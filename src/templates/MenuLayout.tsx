@@ -6,6 +6,7 @@ import { LOGO_ALT, LOGO_SRC } from './logo'
 import { paletteVars, type Palette } from './palettes'
 import {
   featuredOf,
+  hasPriceOverrides,
   photoOf,
   photoStyle,
   priceLabel,
@@ -135,6 +136,7 @@ interface SectionProps {
 
 function Section({ section, currency, images, skipDishId }: SectionProps) {
   const badge = sectionBadge(section, currency)
+  const mixedPrices = hasPriceOverrides(section)
   // El especial ya tiene su propio bloque arriba; repetirlo parece un error.
   const dishes = section.dishes.filter((dish) => dish.id !== skipDishId)
   if (dishes.length === 0) return null
@@ -163,10 +165,18 @@ function Section({ section, currency, images, skipDishId }: SectionProps) {
           })}
         </div>
       ) : section.priceMode === 'flat' ? (
+        // Dos columnas de nombres mientras el precio sea uno solo: lo dice el
+        // rótulo. En cuanto alguno se sale del precio común, cada uno imprime
+        // el suyo —incluidos los que siguen en el precio de la sección—.
         <div className={styles.columns}>
           {dishes.map((dish) => (
             <span className={styles.columnItem} key={dish.id}>
               {dish.name}
+              {mixedPrices ? (
+                <span className={styles.columnPrice}>
+                  {priceLabel(dish, section, currency)}
+                </span>
+              ) : null}
             </span>
           ))}
         </div>
