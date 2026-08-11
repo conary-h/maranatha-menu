@@ -3,7 +3,7 @@ import { focalPosition } from '@/lib/image'
 import type { ResolvedImage } from '@/lib/imageStore'
 import { allowsDescription, allowsFeatured } from '@/lib/menuOps'
 import { effectivePrice, formatPrice } from '@/lib/validation'
-import type { Dish, Menu, MenuSection } from '@/types/menu'
+import type { BusinessInfo, Dish, Menu, MenuSection } from '@/types/menu'
 
 /** Helpers every template needs; deliberately layout-free. */
 
@@ -43,6 +43,29 @@ export function featuredOf(menu: Menu): { dish: Dish; section: MenuSection } | u
     if (dish) return { dish, section }
   }
   return undefined
+}
+
+/**
+ * El versículo que va al pie.
+ *
+ * Manda el del menú, que es el que la familia escribió para ese día. Solo cuando
+ * el campo no existe —los menús guardados antes de que se agregara— se hereda el
+ * de Ajustes, para que ninguno pierda el suyo; borrarlo a mano deja el campo en
+ * blanco, y eso sí significa «este menú sale sin versículo».
+ *
+ * La referencia acompaña al texto que ganó: mezclar el texto de uno con la cita
+ * del otro sería atribuir mal el versículo.
+ */
+export function printableVerse(
+  menu: Menu,
+  business: BusinessInfo,
+): { text: string; ref: string } | undefined {
+  if (menu.verseText !== undefined) {
+    const own = menu.verseText.trim()
+    return own ? { text: own, ref: menu.verseRef?.trim() ?? '' } : undefined
+  }
+  const inherited = business.verseText.trim()
+  return inherited ? { text: inherited, ref: business.verseRef.trim() } : undefined
 }
 
 /** Sections that actually have something to print. */

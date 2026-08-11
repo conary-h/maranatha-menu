@@ -185,8 +185,10 @@ export function MenuListPage() {
           </Stack>
 
           <Stack spacing={2} sx={{ minWidth: 0 }}>
+            {/* Ya no dice «Para tus menús»: el versículo del pie se escribe en
+                el editor, y este es para quien abre la app. */}
             <Typography variant="subtitle2" color="text.disabled">
-              Para tus menús
+              Para ti
             </Typography>
             <VerseOfTheDay />
           </Stack>

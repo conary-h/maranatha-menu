@@ -15,6 +15,8 @@ export const LIMITS = {
   sectionTitle: 32,
   sectionNote: 80,
   menuTitle: 40,
+  verseRef: 60,
+  verseText: 400,
   maxPrice: 99_999,
   maxSections: 12,
   maxDishesPerSection: 40,
@@ -128,6 +130,8 @@ export function isMenu(value: unknown): value is Menu {
     typeof value.date === 'string' &&
     isValidIsoDate(value.date) &&
     isText(value.title, LIMITS.menuTitle) &&
+    isOptionalText(value.verseText, LIMITS.verseText) &&
+    isOptionalText(value.verseRef, LIMITS.verseRef) &&
     TEMPLATE_IDS.includes(value.templateId as Menu['templateId']) &&
     FORMAT_IDS.includes(value.formatId as Menu['formatId']) &&
     typeof value.createdAt === 'number' &&
@@ -144,8 +148,8 @@ export function isBusinessInfo(value: unknown): value is BusinessInfo {
     isText(value.name, 80) &&
     isText(value.phone, 32) &&
     isText(value.currency, 8) &&
-    isText(value.verseRef, 60) &&
-    isText(value.verseText, 400) &&
+    isText(value.verseRef, LIMITS.verseRef) &&
+    isText(value.verseText, LIMITS.verseText) &&
     isText(value.footerNote, 200)
   )
 }

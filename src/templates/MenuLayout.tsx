@@ -11,6 +11,7 @@ import {
   priceLabel,
   printableDescription,
   printableSections,
+  printableVerse,
   sectionBadge,
 } from './shared'
 import type { TemplateProps } from './types'
@@ -38,6 +39,7 @@ export function MenuLayout({
   const fit = useFitScale(frameRef, contentRef, [menu, images, format.id], { maxScale: 1.12 })
 
   const sections = printableSections(menu)
+  const verse = printableVerse(menu, business)
   const featured = featuredOf(menu)
   const featuredPhoto = featured ? photoOf(featured.dish, images) : undefined
   const featuredPrice = featured
@@ -108,9 +110,10 @@ export function MenuLayout({
       </div>
 
       <footer className={styles.footer}>
-        {business.verseText ? (
+        {verse ? (
           <p className={styles.verse}>
-            “{business.verseText}”<span className={styles.verseRef}>{business.verseRef}</span>
+            “{verse.text}”
+            {verse.ref ? <span className={styles.verseRef}>{verse.ref}</span> : null}
           </p>
         ) : null}
         <div className={styles.contact}>

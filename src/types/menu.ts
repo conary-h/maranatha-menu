@@ -62,6 +62,14 @@ export interface Menu {
   /** Local calendar date, `YYYY-MM-DD`. Never a Date — timezones would shift it. */
   date: string
   title: string
+  /**
+   * El versículo que se imprime al pie de *este* menú, escrito a mano por la
+   * familia. Vacío o ausente cae al de `BusinessInfo`, que es lo que hace que
+   * los menús guardados antes de este campo sigan imprimiendo el suyo.
+   */
+  verseText?: string
+  /** Referencia del versículo del menú, p. ej. «Salmos 34:8». Opcional. */
+  verseRef?: string
   sections: MenuSection[]
   templateId: TemplateId
   formatId: FormatId

@@ -15,7 +15,7 @@ import { useAsyncAction } from '@/hooks/useAsync'
 import { paths, useNavigate } from '@/hooks/useRoute'
 import { downloadBackup, restoreBackup } from '@/lib/backup'
 import { resetImageCache } from '@/lib/imageStore'
-import { isBusinessInfo } from '@/lib/validation'
+import { LIMITS, isBusinessInfo } from '@/lib/validation'
 import type { BusinessInfo } from '@/types/menu'
 import { useBusiness } from './BusinessContext'
 
@@ -105,13 +105,13 @@ export function BusinessSettingsPage() {
               {...field('footerNote', 200)}
             />
 
-            <TextField label="Referencia bíblica" {...field('verseRef', 60)} />
+            <TextField label="Referencia bíblica" {...field('verseRef', LIMITS.verseRef)} />
             <TextField
-              label="Versículo"
+              label="Versículo de respaldo"
               multiline
               minRows={3}
-              helperText="Déjalo vacío si no quieres mostrarlo."
-              {...field('verseText', 400)}
+              helperText="Cada menú lleva el suyo, escrito en el editor. Este solo se usa en los menús que nunca lo han tocado."
+              {...field('verseText', LIMITS.verseText)}
             />
 
             {saving.error ? <Alert severity="error">{saving.error}</Alert> : null}

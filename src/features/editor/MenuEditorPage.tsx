@@ -32,6 +32,7 @@ import {
 import { LIMITS } from '@/lib/validation'
 import { useBusiness } from '@/features/business/BusinessContext'
 import { MenuStage } from '@/features/preview/MenuStage'
+import { MenuVerseCard } from './MenuVerseCard'
 import { SectionCard } from './SectionCard'
 
 const SAVE_LABEL: Record<SaveState, string> = {
@@ -182,6 +183,13 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           >
             Agregar sección
           </Button>
+
+          {/* Al final, como en el menú impreso: el versículo va al pie. */}
+          <MenuVerseCard
+            menu={menu}
+            business={business}
+            onChange={(patch) => update((current) => touch({ ...current, ...patch }))}
+          />
         </Stack>
 
         <Paper
