@@ -81,6 +81,37 @@ export function printableVerse(
   return inherited ? { text: inherited, ref: business.verseRef.trim() } : undefined
 }
 
+/**
+ * Los platillos más caros de una lista, que se imprimen en el color de acento.
+ *
+ * Solo en las secciones que cobran platillo por platillo. En los refrescos el
+ * precio no es un argumento de venta —son diez bebidas que valen casi lo mismo—
+ * y pintar la más cara solo la señalaría sin razón.
+ *
+ * Se calcula sobre los platillos que de verdad se van a imprimir, no sobre la
+ * sección entera: si el especial del día es el más caro, ya tiene su tarjeta
+ * arriba y el acento debe recaer en el más caro de los que quedan.
+ *
+ * Con un solo precio en la lista no se destaca nada: pintar de acento cuatro
+ * platillos que cuestan lo mismo no distingue a ninguno.
+ */
+export function topPricedIds(
+  dishes: readonly Dish[],
+  section: MenuSection,
+): ReadonlySet<string> {
+  if (section.priceMode !== 'per-item') return new Set()
+
+  const priced = dishes
+    .map((dish) => ({ id: dish.id, price: effectivePrice(dish, section) }))
+    .filter((entry): entry is { id: string; price: number } => entry.price !== undefined)
+
+  const distinct = new Set(priced.map((entry) => entry.price))
+  if (distinct.size < 2) return new Set()
+
+  const top = Math.max(...distinct)
+  return new Set(priced.filter((entry) => entry.price === top).map((entry) => entry.id))
+}
+
 /** Sections that actually have something to print. */
 export function printableSections(menu: Menu): MenuSection[] {
   return menu.sections.filter((section) => section.dishes.length > 0)

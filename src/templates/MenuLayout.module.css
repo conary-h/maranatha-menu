@@ -306,8 +306,17 @@
   font-family: var(--font-display);
   font-size: 34px;
   font-weight: 800;
-  color: var(--accent);
   white-space: nowrap;
+}
+
+/* El acento se reserva para los platillos más caros de la sección: nombre y
+   precio del mismo color, para que el renglón entero se lea como uno solo.
+   Los precios corrientes iban en acento y por eso ninguno destacaba.
+   Solo alcanza a las secciones que cobran platillo por platillo; las bebidas
+   nunca llevan acento por caras que sean. */
+.topPriced .name,
+.topPriced .price {
+  color: var(--accent);
 }
 
 .description {
@@ -369,7 +378,6 @@
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 800;
-  color: var(--accent);
   white-space: nowrap;
 }
 

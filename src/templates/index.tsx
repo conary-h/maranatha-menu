@@ -6,9 +6,9 @@ import type { TemplateDefinition, TemplateProps } from './types'
 /**
  * Registro de plantillas.
  *
- * Hoy las tres comparten la misma maquetación (`MenuLayout`) y solo cambian de
+ * Hoy todas comparten la misma maquetación (`MenuLayout`) y solo cambian de
  * paleta, que es lo que las hace fáciles de mantener: una corrección al diseño
- * impreso vale para las tres a la vez.
+ * impreso vale para todas a la vez.
  *
  * La estructura sigue siendo la de antes: `Component` admite cualquier
  * componente que reciba `TemplateProps`, así que una plantilla con una forma
@@ -36,13 +36,6 @@ export const TEMPLATES: Record<TemplateId, TemplateDefinition> = {
     swatch: ['#17110a', '#f7c24b'],
     Component: withPalette('modern'),
   },
-  social: {
-    id: 'social',
-    name: 'Redes',
-    description: 'Naranja de marca y texto blanco: máximo contraste para el feed.',
-    swatch: ['#e08a1e', '#a51708'],
-    Component: withPalette('social'),
-  },
   jade: {
     id: 'jade',
     name: 'Jade',
@@ -64,15 +57,38 @@ export const TEMPLATES: Record<TemplateId, TemplateDefinition> = {
     swatch: ['#e9f7ef', '#0e7a52'],
     Component: withPalette('menta'),
   },
+  lavanda: {
+    id: 'lavanda',
+    name: 'Lavanda',
+    description: 'Lila muy claro con violeta profundo. Serena y elegante.',
+    swatch: ['#efe9ff', '#6b3fa0'],
+    Component: withPalette('lavanda'),
+  },
+  frambuesa: {
+    id: 'frambuesa',
+    name: 'Frambuesa',
+    description: 'Rosa pálido y frambuesa. Alegre, para postres y días de fiesta.',
+    swatch: ['#ffe9ee', '#c8305e'],
+    Component: withPalette('frambuesa'),
+  },
+  cacao: {
+    id: 'cacao',
+    name: 'Cacao',
+    description: 'Chocolate y caramelo. Oscura, pero cálida y apetitosa.',
+    swatch: ['#22140a', '#e9b872'],
+    Component: withPalette('cacao'),
+  },
 }
 
 export const TEMPLATE_LIST: readonly TemplateDefinition[] = [
   TEMPLATES.classic,
   TEMPLATES.modern,
-  TEMPLATES.social,
   TEMPLATES.jade,
   TEMPLATES.marina,
   TEMPLATES.menta,
+  TEMPLATES.lavanda,
+  TEMPLATES.frambuesa,
+  TEMPLATES.cacao,
 ]
 
 export * from './formats'

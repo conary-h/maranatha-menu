@@ -107,8 +107,8 @@ export function PreviewPage({ menuId }: { menuId: string }) {
           ) : null}
           {clipped ? (
             <Alert severity="warning">
-              El menú es muy largo para este formato y no cabe completo. Prueba con «Estado 9:16» o
-              quita algunos platillos.
+              El menú es muy largo y no cabe completo. Quita algunos platillos o acorta las
+              descripciones.
             </Alert>
           ) : null}
 
@@ -154,29 +154,37 @@ export function PreviewPage({ menuId }: { menuId: string }) {
             </Typography>
           </Stack>
 
-          <Stack spacing={1}>
-            <Typography variant="subtitle2" color="text.disabled">
-              Formato
-            </Typography>
-            <ToggleButtonGroup
-              exclusive
-              fullWidth
-              value={menu.formatId}
-              onChange={(_event, value: FormatId | null) => {
-                if (value) update((current) => touch({ ...current, formatId: value }))
-              }}
-              aria-label="Formato de salida"
-            >
-              {FORMAT_LIST.map((format) => (
-                <ToggleButton key={format.id} value={format.id}>
-                  {format.label}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-            <Typography variant="body2" color="text.secondary">
-              {activeFormat?.hint}
-            </Typography>
-          </Stack>
+          {/*
+            Un selector de una sola opción no es una elección: hoy el menú se
+            publica siempre en 9:16, así que el bloque desaparece en lugar de
+            ocupar sitio con un botón que no hace nada. Vuelve solo si algún día
+            se registra otro formato.
+          */}
+          {FORMAT_LIST.length > 1 ? (
+            <Stack spacing={1}>
+              <Typography variant="subtitle2" color="text.disabled">
+                Formato
+              </Typography>
+              <ToggleButtonGroup
+                exclusive
+                fullWidth
+                value={menu.formatId}
+                onChange={(_event, value: FormatId | null) => {
+                  if (value) update((current) => touch({ ...current, formatId: value }))
+                }}
+                aria-label="Formato de salida"
+              >
+                {FORMAT_LIST.map((format) => (
+                  <ToggleButton key={format.id} value={format.id}>
+                    {format.label}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+              <Typography variant="body2" color="text.secondary">
+                {activeFormat?.hint}
+              </Typography>
+            </Stack>
+          ) : null}
         </Stack>
       </Box>
 

@@ -3,7 +3,14 @@ import { DEFAULT_BUSINESS } from '@/lib/defaults'
 import { normalise as normaliseName } from '@/lib/dishCatalog'
 import { type MenuRepository, StorageError } from '@/lib/repository'
 import { assertValidMenu } from '@/lib/validation'
-import type { BusinessInfo, Menu, MenuSummary, StoredImage } from '@/types/menu'
+import {
+  type BusinessInfo,
+  liveFormatId,
+  liveTemplateId,
+  type Menu,
+  type MenuSummary,
+  type StoredImage,
+} from '@/types/menu'
 
 const DB_NAME = 'maranatha-menu'
 const DB_VERSION = 1
@@ -64,12 +71,27 @@ async function guard<T>(what: string, run: () => Promise<T>): Promise<T> {
   }
 }
 
+/**
+ * Traduce al presente lo que quedó guardado.
+ *
+ * Repara la plantilla y el formato: quitar una paleta o un tamaño del catálogo
+ * no puede dejar un menú antiguo sin diseño ni sin lienzo con el que dibujarse.
+ * Se aplica en la lectura, así que el resto de la aplicación siempre recibe un
+ * menú válido.
+ */
+function migrate(menu: Menu): Menu {
+  const templateId = liveTemplateId(menu.templateId)
+  const formatId = liveFormatId(menu.formatId)
+  if (templateId === menu.templateId && formatId === menu.formatId) return menu
+  return { ...menu, templateId, formatId }
+}
+
 function summarise(menu: Menu): MenuSummary {
   return {
     id: menu.id,
     date: menu.date,
     title: menu.title,
-    templateId: menu.templateId,
+    templateId: liveTemplateId(menu.templateId),
     updatedAt: menu.updatedAt,
     dishCount: menu.sections.reduce((total, section) => total + section.dishes.length, 0),
   }
@@ -112,7 +134,10 @@ export const indexedDbRepository: MenuRepository = {
   },
 
   async getMenu(id) {
-    return guard('No se pudo cargar el menú.', async () => (await getDB()).get('menus', id))
+    return guard('No se pudo cargar el menú.', async () => {
+      const menu = await (await getDB()).get('menus', id)
+      return menu && migrate(menu)
+    })
   },
 
   async saveMenu(menu) {
@@ -191,7 +216,7 @@ export async function readAll(): Promise<{ menus: Menu[]; business: BusinessInfo
       db.getAll('images'),
       db.get('settings', BUSINESS_KEY),
     ])
-    return { menus, images, business: { ...DEFAULT_BUSINESS, ...stored } }
+    return { menus: menus.map(migrate), images, business: { ...DEFAULT_BUSINESS, ...stored } }
   })
 }
 

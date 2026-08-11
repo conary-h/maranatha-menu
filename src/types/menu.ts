@@ -15,15 +15,47 @@
 export const TEMPLATE_IDS = [
   'classic',
   'modern',
-  'social',
   'jade',
   'marina',
   'menta',
+  'lavanda',
+  'frambuesa',
+  'cacao',
 ] as const
 export type TemplateId = (typeof TEMPLATE_IDS)[number]
 
-export const FORMAT_IDS = ['story', 'post', 'square'] as const
+/**
+ * Plantillas retiradas y la que ocupa su lugar.
+ *
+ * «Redes» ya no existe, pero puede seguir guardada en menús viejos y en copias
+ * de seguridad. Traducirla al leerla —en vez de dejar que un id desconocido
+ * rompa la vista previa o descarte el menú al restaurar— es lo que permite
+ * quitar una paleta sin perder nada de lo ya guardado.
+ */
+const RETIRED_TEMPLATE_IDS: Record<string, TemplateId> = { social: 'classic' }
+
+/** Devuelve siempre una plantilla existente para cualquier valor almacenado. */
+export function liveTemplateId(value: unknown): TemplateId {
+  if (typeof value !== 'string') return 'classic'
+  if (TEMPLATE_IDS.includes(value as TemplateId)) return value as TemplateId
+  return RETIRED_TEMPLATE_IDS[value] ?? 'classic'
+}
+
+export const FORMAT_IDS = ['story'] as const
 export type FormatId = (typeof FORMAT_IDS)[number]
+
+/**
+ * Formatos retirados y el que ocupa su lugar. Mismo trato que las plantillas:
+ * un menú guardado en 4:5 o 1:1 se abre en 9:16 en vez de quedarse sin lienzo.
+ */
+const RETIRED_FORMAT_IDS: Record<string, FormatId> = { post: 'story', square: 'story' }
+
+/** Devuelve siempre un formato existente para cualquier valor almacenado. */
+export function liveFormatId(value: unknown): FormatId {
+  if (typeof value !== 'string') return 'story'
+  if (FORMAT_IDS.includes(value as FormatId)) return value as FormatId
+  return RETIRED_FORMAT_IDS[value] ?? 'story'
+}
 
 /** How a section assigns prices to its dishes. */
 export type PriceMode =

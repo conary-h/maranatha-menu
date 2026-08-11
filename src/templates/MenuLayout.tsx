@@ -14,6 +14,7 @@ import {
   printableSections,
   printableVerse,
   sectionBadge,
+  topPricedIds,
 } from './shared'
 import type { TemplateProps } from './types'
 import { WhatsappMark } from './WhatsappMark'
@@ -141,6 +142,10 @@ function Section({ section, currency, images, skipDishId }: SectionProps) {
   const dishes = section.dishes.filter((dish) => dish.id !== skipDishId)
   if (dishes.length === 0) return null
 
+  // Los más caros van en el color de acento —nombre y precio— para que la vista
+  // caiga primero en ellos; el resto queda en tinta. Vacío en los refrescos.
+  const top = topPricedIds(dishes, section)
+
   return (
     <section className={styles.section}>
       <div className={styles.sectionHead}>
@@ -187,7 +192,12 @@ function Section({ section, currency, images, skipDishId }: SectionProps) {
             const price = priceLabel(dish, section, currency)
             const description = printableDescription(dish, section)
             return (
-              <div className={styles.row} key={dish.id}>
+              <div
+                className={[styles.row, top.has(dish.id) && styles.topPriced]
+                  .filter(Boolean)
+                  .join(' ')}
+                key={dish.id}
+              >
                 {photo ? (
                   <img className={styles.thumb} src={photo.src} style={photoStyle(photo)} alt="" />
                 ) : null}

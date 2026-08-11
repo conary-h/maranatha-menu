@@ -1,13 +1,13 @@
 import type { TemplateId } from '@/types/menu'
 
 /**
- * Las tres plantillas comparten forma y orden — la del diseño «Clásica» — y solo
+ * Todas las plantillas comparten forma y orden — la del diseño «Clásica» — y solo
  * cambian de color.
  *
- * Es una decisión deliberada: mantener tres maquetaciones distintas multiplicaba
- * por tres el trabajo de cada ajuste (el recorte del ajuste automático, la regla
- * de descripciones, la de destacados) y triplicaba la superficie donde algo se
- * podía romper. Una sola maquetación, tres paletas. Cuando haga falta una forma
+ * Es una decisión deliberada: mantener una maquetación por diseño multiplicaba
+ * el trabajo de cada ajuste (el recorte del ajuste automático, la regla de
+ * descripciones, la de destacados) y con él la superficie donde algo se podía
+ * romper. Una sola maquetación, muchas paletas. Cuando haga falta una forma
  * realmente distinta, `TemplateDefinition.Component` sigue admitiendo cualquier
  * componente: esta unificación no cierra esa puerta.
  *
@@ -122,22 +122,52 @@ export const PALETTES: Record<TemplateId, Palette> = {
     shadow: 'rgb(20 70 50 / 18%)',
   },
 
-  // Naranja de marca saturado y texto blanco: máximo contraste para el feed.
-  social: {
-    paper:
-      'radial-gradient(62% 46% at 82% 0%, rgb(250 199 92 / 92%) 0%, rgb(228 132 30 / 40%) 42%, transparent 74%),' +
-      'radial-gradient(70% 55% at 0% 100%, rgb(120 14 4 / 78%) 0%, transparent 66%),' +
-      'linear-gradient(158deg, #e08a1e 0%, #cc4a12 46%, #a51708 100%)',
-    ink: '#ffffff',
-    muted: 'rgb(255 240 224 / 82%)',
-    accent: '#ffe1a8',
-    accentInk: '#7a1105',
-    rule: 'rgb(255 255 255 / 34%)',
-    card: 'rgb(255 255 255 / 14%)',
-    cardBorder: 'rgb(255 255 255 / 30%)',
-    contactBg: '#17110a',
+  // Lila muy claro y violeta profundo: la más serena de las claras.
+  lavanda: {
+    paper: 'radial-gradient(120% 70% at 50% 0%, #ffffff 0%, #f4f0ff 45%, #e3dbfa 100%)',
+    ink: '#221a33',
+    muted: '#6a5e85',
+    accent: '#6b3fa0',
+    accentInk: '#ffffff',
+    rule: 'rgb(107 63 160 / 22%)',
+    card: '#ffffff',
+    cardBorder: 'rgb(107 63 160 / 16%)',
+    contactBg: '#6b3fa0',
     contactInk: '#ffffff',
-    shadow: 'rgb(80 22 4 / 34%)',
+    shadow: 'rgb(52 30 90 / 18%)',
+  },
+
+  // Rosa pálido y frambuesa: clara y alegre, buena para postres y días de fiesta.
+  frambuesa: {
+    paper: 'radial-gradient(120% 70% at 50% 0%, #fffdfd 0%, #fff0f3 45%, #ffdde4 100%)',
+    ink: '#31151f',
+    muted: '#7d5763',
+    accent: '#c8305e',
+    accentInk: '#ffffff',
+    rule: 'rgb(200 48 94 / 22%)',
+    card: '#fffdfd',
+    cardBorder: 'rgb(200 48 94 / 16%)',
+    contactBg: '#c8305e',
+    contactInk: '#ffffff',
+    shadow: 'rgb(110 25 50 / 18%)',
+  },
+
+  // Chocolate y caramelo: oscura pero cálida, del color de la comida.
+  cacao: {
+    paper:
+      'radial-gradient(70% 45% at 82% 0%, rgb(233 184 114 / 26%) 0%, transparent 62%),' +
+      'radial-gradient(60% 45% at 0% 100%, rgb(140 79 34 / 42%) 0%, transparent 60%),' +
+      'linear-gradient(172deg, #33200f 0%, #22140a 55%, #170d06 100%)',
+    ink: '#fdf3e6',
+    muted: '#c9ab8b',
+    accent: '#e9b872',
+    accentInk: '#22140a',
+    rule: 'rgb(233 184 114 / 28%)',
+    card: 'rgb(253 243 230 / 7%)',
+    cardBorder: 'rgb(233 184 114 / 26%)',
+    contactBg: '#8c4f22',
+    contactInk: '#ffffff',
+    shadow: 'rgb(0 0 0 / 45%)',
   },
 }
 

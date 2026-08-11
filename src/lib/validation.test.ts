@@ -11,8 +11,8 @@ import {
   validateDishName,
   validatePrice,
 } from './validation'
-import { printableSections, sectionBadge } from '@/templates/shared'
-import type { Menu } from '@/types/menu'
+import { printableSections, sectionBadge, topPricedIds } from '@/templates/shared'
+import { liveFormatId, liveTemplateId, type Menu } from '@/types/menu'
 
 /**
  * `isMenu` no es solo una comprobación de tipos: es la puerta por la que pasa el
@@ -126,6 +126,57 @@ describe('sectionBadge', () => {
   })
 })
 
+describe('topPricedIds', () => {
+  it('marca a todos los que empatan en el precio más alto', () => {
+    const section = {
+      ...createSection('Carnes'),
+      dishes: [
+        createDish('Pollo', 130),
+        createDish('Lomo', 160),
+        createDish('Cordon bleu', 160),
+        createDish('Costilla', 130),
+      ],
+    }
+    const top = topPricedIds(section.dishes, section)
+    expect([...top]).toEqual([section.dishes[1]!.id, section.dishes[2]!.id])
+  })
+
+  it('no marca nada cuando todo cuesta lo mismo', () => {
+    // Pintar de acento la lista entera no destacaría a ninguno.
+    const section = {
+      ...createSection('Carnes'),
+      dishes: [createDish('Pollo', 130), createDish('Lomo', 130)],
+    }
+    expect(topPricedIds(section.dishes, section).size).toBe(0)
+  })
+
+  it('se calcula sobre lo que se imprime, no sobre la sección entera', () => {
+    // El especial del día sale en su propia tarjeta; si además es el más caro,
+    // el acento debe recaer en el más caro de los que quedan en la lista.
+    const section = {
+      ...createSection('Carnes'),
+      dishes: [
+        { ...createDish('Sopa de caracol', 180), featured: true },
+        createDish('Lomo', 160),
+        createDish('Pollo', 130),
+      ],
+    }
+    const printed = section.dishes.slice(1)
+    expect([...topPricedIds(printed, section)]).toEqual([section.dishes[1]!.id])
+  })
+
+  it('no destaca nada en los refrescos, aunque uno cueste más', () => {
+    // El acento marca el platillo caro de la comida; en las bebidas el precio no
+    // es un argumento de venta y señalar la más cara no aporta nada.
+    const section = {
+      ...createSection('Refrescos', 'flat'),
+      flatPrice: 28,
+      dishes: [createDish('Pepsi'), { ...createDish('Jugo natural'), price: 40 }],
+    }
+    expect(topPricedIds(section.dishes, section).size).toBe(0)
+  })
+})
+
 describe('isMenu', () => {
   const valid = (): Menu => {
     const menu = createMenu('2026-08-10')
@@ -157,9 +208,30 @@ describe('isMenu', () => {
   it('acepta las plantillas añadidas después', () => {
     // Los ids nuevos cuelgan de TEMPLATE_IDS; si alguien añade una paleta sin
     // registrarla ahí, esta prueba lo delata.
-    for (const templateId of ['jade', 'marina', 'menta']) {
+    for (const templateId of ['jade', 'marina', 'menta', 'lavanda', 'frambuesa', 'cacao']) {
       expect(isMenu({ ...valid(), templateId })).toBe(true)
     }
+  })
+
+  it('rechaza una plantilla retirada, pero se puede traducir a una viva', () => {
+    // «Redes» se eliminó del catálogo. La validación ya no la acepta y
+    // `liveTemplateId` es lo que impide que un menú viejo se pierda por ello.
+    expect(isMenu({ ...valid(), templateId: 'social' })).toBe(false)
+    expect(liveTemplateId('social')).toBe('classic')
+    expect(liveTemplateId('menta')).toBe('menta')
+    expect(liveTemplateId(undefined)).toBe('classic')
+    expect(isMenu({ ...valid(), templateId: liveTemplateId('social') })).toBe(true)
+  })
+
+  it('rechaza un formato retirado, pero se puede traducir a uno vivo', () => {
+    // Igual que las plantillas: 4:5 y 1:1 salieron del catálogo y los menús que
+    // los usaban se abren en 9:16 en lugar de quedarse sin lienzo.
+    expect(isMenu({ ...valid(), formatId: 'square' })).toBe(false)
+    expect(liveFormatId('post')).toBe('story')
+    expect(liveFormatId('square')).toBe('story')
+    expect(liveFormatId('story')).toBe('story')
+    expect(liveFormatId(undefined)).toBe('story')
+    expect(isMenu({ ...valid(), formatId: liveFormatId('square') })).toBe(true)
   })
 
   it('rechaza precios absurdos', () => {

@@ -14,7 +14,7 @@ No necesita servidor, cuenta, contraseña ni variables de entorno.
 2. Editar nombres, precios, descripciones y fotos.
 3. Arrastrar el asa (⣿) para cambiar el orden de los platillos.
 4. Marcar un platillo con ⭐ para que salga como «especial de hoy».
-5. **Ver y exportar** → elegir diseño y formato → **Compartir menú**.
+5. **Ver y exportar** → elegir diseño → **Compartir menú**.
 
 Los cambios se guardan solos. La barra inferior siempre dice si está `Guardando…`,
 `Guardado` o si hubo un error.
@@ -47,7 +47,7 @@ Una plantilla es una función pura del menú: sin acceso al almacenamiento, sin
 carga de datos, sin saber nada del editor. Por eso los dos pueden evolucionar
 por separado.
 
-**Las seis plantillas comparten una sola maquetación** (`MenuLayout`) y solo
+**Las ocho plantillas comparten una sola maquetación** (`MenuLayout`) y solo
 cambian de paleta ([`src/templates/palettes.ts`](src/templates/palettes.ts)),
 que entra como variables CSS en la raíz del lienzo. La hoja de estilo no
 contiene ni un color literal.
@@ -56,17 +56,23 @@ contiene ni un color literal.
 |---|---|---|
 | Clásica | papel crema | rojo del logotipo |
 | Moderna | tinta oscura | ámbar |
-| Redes | naranja de marca | oro pálido |
 | Jade | verde bosque | oro |
 | Marina | azul noche | celeste |
 | Menta | verde muy claro | verde profundo |
+| Lavanda | lila muy claro | violeta profundo |
+| Frambuesa | rosa pálido | frambuesa |
+| Cacao | chocolate | caramelo |
 
-Añadir una paleta son dos entradas: una en `PALETTES` y otra en el registro.
+Añadir una paleta son tres entradas: `TEMPLATE_IDS`, `PALETTES` y el registro.
+Quitarla es lo mismo al revés, más una línea en `RETIRED_TEMPLATE_IDS`
+([`src/types/menu.ts`](src/types/menu.ts)): los menús ya guardados con esa
+plantilla se traducen a una viva al leerlos, así que ni la vista previa ni una
+restauración se rompen por un id que ya no existe. Así se retiró «Redes».
 
-Es una decisión deliberada: mantener tres maquetaciones distintas multiplicaba
-por tres el trabajo de cada corrección —el recorte del ajuste automático, la
-regla de descripciones, la de destacados— y triplicaba la superficie donde algo
-se podía romper. El registro sigue admitiendo cualquier componente en
+Es una decisión deliberada: mantener una maquetación por diseño multiplicaba el
+trabajo de cada corrección —el recorte del ajuste automático, la regla de
+descripciones, la de destacados— y con él la superficie donde algo se podía
+romper. El registro sigue admitiendo cualquier componente en
 `TemplateDefinition.Component`, así que una plantilla con una forma realmente
 distinta se añade sin tocar el editor.
 
@@ -87,8 +93,9 @@ Un menú de 6 platillos y uno de 24 tienen que caber en el mismo lienzo de
 1080 × 1920. [`useFitScale`](src/hooks/useFitScale.ts) mide y reduce el contenido de
 forma uniforme, como imprimir un afiche más pequeño.
 
-Cuando ni al mínimo legible cabe (por ejemplo, 24 platillos en formato 1:1), la
-vista previa muestra un aviso en lugar de recortar platillos en silencio.
+Cuando ni al mínimo legible cabe (por ejemplo, 24 platillos con descripciones
+largas), la vista previa muestra un aviso en lugar de recortar platillos en
+silencio.
 
 El ajuste no es una simple iteración de punto fijo: cambiar la escala cambia el
 ancho de maquetación, que reparte el texto de otra forma, que cambia el alto otra
@@ -98,9 +105,8 @@ que se comprobó que cabe, `hi` una que no — y **siempre termina en `lo`**. Pu
 quedar un pelo más pequeño que el óptimo teórico, pero nunca recorta: perder un
 platillo en silencio es mucho peor que una letra ligeramente menor.
 
-Con `maxScale > 1` el contenido además **crece** para llenar el marco, que es lo
-que usa «Redes»: un menú corto se agranda en vez de flotar en un panel medio
-vacío.
+Con `maxScale > 1` el contenido además **crece** para llenar el marco: un menú
+corto se agranda en vez de flotar en un lienzo medio vacío.
 
 ### El editor es un espacio de trabajo, no un formulario
 
@@ -177,7 +183,6 @@ Del menú actual (`img/menu-old.jpg`):
 | «Complementos» sin precio, sin explicar | Se marcan explícitamente como **Incluidos** |
 | Sin fecha, siendo el menú *del día* | La fecha es el titular |
 | Letra chica ilegible | Jerarquía tipográfica y contraste revisados |
-| Solo formato 9:16 | 9:16, 4:5 y 1:1 |
 | Tres tipografías mezcladas | Dos tipografías con roles claros |
 
 ---
@@ -300,7 +305,7 @@ src/
     editor/     Editor: secciones, platillos, fotos, drag & drop
     preview/    Lienzo, selector de plantilla y exportación
     business/   Datos del negocio y respaldo
-  templates/    Diseños del menú final (Clásica, Moderna, Redes)
+  templates/    Diseño del menú final: una maquetación y ocho paletas
   hooks/        Router, autoguardado, ajuste de escala, sugerencias, carga asíncrona
   lib/          Persistencia, imágenes, exportación, validación, fechas
   types/        Modelo de dominio
@@ -327,5 +332,5 @@ src/
 
 - **GIF/vídeo animado**: investigado, no implementado. Ver notas de la entrega.
 - Sincronización entre dispositivos (adaptador de Supabase sobre `MenuRepository`).
-- Un menú de 24 platillos no cabe en formato 1:1 con el diseño Clásico; la app avisa
-  y sugiere 9:16.
+- Un menú de 24 platillos con descripciones largas puede no caber ni al mínimo
+  legible; la app avisa en vez de recortar en silencio.

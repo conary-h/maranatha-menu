@@ -4,7 +4,7 @@ import { downloadBlob } from '@/lib/share'
 import { isBusinessInfo, isMenu, ValidationError } from '@/lib/validation'
 import { DEFAULT_BUSINESS } from '@/lib/defaults'
 import { todayIso } from '@/lib/date'
-import type { BusinessInfo, Menu, StoredImage } from '@/types/menu'
+import { type BusinessInfo, liveFormatId, liveTemplateId, type Menu, type StoredImage } from '@/types/menu'
 
 /**
  * Menus live only on this device, so the safety net is an explicit backup file
@@ -102,7 +102,22 @@ export async function restoreBackup(file: File): Promise<{ menus: number; images
     throw new ValidationError('Ese respaldo viene de otra versión de la aplicación.')
   }
 
-  const menus = Array.isArray(parsed.menus) ? parsed.menus.filter(isMenu) : []
+  // La plantilla y el formato se traducen antes de validar: un respaldo hecho
+  // cuando existían «Redes» o el 1:1 debe restaurarse completo, no perder esos
+  // menús por un id retirado.
+  const menus = Array.isArray(parsed.menus)
+    ? parsed.menus
+        .map((menu: unknown) =>
+          isRecord(menu)
+            ? {
+                ...menu,
+                templateId: liveTemplateId(menu.templateId),
+                formatId: liveFormatId(menu.formatId),
+              }
+            : menu,
+        )
+        .filter(isMenu)
+    : []
   if (menus.length === 0) throw new ValidationError('El respaldo no contiene menús válidos.')
 
   const rawImages = Array.isArray(parsed.images) ? parsed.images.filter(isSerialisedImage) : []
