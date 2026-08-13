@@ -169,6 +169,57 @@ export const PALETTES: Record<TemplateId, Palette> = {
     contactInk: '#ffffff',
     shadow: 'rgb(0 0 0 / 45%)',
   },
+
+  // Barro y arcilla quemada, como una cantina mexicana: paredes encaladas en
+  // tono tierra y la loza de siempre. Cálida sin caer en el rojo del logotipo.
+  terracota: {
+    paper: 'radial-gradient(120% 70% at 50% 0%, #fffaf6 0%, #fbeade 45%, #f2d6c2 100%)',
+    ink: '#3a2016',
+    muted: '#7c5744',
+    accent: '#9c3d22',
+    accentInk: '#ffffff',
+    rule: 'rgb(156 61 34 / 22%)',
+    card: '#fffaf6',
+    cardBorder: 'rgb(156 61 34 / 16%)',
+    contactBg: '#9c3d22',
+    contactInk: '#ffffff',
+    shadow: 'rgb(95 45 25 / 20%)',
+  },
+
+  // Cal blanca y azul del Egeo, el par de la taberna griega. La más luminosa de
+  // todas: casi todo el lienzo es papel y el color llega solo en los títulos.
+  egeo: {
+    paper: 'radial-gradient(120% 70% at 50% 0%, #ffffff 0%, #f2f8fc 45%, #dbeaf6 100%)',
+    ink: '#10283a',
+    muted: '#4d6a80',
+    accent: '#1668ac',
+    accentInk: '#ffffff',
+    rule: 'rgb(22 104 172 / 22%)',
+    card: '#ffffff',
+    cardBorder: 'rgb(22 104 172 / 16%)',
+    contactBg: '#1668ac',
+    contactInk: '#ffffff',
+    shadow: 'rgb(16 50 80 / 18%)',
+  },
+
+  // Granate y latón: el cuero y los herrajes de una parrilla o una vinoteca de
+  // toda la vida. Oscura y formal, la que mejor le sienta a un menú de carnes.
+  borgona: {
+    paper:
+      'radial-gradient(70% 45% at 82% 0%, rgb(240 201 135 / 22%) 0%, transparent 62%),' +
+      'radial-gradient(60% 45% at 0% 100%, rgb(140 24 60 / 40%) 0%, transparent 60%),' +
+      'linear-gradient(172deg, #47142a 0%, #2c0c1a 55%, #1c0711 100%)',
+    ink: '#fbeef2',
+    muted: '#d3a9b6',
+    accent: '#f0c987',
+    accentInk: '#2c0c1a',
+    rule: 'rgb(240 201 135 / 28%)',
+    card: 'rgb(251 238 242 / 8%)',
+    cardBorder: 'rgb(240 201 135 / 26%)',
+    contactBg: '#8c183c',
+    contactInk: '#ffffff',
+    shadow: 'rgb(0 0 0 / 45%)',
+  },
 }
 
 /** Las variables CSS que consume `MenuLayout.module.css`. */

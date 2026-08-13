@@ -148,6 +148,9 @@ export function HomeHero({
                 startIcon={<ContentCopyIcon />}
                 onClick={onDuplicateLast}
                 sx={{
+                  // El tema pinta de blanco todo outlined+inherit; sobre el hero
+                  // eso deja texto blanco sobre fondo blanco.
+                  bgcolor: 'transparent',
                   borderColor: 'rgb(255 255 255 / 45%)',
                   color: '#fff',
                   '&:hover': { borderColor: '#fff', bgcolor: 'rgb(255 255 255 / 10%)' },

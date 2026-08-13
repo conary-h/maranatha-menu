@@ -47,7 +47,7 @@ Una plantilla es una función pura del menú: sin acceso al almacenamiento, sin
 carga de datos, sin saber nada del editor. Por eso los dos pueden evolucionar
 por separado.
 
-**Las ocho plantillas comparten una sola maquetación** (`MenuLayout`) y solo
+**Las once plantillas comparten una sola maquetación** (`MenuLayout`) y solo
 cambian de paleta ([`src/templates/palettes.ts`](src/templates/palettes.ts)),
 que entra como variables CSS en la raíz del lienzo. La hoja de estilo no
 contiene ni un color literal.
@@ -62,6 +62,14 @@ contiene ni un color literal.
 | Lavanda | lila muy claro | violeta profundo |
 | Frambuesa | rosa pálido | frambuesa |
 | Cacao | chocolate | caramelo |
+| Terracota | barro claro | arcilla quemada |
+| Egeo | cal blanca | azul egeo |
+| Borgoña | granate | latón |
+
+Las tres últimas no se inventaron desde cero: copian pares de colores que ya
+funcionan en locales reales —la cantina mexicana, la taberna griega, la parrilla
+de mantel largo— porque son combinaciones probadas en el sitio donde importa,
+que es una carta impresa.
 
 Añadir una paleta son tres entradas: `TEMPLATE_IDS`, `PALETTES` y el registro.
 Quitarla es lo mismo al revés, más una línea en `RETIRED_TEMPLATE_IDS`

@@ -208,7 +208,8 @@ describe('isMenu', () => {
   it('acepta las plantillas añadidas después', () => {
     // Los ids nuevos cuelgan de TEMPLATE_IDS; si alguien añade una paleta sin
     // registrarla ahí, esta prueba lo delata.
-    for (const templateId of ['jade', 'marina', 'menta', 'lavanda', 'frambuesa', 'cacao']) {
+    const added = ['jade', 'marina', 'menta', 'lavanda', 'frambuesa', 'cacao', 'terracota', 'egeo', 'borgona']
+    for (const templateId of added) {
       expect(isMenu({ ...valid(), templateId })).toBe(true)
     }
   })

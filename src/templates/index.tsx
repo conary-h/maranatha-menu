@@ -78,6 +78,27 @@ export const TEMPLATES: Record<TemplateId, TemplateDefinition> = {
     swatch: ['#22140a', '#e9b872'],
     Component: withPalette('cacao'),
   },
+  terracota: {
+    id: 'terracota',
+    name: 'Terracota',
+    description: 'Barro y arcilla quemada, como una cantina mexicana. Cálida y de casa.',
+    swatch: ['#f7e2d2', '#9c3d22'],
+    Component: withPalette('terracota'),
+  },
+  egeo: {
+    id: 'egeo',
+    name: 'Egeo',
+    description: 'Cal blanca y azul de taberna griega. La más luminosa y limpia.',
+    swatch: ['#e7f1f9', '#1668ac'],
+    Component: withPalette('egeo'),
+  },
+  borgona: {
+    id: 'borgona',
+    name: 'Borgoña',
+    description: 'Granate y latón de parrilla clásica. Formal, ideal para carnes.',
+    swatch: ['#2c0c1a', '#f0c987'],
+    Component: withPalette('borgona'),
+  },
 }
 
 export const TEMPLATE_LIST: readonly TemplateDefinition[] = [
@@ -89,6 +110,9 @@ export const TEMPLATE_LIST: readonly TemplateDefinition[] = [
   TEMPLATES.lavanda,
   TEMPLATES.frambuesa,
   TEMPLATES.cacao,
+  TEMPLATES.terracota,
+  TEMPLATES.egeo,
+  TEMPLATES.borgona,
 ]
 
 export * from './formats'

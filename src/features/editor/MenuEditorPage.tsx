@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import CheckIcon from '@mui/icons-material/Check'
+import SmartphoneIcon from '@mui/icons-material/SmartphoneOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
+import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 import { TopBar } from '@/components/AppBar'
 import { EmptyState, PageSpinner } from '@/components/Feedback'
 import { useMenuEditor, type SaveState } from '@/hooks/useMenuEditor'
@@ -46,12 +52,22 @@ const SAVE_LABEL: Record<SaveState, string> = {
 /** Room for the fixed action bar so the last section is never trapped under it. */
 const BOTTOM_BAR_SPACE = 14
 
+/** Alto del lienzo dentro del cajón; el resto del 92dvh es asa, título y aire. */
+const PREVIEW_HEIGHT = '72dvh'
+
 export function MenuEditorPage({ menuId }: { menuId: string }) {
   const navigate = useNavigate()
   const { business } = useBusiness()
   const { menu, isLoading, loadError, saveState, saveError, update, saveNow } = useMenuEditor(menuId)
   const { images } = useMenuImages(menu)
   const [dateError, setDateError] = useState<string | undefined>(undefined)
+  const [previewOpen, setPreviewOpen] = useState(false)
+  // El lateral y el cajón son la misma vista previa en dos sitios: se decide en
+  // JS, no en CSS, para que el teléfono monte un solo MenuStage. Ocultar el
+  // lateral con `display: none` lo dejaba renderizando la plantilla entera en
+  // cada tecleo, invisible y por nada.
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   const goBack = async () => {
     await saveNow()
@@ -162,7 +178,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
               onSectionChange={(patch) => update((current) => updateSection(current, section.id, patch))}
               onSectionRemove={() => update((current) => removeSection(current, section.id))}
               onMove={(direction) => update((current) => moveSection(current, index, index + direction))}
-              onDishAdd={() => update((current) => addDish(current, section.id, createDish()))}
+              onDishAdd={(name) => update((current) => addDish(current, section.id, createDish(name)))}
               onDishChange={(dishId, patch) => update((current) => updateDish(current, section.id, dishId, patch))}
               onDishRemove={(dishId) => update((current) => removeDish(current, section.id, dishId))}
               onDishToggleFeatured={(dishId) =>
@@ -220,6 +236,22 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
             }}
           >
             <SaveIndicator state={saveState} />
+            {!isDesktop ? (
+              <Tooltip title="Ver cómo va quedando">
+                <IconButton
+                  aria-label="Ver cómo va quedando"
+                  onClick={() => setPreviewOpen(true)}
+                  sx={{
+                    flex: 'none',
+                    border: 1,
+                    borderColor: 'divider',
+                    bgcolor: 'background.paper',
+                  }}
+                >
+                  <SmartphoneIcon />
+                </IconButton>
+              </Tooltip>
+            ) : null}
             <Button
               variant="contained"
               size="large"
@@ -234,30 +266,76 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
         </Paper>
       </Box>
 
-      <Box
-        component="aside"
-        sx={{
-          display: { xs: 'none', md: 'flex' },
-          position: 'sticky',
-          top: 0,
-          flexDirection: 'column',
-          gap: 1.5,
-          alignItems: 'center',
-          height: '100dvh',
-          p: 3,
-          borderLeft: 1,
-          borderColor: 'divider',
-          bgcolor: '#f4ede3',
-          overflowY: 'auto',
-        }}
-      >
-        <Typography variant="subtitle2" color="text.disabled" sx={{ alignSelf: 'flex-start' }}>
-          Vista previa en vivo
-        </Typography>
-        <Box sx={{ width: '100%', maxWidth: 340 }}>
-          <MenuStage menu={menu} business={business} images={images} />
+      {isDesktop ? (
+        <Box
+          component="aside"
+          sx={{
+            display: 'flex',
+            position: 'sticky',
+            top: 0,
+            flexDirection: 'column',
+            gap: 1.5,
+            alignItems: 'center',
+            height: '100dvh',
+            p: 3,
+            borderLeft: 1,
+            borderColor: 'divider',
+            bgcolor: '#f4ede3',
+            overflowY: 'auto',
+          }}
+        >
+          <Typography variant="subtitle2" color="text.disabled" sx={{ alignSelf: 'flex-start' }}>
+            Vista previa en vivo
+          </Typography>
+          <Box sx={{ width: '100%', maxWidth: 340 }}>
+            <MenuStage menu={menu} business={business} images={images} />
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        // Sin `swipeAreaWidth`: el borde inferior ya lo ocupa la barra de
+        // acciones, así que se abre con el botón y se cierra deslizando.
+        <SwipeableDrawer
+          anchor="bottom"
+          open={previewOpen}
+          onOpen={() => setPreviewOpen(true)}
+          onClose={() => setPreviewOpen(false)}
+          disableSwipeToOpen
+          slotProps={{
+            paper: {
+              'aria-label': 'Vista previa en vivo',
+              sx: {
+                maxHeight: '92dvh',
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                bgcolor: '#f4ede3',
+              },
+            },
+          }}
+        >
+          <Stack
+            spacing={1.5}
+            sx={{
+              alignItems: 'center',
+              px: 2,
+              pt: 1,
+              pb: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+            }}
+          >
+            <Box
+              aria-hidden="true"
+              sx={{ width: 40, height: 5, borderRadius: 999, bgcolor: 'divider', flex: 'none' }}
+            />
+            <Typography variant="subtitle2" color="text.disabled">
+              Vista previa en vivo
+            </Typography>
+            {/* El alto manda: MenuStage se escala por su ancho, así que el ancho
+                se despeja del alto disponible para que el 9:16 entre completo. */}
+            <Box sx={{ width: `min(100%, calc(${PREVIEW_HEIGHT} * 9 / 16))` }}>
+              <MenuStage menu={menu} business={business} images={images} />
+            </Box>
+          </Stack>
+        </SwipeableDrawer>
+      )}
     </Box>
   )
 }

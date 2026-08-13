@@ -19,6 +19,8 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import TuneIcon from '@mui/icons-material/Tune'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess'
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
@@ -62,7 +64,8 @@ interface SectionCardProps {
   onSectionChange: (patch: Partial<MenuSection>) => void
   onSectionRemove: () => void
   onMove: (direction: -1 | 1) => void
-  onDishAdd: () => void
+  /** Sin nombre añade un renglón vacío; con nombre, el atajo del catálogo. */
+  onDishAdd: (name?: string) => void
   onDishChange: (dishId: string, patch: Partial<Dish>) => void
   onDishRemove: (dishId: string) => void
   onDishToggleFeatured: (dishId: string) => void
@@ -86,6 +89,7 @@ export function SectionCard({
   onDishReorder,
 }: SectionCardProps) {
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [expanded, setExpanded] = useState(true)
   const [confirmRemove, setConfirmRemove] = useState(false)
   const [flatDraft, setFlatDraft] = useState(priceToText(section.flatPrice))
   const [lastFlat, setLastFlat] = useState(section.flatPrice)
@@ -114,6 +118,10 @@ export function SectionCard({
   const badge = sectionBadge(section, currency)
   const flatError = section.priceMode === 'flat' ? validatePrice(flatDraft, false) : undefined
   const atDishLimit = section.dishes.length >= LIMITS.maxDishesPerSection
+  const bodyId = `section-body-${section.id}`
+  // Suficientes para cubrir lo habitual de la sección, pocas para no convertir
+  // el atajo en otra lista que hay que leer.
+  const quickAdd = atDishLimit ? [] : suggestions.slice(0, 6)
 
   return (
     <Paper variant="outlined" component="section" sx={{ overflow: 'hidden', borderRadius: 2 }} aria-label={section.title || 'Sección'}>
@@ -179,7 +187,12 @@ export function SectionCard({
           <Tooltip title="Opciones de la sección">
             <IconButton
               size="small"
-              onClick={() => setSettingsOpen((open) => !open)}
+              onClick={() => {
+                // Abrir los ajustes de una sección plegada y no ver nada sería
+                // un botón roto: desplegarla es parte de la misma intención.
+                setExpanded(true)
+                setSettingsOpen((open) => !open)
+              }}
               aria-expanded={settingsOpen}
               aria-label="Opciones de la sección"
             >
@@ -187,148 +200,193 @@ export function SectionCard({
               <TuneIcon fontSize="small" color={settingsOpen ? 'primary' : 'inherit'} />
             </IconButton>
           </Tooltip>
+          <Tooltip title={expanded ? 'Plegar sección' : 'Desplegar sección'}>
+            <IconButton
+              size="small"
+              onClick={() => setExpanded((open) => !open)}
+              aria-expanded={expanded}
+              aria-controls={bodyId}
+              aria-label={expanded ? 'Plegar sección' : 'Desplegar sección'}
+            >
+              {/* Ni un chevrón más: en esta fila ya significan «mover». */}
+              {expanded ? (
+                <UnfoldLessIcon fontSize="small" />
+              ) : (
+                <UnfoldMoreIcon fontSize="small" color="primary" />
+              )}
+            </IconButton>
+          </Tooltip>
         </Stack>
       </Box>
 
-      <Collapse in={settingsOpen} unmountOnExit>
-        <Stack spacing={2} sx={{ p: 1.5 }}>
-          <Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
-              ¿Cómo se cobran estos platillos?
-            </Typography>
-            <ToggleButtonGroup
-              exclusive
-              fullWidth
-              value={section.priceMode}
-              onChange={(_event, value: PriceMode | null) => {
-                if (value) onSectionChange({ priceMode: value })
-              }}
-              aria-label="Modo de precio"
+      {/* Sin `unmountOnExit`: el `aria-controls` de la cabecera necesita que el
+          nodo exista aunque esté plegado, y desmontar tiraría el DndContext. */}
+      <Collapse in={expanded} id={bodyId}>
+        <Collapse in={settingsOpen} unmountOnExit>
+          <Stack spacing={2} sx={{ p: 1.5 }}>
+            <Box>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
+                ¿Cómo se cobran estos platillos?
+              </Typography>
+              <ToggleButtonGroup
+                exclusive
+                fullWidth
+                value={section.priceMode}
+                onChange={(_event, value: PriceMode | null) => {
+                  if (value) onSectionChange({ priceMode: value })
+                }}
+                aria-label="Modo de precio"
+              >
+                {PRICE_MODES.map((mode) => (
+                  <ToggleButton key={mode.value} value={mode.value}>
+                    {mode.label}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Box>
+
+            <TextField
+              label="Nota (opcional)"
+              placeholder={`Ej. ${COMPLEMENTS_NOTE}`}
+              value={section.note ?? ''}
+              onChange={(event) => onSectionChange({ note: event.target.value || undefined })}
+              slotProps={{ htmlInput: { maxLength: LIMITS.sectionNote } }}
+            />
+
+            {/* Tucked behind the disclosure: deleting a whole section should take
+                one deliberate extra tap, not sit next to the everyday controls. */}
+            <Button color="error" startIcon={<DeleteIcon />} onClick={() => setConfirmRemove(true)}>
+              Eliminar sección
+            </Button>
+          </Stack>
+        </Collapse>
+
+        <Stack spacing={0.75} sx={{ p: 1.5 }}>
+          {/* El precio único vivía dentro del panel de opciones, donde nadie lo
+              encontraba: en «Refrescos» es el precio de casi toda la lista y cambia
+              más seguido que el modo de cobro, así que va a la vista. */}
+          {section.priceMode === 'flat' ? (
+            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, flexWrap: 'wrap', pb: 0.25 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                Precio de todos
+              </Typography>
+              <TextField
+                size="small"
+                placeholder="28"
+                helperText={flatError}
+                value={flatDraft}
+                error={Boolean(flatError)}
+                onChange={(event) => {
+                  setFlatDraft(event.target.value)
+                  if (!validatePrice(event.target.value, false)) {
+                    onSectionChange({ flatPrice: parsePrice(event.target.value) })
+                  }
+                }}
+                sx={{ flex: 'none', width: 132 }}
+                slotProps={{
+                  htmlInput: { inputMode: 'decimal', 'aria-label': 'Precio para todos los platillos de la sección' },
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ mr: 0.5 }}>
+                        <Typography variant="body2" color="text.disabled">
+                          {currency}
+                        </Typography>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+              {/* Dicho aquí y no en cada renglón: el precio ya aparece escrito en
+                  todos, lo que no se ve es que se puede escribir encima. */}
+              <Typography variant="caption" color="text.secondary" sx={{ flex: '1 1 140px', minWidth: 0 }}>
+                Cámbialo abajo en las que cuesten distinto.
+              </Typography>
+            </Box>
+          ) : null}
+
+          {section.dishes.length === 0 ? (
+            <Typography
+              variant="body2"
+              color="text.disabled"
+              sx={{ p: 2, border: 2, borderStyle: 'dashed', borderColor: 'divider', borderRadius: 2, textAlign: 'center' }}
             >
-              {PRICE_MODES.map((mode) => (
-                <ToggleButton key={mode.value} value={mode.value}>
-                  {mode.label}
-                </ToggleButton>
+              Todavía no hay platillos en esta sección.
+            </Typography>
+          ) : (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={section.dishes.map((dish) => dish.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <Stack spacing={0.75}>
+                  {section.dishes.map((dish) => (
+                    <DishRow
+                      key={dish.id}
+                      dish={dish}
+                      section={section}
+                      currency={currency}
+                      suggestions={suggestions}
+                      image={dish.imageId ? images.get(dish.imageId) : undefined}
+                      onChange={(patch) => onDishChange(dish.id, patch)}
+                      onRemove={() => onDishRemove(dish.id)}
+                      onToggleFeatured={() => onDishToggleFeatured(dish.id)}
+                    />
+                  ))}
+                </Stack>
+              </SortableContext>
+            </DndContext>
+          )}
+
+          {/* El catálogo ya alimenta el Autocomplete de cada renglón; como chips
+              el mismo dato convierte «agregar un complemento» en un toque, sin
+              teclado. Las que ya están en el menú no se ofrecen: useDishSuggestions
+              las descarta, así que la fila se vacía sola conforme se usa. */}
+          {quickAdd.length > 0 ? (
+            <Box
+              sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0.75, pt: 0.25 }}
+            >
+              <Typography variant="caption" color="text.disabled" sx={{ fontWeight: 600 }}>
+                Agregar rápido
+              </Typography>
+              {quickAdd.map((name) => (
+                <Chip
+                  key={name}
+                  size="small"
+                  variant="outlined"
+                  clickable
+                  label={name}
+                  onClick={() => onDishAdd(name)}
+                  aria-label={`Agregar ${name}`}
+                />
               ))}
-            </ToggleButtonGroup>
-          </Box>
+            </Box>
+          ) : null}
 
-          <TextField
-            label="Nota (opcional)"
-            placeholder={`Ej. ${COMPLEMENTS_NOTE}`}
-            value={section.note ?? ''}
-            onChange={(event) => onSectionChange({ note: event.target.value || undefined })}
-            slotProps={{ htmlInput: { maxLength: LIMITS.sectionNote } }}
-          />
-
-          {/* Tucked behind the disclosure: deleting a whole section should take
-              one deliberate extra tap, not sit next to the everyday controls. */}
-          <Button color="error" startIcon={<DeleteIcon />} onClick={() => setConfirmRemove(true)}>
-            Eliminar sección
+          {/* A dashed slot rather than a pill: it reads as "there is room for one
+              more here", and does not compete with the real actions below. */}
+          <Button
+            startIcon={<AddIcon />}
+            onClick={() => onDishAdd()}
+            disabled={atDishLimit}
+            title={atDishLimit ? `Máximo ${LIMITS.maxDishesPerSection} platillos por sección` : undefined}
+            fullWidth
+            sx={{
+              borderRadius: 1.25,
+              borderStyle: 'dashed',
+              bgcolor: 'transparent',
+              color: 'text.secondary',
+              '&:hover': { borderStyle: 'dashed', bgcolor: 'rgb(190 26 13 / 4%)', color: 'primary.main' },
+            }}
+          >
+            Agregar platillo
           </Button>
         </Stack>
       </Collapse>
-
-      <Stack spacing={0.75} sx={{ p: 1.5 }}>
-        {/* El precio único vivía dentro del panel de opciones, donde nadie lo
-            encontraba: en «Refrescos» es el precio de casi toda la lista y cambia
-            más seguido que el modo de cobro, así que va a la vista. */}
-        {section.priceMode === 'flat' ? (
-          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, flexWrap: 'wrap', pb: 0.25 }}>
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-              Precio de todos
-            </Typography>
-            <TextField
-              size="small"
-              placeholder="28"
-              helperText={flatError}
-              value={flatDraft}
-              error={Boolean(flatError)}
-              onChange={(event) => {
-                setFlatDraft(event.target.value)
-                if (!validatePrice(event.target.value, false)) {
-                  onSectionChange({ flatPrice: parsePrice(event.target.value) })
-                }
-              }}
-              sx={{ flex: 'none', width: 132 }}
-              slotProps={{
-                htmlInput: { inputMode: 'decimal', 'aria-label': 'Precio para todos los platillos de la sección' },
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ mr: 0.5 }}>
-                      <Typography variant="body2" color="text.disabled">
-                        {currency}
-                      </Typography>
-                    </InputAdornment>
-                  ),
-                },
-              }}
-            />
-            {/* Dicho aquí y no en cada renglón: el precio ya aparece escrito en
-                todos, lo que no se ve es que se puede escribir encima. */}
-            <Typography variant="caption" color="text.secondary" sx={{ flex: '1 1 140px', minWidth: 0 }}>
-              Cámbialo abajo en las que cuesten distinto.
-            </Typography>
-          </Box>
-        ) : null}
-
-        {section.dishes.length === 0 ? (
-          <Typography
-            variant="body2"
-            color="text.disabled"
-            sx={{ p: 2, border: 2, borderStyle: 'dashed', borderColor: 'divider', borderRadius: 2, textAlign: 'center' }}
-          >
-            Todavía no hay platillos en esta sección.
-          </Typography>
-        ) : (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={section.dishes.map((dish) => dish.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <Stack spacing={0.75}>
-                {section.dishes.map((dish) => (
-                  <DishRow
-                    key={dish.id}
-                    dish={dish}
-                    section={section}
-                    currency={currency}
-                    suggestions={suggestions}
-                    image={dish.imageId ? images.get(dish.imageId) : undefined}
-                    onChange={(patch) => onDishChange(dish.id, patch)}
-                    onRemove={() => onDishRemove(dish.id)}
-                    onToggleFeatured={() => onDishToggleFeatured(dish.id)}
-                  />
-                ))}
-              </Stack>
-            </SortableContext>
-          </DndContext>
-        )}
-
-        {/* A dashed slot rather than a pill: it reads as "there is room for one
-            more here", and does not compete with the real actions below. */}
-        <Button
-          startIcon={<AddIcon />}
-          onClick={onDishAdd}
-          disabled={atDishLimit}
-          title={atDishLimit ? `Máximo ${LIMITS.maxDishesPerSection} platillos por sección` : undefined}
-          fullWidth
-          sx={{
-            borderRadius: 1.25,
-            borderStyle: 'dashed',
-            bgcolor: 'transparent',
-            color: 'text.secondary',
-            '&:hover': { borderStyle: 'dashed', bgcolor: 'rgb(190 26 13 / 4%)', color: 'primary.main' },
-          }}
-        >
-          Agregar platillo
-        </Button>
-      </Stack>
 
       <ConfirmDialog
         open={confirmRemove}
