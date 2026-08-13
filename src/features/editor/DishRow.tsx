@@ -120,11 +120,11 @@ export function DishRow({
         // 1.25 x 12px. Anything larger turns a 58px row into a capsule, which is
         // what made a list of them read as bubbly rather than crisp.
         borderRadius: 1.25,
-        borderColor: dish.featured ? 'secondary.light' : 'divider',
-        bgcolor: dish.featured ? 'rgb(247 194 75 / 8%)' : 'background.paper',
+        borderColor: dish.featured ? 'primary.main' : 'divider',
+        bgcolor: dish.featured ? 'rgb(190 26 13 / 6%)' : 'background.paper',
         transition: 'border-color .15s ease, background-color .15s ease',
-        '&:hover': { borderColor: dish.featured ? 'secondary.main' : 'text.disabled' },
-        '&:focus-within': { borderColor: 'secondary.main' },
+        '&:hover': { borderColor: dish.featured ? 'primary.dark' : 'text.disabled' },
+        '&:focus-within': { borderColor: 'primary.main' },
         ...(isDragging && { boxShadow: 6, opacity: 0.97, position: 'relative', zIndex: 1 }),
       }}
       style={{ transform: CSS.Transform.toString(transform), transition }}
@@ -250,7 +250,7 @@ export function DishRow({
                 aria-label={
                   dish.featured ? 'Quitar de especial del día' : 'Marcar como especial del día'
                 }
-                sx={{ color: dish.featured ? 'secondary.main' : 'text.disabled' }}
+                sx={{ color: dish.featured ? 'primary.main' : 'text.disabled' }}
               >
                 {dish.featured ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
               </IconButton>

@@ -9,6 +9,14 @@ import '@fontsource/baloo-2/latin-ext-700.css'
 import '@fontsource/baloo-2/latin-ext-800.css'
 import '@fontsource-variable/plus-jakarta-sans/wght.css'
 
+// El mundo del almanaque: Anton para las cifras del día, Archivo para el texto
+// de la hoja y Archivo Narrow para la columna marginal.
+import '@fontsource/anton/latin-400.css'
+import '@fontsource-variable/archivo/wght.css'
+import '@fontsource/archivo-narrow/latin-400.css'
+import '@fontsource/archivo-narrow/latin-500.css'
+import '@fontsource/archivo-narrow/latin-600.css'
+
 import '@/styles/global.css'
 import { App } from '@/App'
 

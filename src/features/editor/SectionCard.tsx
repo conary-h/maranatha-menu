@@ -42,6 +42,7 @@ import { COMPLEMENTS_NOTE } from '@/lib/defaults'
 import { LIMITS, parsePrice, validatePrice } from '@/lib/validation'
 import { sectionBadge } from '@/templates/shared'
 import type { Dish, Menu, MenuSection, PriceMode } from '@/types/menu'
+import { ALM_FONT, ALM_SIZE } from '@/almanac/tokens'
 import { DishRow } from './DishRow'
 
 const PRICE_MODES: readonly { value: PriceMode; label: string }[] = [
@@ -134,7 +135,9 @@ export function SectionCard({
           py: 1.25,
           borderBottom: 1,
           borderColor: 'divider',
-          background: 'linear-gradient(180deg, #f7f1e7 0%, #f2e9dc 100%)',
+          // Plano: un degradado en una cabecera es la profundidad que este mundo
+          // no usa; aquí la estructura la hacen los filetes.
+          bgcolor: 'background.default',
         }}
       >
         <Box sx={{ flex: '1 1 auto', minWidth: 0 }}>
@@ -148,11 +151,14 @@ export function SectionCard({
               width: 0,
               minWidth: '100%',
               px: 0.75,
-              borderRadius: 1,
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.25rem',
-              fontWeight: 800,
-              lineHeight: 1.2,
+              // `--font-display` es Baloo 2, la letra del menú impreso. El
+              // título de sección es un rótulo de la interfaz, así que va en la
+              // letra del almanaque.
+              fontFamily: ALM_FONT.figure,
+              fontSize: ALM_SIZE.xxl,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              lineHeight: 1.25,
               '&:hover, &.Mui-focused': { bgcolor: 'background.paper' },
             }}
             slotProps={{ input: { maxLength: LIMITS.sectionTitle, 'aria-label': 'Nombre de la sección' } }}

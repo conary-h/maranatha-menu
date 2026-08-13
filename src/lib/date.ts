@@ -49,6 +49,57 @@ export function formatDayMonth(iso: string): string {
   return new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'long' }).format(fromIso(iso))
 }
 
+/** "12" — the day alone, as the almanac leaf prints it. */
+export function dayOfMonth(iso: string): string {
+  return String(fromIso(iso).getDate())
+}
+
+/** "mié" — the clipped weekday of an almanac's marginal column. */
+export function formatWeekdayShort(iso: string): string {
+  return new Intl.DateTimeFormat(LOCALE, { weekday: 'short' }).format(fromIso(iso)).replace('.', '')
+}
+
+/** "agosto" */
+export function formatMonth(iso: string): string {
+  return new Intl.DateTimeFormat(LOCALE, { month: 'long' }).format(fromIso(iso))
+}
+
+/** "agosto 2026" — the divider that groups torn-off leaves in the archive. */
+export function formatMonthYear(iso: string): string {
+  return new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric' }).format(fromIso(iso))
+}
+
+/** `YYYY-MM`, so grouping never depends on how a locale spells a month. */
+export function monthKey(iso: string): string {
+  return iso.slice(0, 7)
+}
+
+/** "2026" — el año, que encabeza la columna marginal del taco. */
+export function yearOf(iso: string): number {
+  return fromIso(iso).getFullYear()
+}
+
+/** "224" — el ordinal del día, que todo almanaque imprime en su columna. */
+export function dayOfYear(iso: string): number {
+  const date = fromIso(iso)
+  const start = new Date(date.getFullYear(), 0, 1)
+  // Diferencia en días de calendario local; ambos extremos están a medianoche,
+  // así que el cambio de horario de verano no puede descuadrar la cuenta.
+  return Math.round((date.getTime() - start.getTime()) / 86_400_000) + 1
+}
+
+/** Los días que le quedan al año, la otra mitad de esa misma línea. */
+export function daysLeftInYear(iso: string): number {
+  const year = fromIso(iso).getFullYear()
+  const total = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0 ? 366 : 365
+  return total - dayOfYear(iso)
+}
+
+/** Sundays print in red on an almanac leaf, and so do they here. */
+export function isSunday(iso: string): boolean {
+  return fromIso(iso).getDay() === 0
+}
+
 export function relativeDayLabel(iso: string): string | undefined {
   const today = todayIso()
   if (iso === today) return 'Hoy'

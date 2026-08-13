@@ -1,105 +1,83 @@
 import { useState } from 'react'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
-import RefreshIcon from '@mui/icons-material/Refresh'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Paper from '@mui/material/Paper'
-import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
 import { todayIso } from '@/lib/date'
 import { verseOfTheDay } from '@/lib/verses'
+import { ALM, ALM_FONT } from '@/almanac/tokens'
+import { AlmanacButton, IconRefresh } from '@/almanac/AlmanacUi'
 
 /**
- * Versículo del día.
+ * Versículo del día, al pie de la hoja.
  *
- * Es para quien usa la app, no para el menú: un momento de lectura antes de
- * ponerse a trabajar. Por eso no guarda nada ni toca los menús —el versículo
- * que se imprime se escribe en el editor, con las palabras de la familia—.
+ * Antes vivía en una tarjeta propia en una segunda columna, que es donde la
+ * pone una aplicación. Un almanaque de taco lo imprime en la banda de abajo,
+ * junto al santoral y la fase de la luna, en el mismo cuerpo pequeño que el
+ * resto de la letra marginal. Ahí vuelve.
  *
- * «Otro versículo» avanza por la lista curada sin cambiar de fecha, para cuando
- * el del día no es el que se quiere leer hoy. El desplazamiento vive solo en la
- * tarjeta, así que mañana vuelve a abrir con el del día.
+ * Sigue sin guardar nada ni tocar los menús: el versículo que se imprime en el
+ * menú se escribe en el editor, con las palabras de la familia. «Otro
+ * versículo» avanza por la lista curada sin cambiar de fecha, y el
+ * desplazamiento vive solo aquí, así que mañana vuelve a abrir con el del día.
  */
 export function VerseOfTheDay() {
   const [offset, setOffset] = useState(0)
   const verse = verseOfTheDay(todayIso(), offset)
 
   return (
-    <Paper
-      variant="outlined"
+    <Box
       component="section"
       aria-label="Versículo del día"
       sx={{
-        position: 'relative',
-        p: 3,
-        borderRadius: 4,
-        overflow: 'hidden',
-        background: 'linear-gradient(160deg, #fffaf2 0%, #fff3e0 100%)',
+        mt: { xs: 2.5, md: 3 },
+        pt: 1.75,
+        borderTop: `1px solid ${ALM.rule}`,
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1fr) auto' },
+        alignItems: 'end',
+        columnGap: 2,
+        rowGap: 1,
       }}
     >
-      {/* Comilla tipográfica de fondo: da profundidad sin añadir un elemento más. */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: -6,
-          right: 14,
-          fontFamily: 'var(--font-display)',
-          fontSize: 150,
-          lineHeight: 1,
-          color: 'rgb(190 26 13 / 7%)',
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
-      >
-        &rdquo;
-      </Box>
-
-      <Stack spacing={2} sx={{ position: 'relative' }}>
-        <Stack direction="row" spacing={1} sx={{ alignItems: 'center', color: 'secondary.dark' }}>
-          <AutoAwesomeIcon sx={{ fontSize: 18 }} />
-          <Typography variant="subtitle2">Versículo del día</Typography>
-        </Stack>
-
-        <Typography
+      <Box sx={{ minWidth: 0 }}>
+        <Box
           component="blockquote"
           sx={{
             m: 0,
-            fontSize: '1.05rem',
+            font: `400 0.95rem/1.5 ${ALM_FONT.text}`,
             fontStyle: 'italic',
-            lineHeight: 1.55,
-            color: 'text.primary',
+            color: ALM.inkMuted,
             textWrap: 'pretty',
+            maxWidth: '68ch',
           }}
         >
           «{verse.text}»
-        </Typography>
-
-        <Typography
+        </Box>
+        <Box
           component="cite"
           sx={{
-            fontFamily: 'var(--font-display)',
+            display: 'block',
+            mt: 0.75,
+            font: `400 0.72rem/1 ${ALM_FONT.figure}`,
             fontStyle: 'normal',
-            fontWeight: 800,
-            letterSpacing: '0.06em',
+            letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            fontSize: '0.8rem',
-            color: 'primary.main',
+            color: ALM.red,
           }}
         >
           {verse.ref}
-        </Typography>
+        </Box>
+      </Box>
 
-        <Button
-          size="small"
-          color="inherit"
-          startIcon={<RefreshIcon />}
-          onClick={() => setOffset((current) => current + 1)}
-          sx={{ alignSelf: 'flex-start', color: 'text.secondary' }}
-        >
-          Otro versículo
-        </Button>
-      </Stack>
-    </Paper>
+      {/* `justifySelf` explícito: en una sola columna la celda estira el botón
+          a todo el ancho y el rótulo se va al centro, que es donde no va. */}
+      <AlmanacButton
+        variant="quiet"
+        onClick={() => setOffset((current) => current + 1)}
+        aria-label="Mostrar otro versículo"
+        style={{ justifySelf: 'start', marginInlineStart: -10 }}
+      >
+        <IconRefresh size={16} />
+        Otro
+      </AlmanacButton>
+    </Box>
   )
 }

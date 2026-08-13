@@ -3,6 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { EmptyState } from '@/components/Feedback'
+import { IconOffRoute } from '@/almanac/AlmanacUi'
 import { ToastProvider } from '@/components/Toast'
 import { paths, useNavigate, useRoute } from '@/hooks/useRoute'
 import { theme } from '@/theme'
@@ -29,7 +30,7 @@ function Routes() {
     case 'notFound':
       return (
         <EmptyState
-          icon="🧭"
+          icon={<IconOffRoute />}
           title="Página no encontrada"
           action={
             <Button variant="contained" onClick={() => navigate(paths.list())}>

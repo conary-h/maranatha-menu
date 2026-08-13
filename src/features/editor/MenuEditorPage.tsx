@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import { TopBar } from '@/components/AppBar'
+import { HANGER_H, TopBar } from '@/components/AppBar'
 import { EmptyState, PageSpinner } from '@/components/Feedback'
 import { useMenuEditor, type SaveState } from '@/hooks/useMenuEditor'
 import { useMenuImages } from '@/hooks/useMenuImages'
@@ -38,6 +38,8 @@ import {
 import { LIMITS } from '@/lib/validation'
 import { useBusiness } from '@/features/business/BusinessContext'
 import { MenuStage } from '@/features/preview/MenuStage'
+import { IconMissingLeaf } from '@/almanac/AlmanacUi'
+import { ALM } from '@/almanac/tokens'
 import { MenuVerseCard } from './MenuVerseCard'
 import { SectionCard } from './SectionCard'
 
@@ -93,7 +95,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
       <>
         <TopBar title="Menú" onBack={() => navigate(paths.list())} />
         <EmptyState
-          icon="🤔"
+          icon={<IconMissingLeaf />}
           title="No encontramos este menú"
           description={loadError ?? 'Puede que se haya eliminado desde otra pestaña.'}
           action={
@@ -109,19 +111,29 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
   const atSectionLimit = menu.sections.length >= LIMITS.maxSections
 
   return (
-    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) minmax(320px, 420px)' }, minHeight: '100dvh' }}>
-      <Box sx={{ minWidth: 0 }}>
-        <TopBar
-          title={formatLongDate(menu.date)}
-          subtitle={menu.title}
-          onBack={() => void goBack()}
-          actions={
-            <Button size="small" startIcon={<VisibilityIcon />} onClick={() => void goPreview()}>
-              Vista previa
-            </Button>
-          }
-        />
+    <>
+      {/* El fleje cruza la ventana entera. Partido a la altura de la rejilla
+          dejaba un remache colgando en mitad de la pantalla y el lateral de la
+          vista previa sin canto superior. */}
+      <TopBar
+        title={formatLongDate(menu.date)}
+        subtitle={menu.title}
+        onBack={() => void goBack()}
+        actions={
+          <Button size="small" startIcon={<VisibilityIcon />} onClick={() => void goPreview()}>
+            Vista previa
+          </Button>
+        }
+      />
 
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) minmax(320px, 420px)' },
+          minHeight: `calc(100dvh - ${HANGER_H}px)`,
+        }}
+      >
+        <Box sx={{ minWidth: 0 }}>
         <Stack
           spacing={2}
           sx={{
@@ -218,7 +230,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
             zIndex: 30,
             borderTop: 1,
             borderColor: 'divider',
-            bgcolor: 'rgb(250 246 240 / 94%)',
+            bgcolor: ALM.paper,
             backdropFilter: 'blur(10px)',
           }}
         >
@@ -272,15 +284,15 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           sx={{
             display: 'flex',
             position: 'sticky',
-            top: 0,
+            top: HANGER_H,
             flexDirection: 'column',
             gap: 1.5,
             alignItems: 'center',
-            height: '100dvh',
+            height: `calc(100dvh - ${HANGER_H}px)`,
             p: 3,
             borderLeft: 1,
             borderColor: 'divider',
-            bgcolor: '#f4ede3',
+            bgcolor: ALM.paperShade,
             overflowY: 'auto',
           }}
         >
@@ -303,12 +315,7 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           slotProps={{
             paper: {
               'aria-label': 'Vista previa en vivo',
-              sx: {
-                maxHeight: '92dvh',
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                bgcolor: '#f4ede3',
-              },
+              sx: { maxHeight: '92dvh', bgcolor: ALM.paperShade },
             },
           }}
         >
@@ -336,7 +343,8 @@ export function MenuEditorPage({ menuId }: { menuId: string }) {
           </Stack>
         </SwipeableDrawer>
       )}
-    </Box>
+      </Box>
+    </>
   )
 }
 

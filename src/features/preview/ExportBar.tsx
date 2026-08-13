@@ -4,6 +4,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import ShareIcon from '@mui/icons-material/IosShare'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import Button from '@mui/material/Button'
+import LinearProgress from '@mui/material/LinearProgress'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -12,6 +13,7 @@ import { errorMessage } from '@/hooks/useAsync'
 import { exportMenu, type ExportKind } from '@/lib/export'
 import { downloadBlob, shareOrDownload, whatsappShareUrl } from '@/lib/share'
 import { formatLongDate } from '@/lib/date'
+import { ALM } from '@/almanac/tokens'
 import { FORMATS } from '@/templates'
 import type { BusinessInfo, Menu } from '@/types/menu'
 
@@ -84,10 +86,20 @@ export function ExportBar({ menu, business, captureRef, ready }: ExportBarProps)
         zIndex: 30,
         borderTop: 1,
         borderColor: 'divider',
-        bgcolor: 'rgb(250 246 240 / 94%)',
+        bgcolor: ALM.paper,
         backdropFilter: 'blur(10px)',
       }}
     >
+      {/* Absoluta sobre el borde: rasterizar un PDF tarda lo suficiente como
+          para que un botón en estado de carga se lea como app colgada, y una
+          barra en flujo movería 4px toda la botonera al aparecer. */}
+      {busy ? (
+        <LinearProgress
+          aria-label={BUSY_LABEL[busy]}
+          sx={{ position: 'absolute', insetInline: 0, top: 0, height: 3 }}
+        />
+      ) : null}
+
       <Stack
         spacing={1}
         sx={{

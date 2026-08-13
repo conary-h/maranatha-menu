@@ -19,6 +19,8 @@ import { countDishes } from '@/lib/validation'
 import { FORMAT_LIST, TEMPLATE_LIST } from '@/templates'
 import type { FormatId } from '@/types/menu'
 import { useBusiness } from '@/features/business/BusinessContext'
+import { IconMissingLeaf } from '@/almanac/AlmanacUi'
+import { ALM } from '@/almanac/tokens'
 import { MenuStage } from './MenuStage'
 import { ExportBar } from './ExportBar'
 
@@ -45,7 +47,7 @@ export function PreviewPage({ menuId }: { menuId: string }) {
       <>
         <TopBar title="Vista previa" onBack={() => navigate(paths.list())} />
         <EmptyState
-          icon="🤔"
+          icon={<IconMissingLeaf />}
           title="No encontramos este menú"
           action={
             <Button variant="contained" onClick={() => navigate(paths.list())}>
@@ -132,12 +134,13 @@ export function PreviewPage({ menuId }: { menuId: string }) {
                       borderColor: active ? 'primary.main' : 'divider',
                       borderRadius: 2,
                       bgcolor: 'background.paper',
-                      boxShadow: active ? '0 0 0 3px rgb(190 26 13 / 12%)' : 'none',
+                      // Sin halo: en este mundo lo activo se entinta, no se ilumina.
+                      bgcolor: active ? 'rgb(190 26 13 / 7%)' : 'background.paper',
                     }}
                   >
                     <Box
                       aria-hidden="true"
-                      sx={{ width: '100%', height: 44, borderRadius: 1, border: '1px solid rgb(0 0 0 / 8%)' }}
+                      sx={{ width: '100%', height: 44, borderRadius: 1, border: `1px solid ${ALM.keyline}` }}
                       style={{
                         background: `linear-gradient(135deg, ${template.swatch[0]} 0 50%, ${template.swatch[1]} 50% 100%)`,
                       }}

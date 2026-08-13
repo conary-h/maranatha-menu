@@ -188,7 +188,7 @@ function PhotoDialog({ open, image, busy, onClose, onReplace, onRemove }: PhotoD
               aspectRatio: '4 / 3',
               borderRadius: 2,
               overflow: 'hidden',
-              bgcolor: '#f4ede3',
+              bgcolor: 'background.default',
               cursor: 'crosshair',
               touchAction: 'none',
             }}

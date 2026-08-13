@@ -1,0 +1,674 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-12T00:00:00.000Z",
+  "title": "Design System: Almanaque Maranatha",
+  "extensions": {
+    "scope": {
+      "governs": [
+        "route:list",
+        "route:editor",
+        "route:preview",
+        "route:settings",
+        "shared chrome"
+      ],
+      "carriedBy": [
+        "src/almanac/tokens.ts",
+        "src/theme.ts",
+        "src/components/AppBar.tsx"
+      ],
+      "outOfScope": [
+        "src/templates/",
+        "src/styles/tokens.css"
+      ],
+      "outOfScopeReason": "The exported 1080x1920 menu is a separate artifact with its own eleven palettes, CSS Modules and typefaces, read from --font-display / --font-body in src/styles/tokens.css. It is the product deliverable, was never part of the redesign, and must not be unified with this system.",
+      "history": "Built for route:list first, extended across the application afterwards."
+    },
+    "colorMeta": {
+      "card": {
+        "role": "secondary",
+        "displayName": "Board Oxblood",
+        "canonical": "#3b1009",
+        "tonalRamp": [
+          "#230a05",
+          "#47130b",
+          "#3b1009",
+          "#611a0f",
+          "#8e2616",
+          "#cc371f",
+          "#eb8a7a",
+          "#fdf3f2"
+        ],
+        "note": "Drawn from the logo red and sunk hard. Must recede behind the paper AND stay far from Sunday Red so the ink on the leaf keeps reading as an accent. Was chromo green; green was foreign to a brand whose only colour is red."
+      },
+      "card-deep": {
+        "role": "secondary",
+        "displayName": "Deep Board",
+        "canonical": "#280a06",
+        "tonalRamp": [
+          "#230905",
+          "#47120b",
+          "#280a06",
+          "#48120b",
+          "#6b1b10",
+          "#9e2818",
+          "#e25441",
+          "#f5c6bf"
+        ]
+      },
+      "tin": {
+        "role": "neutral",
+        "displayName": "Flat Tin",
+        "canonical": "#c9c6bb",
+        "tonalRamp": [
+          "#171612",
+          "#2d2b24",
+          "#c9c6bb",
+          "#f4f3f1",
+          "#f4f3f1",
+          "#f4f3f1",
+          "#f6f5f4",
+          "#f8f8f6"
+        ],
+        "note": "Flat. The previous eight-stop gradient with laminate bands and domed rivets stacked three relief signals and read as 2008 chrome, not cheap tin."
+      },
+      "tin-dark": {
+        "role": "neutral",
+        "displayName": "Tin Shadow",
+        "canonical": "#a5a298",
+        "tonalRamp": [
+          "#161513",
+          "#2c2a26",
+          "#a5a298",
+          "#e2e1de",
+          "#f3f3f1",
+          "#f3f3f1",
+          "#f5f5f4",
+          "#f8f8f7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Newsprint Grey",
+        "canonical": "#e6e5dc",
+        "tonalRamp": [
+          "#26261f",
+          "#3d3c33",
+          "#565448",
+          "#727060",
+          "#9a9787",
+          "#c0bdb0",
+          "#e6e5dc",
+          "#f6f5f0"
+        ]
+      },
+      "paper-shade": {
+        "role": "neutral",
+        "displayName": "Newsprint Shade",
+        "canonical": "#dcdacd",
+        "tonalRamp": [
+          "#232219",
+          "#3a382c",
+          "#535041",
+          "#6f6b58",
+          "#979277",
+          "#bcb8a4",
+          "#dcdacd",
+          "#f2f1ea"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Press Black",
+        "canonical": "#1b1a15",
+        "tonalRamp": [
+          "#0b0b08",
+          "#1b1a15",
+          "#2e2c24",
+          "#454337",
+          "#615d50",
+          "#8b8778",
+          "#bab7aa",
+          "#e6e5dc"
+        ]
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "Sunday Red",
+        "canonical": "#be1a0d",
+        "tonalRamp": [
+          "#340705",
+          "#4d0a07",
+          "#70100a",
+          "#94150c",
+          "#be1a0d",
+          "#e0402f",
+          "#ef8578",
+          "#fac9c3"
+        ]
+      },
+      "red-pressed": {
+        "role": "primary",
+        "displayName": "Pressed Red",
+        "canonical": "#a01409",
+        "tonalRamp": [
+          "#2b0603",
+          "#420905",
+          "#5f0d07",
+          "#800f08",
+          "#a01409",
+          "#c93a29",
+          "#e58275",
+          "#f8c7c1"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Paper-Tinted Grey",
+        "canonical": "#615d50",
+        "tonalRamp": [
+          "#181711",
+          "#2a2820",
+          "#3e3b31",
+          "#4f4c40",
+          "#615d50",
+          "#847f6e",
+          "#aba694",
+          "#d6d2c4"
+        ]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Faint Grey",
+        "canonical": "#8b8778",
+        "tonalRamp": [
+          "#1d1c17",
+          "#312f27",
+          "#474439",
+          "#605d4e",
+          "#8b8778",
+          "#aaa79a",
+          "#c9c6bc",
+          "#e9e8e2"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule Grey",
+        "canonical": "#c2bfae",
+        "tonalRamp": [
+          "#211f18",
+          "#373428",
+          "#4f4b3a",
+          "#6c684f",
+          "#948f70",
+          "#c2bfae",
+          "#dddbd0",
+          "#f3f2ed"
+        ]
+      },
+      "desk": {
+        "role": "neutral",
+        "displayName": "Desk",
+        "canonical": "#d9d7c9",
+        "tonalRamp": [
+          "#181711",
+          "#302e22",
+          "#d9d7c9",
+          "#f4f4f0",
+          "#f4f4f0",
+          "#f4f4f0",
+          "#f7f6f3",
+          "#f9f8f6"
+        ]
+      },
+      "ink-deep": {
+        "role": "neutral",
+        "displayName": "Ink Deep",
+        "canonical": "#0d0c09",
+        "tonalRamp": [
+          "#181611",
+          "#302d21",
+          "#0d0c09",
+          "#1e1b14",
+          "#302c21",
+          "#494433",
+          "#81775a",
+          "#c0b9a4"
+        ]
+      },
+      "keyline": {
+        "role": "neutral",
+        "displayName": "Keyline",
+        "canonical": "#1b1a15",
+        "tonalRamp": [
+          "#171612",
+          "#2e2c24",
+          "#1b1a15",
+          "#302e25",
+          "#484538",
+          "#696552",
+          "#a29d87",
+          "#e2e1da"
+        ],
+        "note": "Used only at 30% alpha as a hairline separating a saturated field from newsprint."
+      },
+      "danger": {
+        "role": "feedback",
+        "displayName": "Danger",
+        "canonical": "#a81f10",
+        "tonalRamp": [
+          "#250704",
+          "#4b0e07",
+          "#a81f10",
+          "#ea3623",
+          "#f38c81",
+          "#fdeae8",
+          "#fdeeec",
+          "#fef2f1"
+        ],
+        "note": "Deliberately duller than Sunday Red (#be1a0d) so a failure is never confused with the day accent."
+      },
+      "caution": {
+        "role": "feedback",
+        "displayName": "Caution",
+        "canonical": "#8a5a06",
+        "tonalRamp": [
+          "#271a02",
+          "#4e3303",
+          "#8a5a06",
+          "#ce8609",
+          "#f6b036",
+          "#fbdca6",
+          "#fef7eb",
+          "#fef9f0"
+        ]
+      },
+      "ok": {
+        "role": "feedback",
+        "displayName": "OK",
+        "canonical": "#1c6b45",
+        "tonalRamp": [
+          "#082015",
+          "#11412a",
+          "#1c6b45",
+          "#2aa168",
+          "#4cd090",
+          "#a4e7c7",
+          "#effbf5",
+          "#f3fcf8"
+        ]
+      },
+      "tin-edge": {
+        "role": "neutral",
+        "displayName": "Tin Edge",
+        "canonical": "#e2dfd5",
+        "tonalRamp": [
+          "#181611",
+          "#302d21",
+          "#e2dfd5",
+          "#f5f4f0",
+          "#f5f4f0",
+          "#f5f4f0",
+          "#f7f6f3",
+          "#f9f8f6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "The day of the month on today's leaf. One per screen, unlabelled, red on Sundays."
+      },
+      "figure-small": {
+        "displayName": "Figure Small",
+        "purpose": "The day of the month in an archive row's corner block."
+      },
+      "section-label": {
+        "displayName": "Section Label",
+        "purpose": "Weekday and month beside the figure, marginal year, blank-leaf headline, errata title."
+      },
+      "board-label": {
+        "displayName": "Board Label",
+        "purpose": "The archive heading printed directly on the green board."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "An archive row's menu title. One line, ellipsized, never wraps."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Blank-leaf prose (46ch max) and the foot verse (68ch max, italic)."
+      },
+      "marginal": {
+        "displayName": "Marginal",
+        "purpose": "The ruled data column and the archive meta line. Condensed, uppercase, tabular."
+      },
+      "control-label": {
+        "displayName": "Control Label",
+        "purpose": "Every button label. Stamped variants step up to 0.92rem."
+      },
+      "ramp": {
+        "steps": {
+          "xs": "0.68rem",
+          "sm": "0.74rem",
+          "md": "0.82rem",
+          "lg": "0.95rem",
+          "xl": "1.05rem",
+          "xxl": "1.2rem"
+        },
+        "source": "src/almanac/tokens.ts (ALM_SIZE)",
+        "exceptions": [
+          "day figure clamp(4.5rem, 21vw, 15rem)",
+          "16px floor on text inputs (stops iOS Safari zoom)"
+        ],
+        "note": "Six steps, introduced to replace a drift of near-duplicate sizes (0.72/0.74, 0.86, 0.92/0.95)."
+      }
+    },
+    "fonts": [
+      {
+        "family": "Anton",
+        "source": "@fontsource/anton",
+        "weights": "400 (latin)"
+      },
+      {
+        "family": "Archivo Variable",
+        "source": "@fontsource-variable/archivo",
+        "weights": "wght axis"
+      },
+      {
+        "family": "Archivo Narrow",
+        "source": "@fontsource/archivo-narrow",
+        "weights": "400/500/600"
+      }
+    ],
+    "materials": [
+      {
+        "name": "paper-grain",
+        "value": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E\")",
+        "purpose": "Newsprint tooth. 3.5% on today's leaf, 3% on archive rows, 16% with mix-blend-mode: multiply inside a stamped button. Above that it stops being paper and becomes noise on a flat color."
+      },
+      {
+        "name": "perforation",
+        "value": "radial-gradient(circle at center, #0d3826 0 1.6px, transparent 1.7px) repeat-x left center / 9px 4px",
+        "purpose": "The tear-off perforation on a 12px band at the top of today's leaf. Round holes punched through to the board, never a dashed line."
+      },
+      {
+        "name": "torn-edge-mask",
+        "value": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='10' viewBox='0 0 96 10'%3E%3Cpath d='M0%205%20L6%205%20L9%203%20L14%204%20L18%202%20L23%204%20L28%204%20L31%206%20L36%203%20L40%205%20L46%205%20L49%202%20L54%204%20L59%203%20L63%205%20L68%205%20L72%203%20L77%204%20L82%202%20L86%204%20L91%204%20L96%203%20L96%2010%20L0%2010%20Z' fill='%23000'/%3E%3C/svg%3E\")",
+        "purpose": "The ragged top edge of a detached leaf. 96px repeat at 4px amplitude with several deliberately flat stretches; mask-position advances (index * 29) % 96 px per row so no two tears repeat. High regular teeth read as pinking shears, not torn paper."
+      }
+    ],
+    "shadows": {
+      "tint": "rgb(26 6 3 / …) — board-tinted black, never neutral grey, never a glow",
+      "tokens": {
+        "LEAF_SHADOW": "0 18px 34px rgb(26 6 3 / 36%), 0 2px 4px rgb(26 6 3 / 24%)",
+        "SHEET_SHADOW": "0 6px 14px rgb(26 6 3 / 28%)",
+        "STACK_EDGE_SHADOW": "0 -1px 0 rgb(62 18 11 / 40%)"
+      },
+      "note": "Exported from src/almanac/tokens.ts so a change of board colour cannot leave them behind."
+    },
+    "motion": [
+      {
+        "name": "press",
+        "value": "transform 90ms cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "The only button transition. translateY(1.5px) on :active. Color never transitions: ink does not fade."
+      },
+      {
+        "name": "tear",
+        "value": "alm-tear 190ms cubic-bezier(0.3, 0, 0.1, 1) forwards",
+        "purpose": "Today's leaf dips 3px / -0.4deg then lifts to -26px / -1.4deg at zero opacity before navigation. Skipped under prefers-reduced-motion; self-restores after 900ms if the route did not change."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "0px"
+      },
+      {
+        "name": "sm",
+        "value": "600px"
+      },
+      {
+        "name": "md",
+        "value": "900px"
+      },
+      {
+        "name": "container",
+        "value": "940px max-width, centered"
+      }
+    ],
+    "knownGaps": [
+      {
+        "name": "No month index or jump in the archive",
+        "body": "The archive groups torn leaves by month with sticky month rules, legible for about a year of menus. PRODUCT.md records that old menus are genuinely consulted and the list must stay navigable at dozens of accumulated menus; beyond a year, finding a month means scrolling. Scored unresolved-but-declared across two finish-review rounds. Recorded deliberately: resolving it is a new navigation feature, not a correction to this composition. A future run should design it as board furniture printed on the green in the marginal voice, not as a control bar on the paper."
+      },
+      {
+        "title": "Confirm dialog and toast are still MUI surfaces",
+        "detail": "ConfirmDialog.tsx and Toast.tsx inherit the theme so they no longer contradict the world, but were never rebuilt in its own vocabulary. The home avoids the dialog by confirming inline on the row; interior routes still open it."
+      },
+      {
+        "title": "src/styles/tokens.css still carries the previous system",
+        "detail": "Cream ground, pill radii, Baloo display face. Not dead code and not this system: only src/templates/MenuLayout.module.css reads it, via --font-display and --font-body. Left in place deliberately."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Stamped Primary Button",
+      "kind": "button",
+      "refersTo": "button-stamp",
+      "description": "The single primary action per screen: an inked rubber stamp, tilted, grained, and a hair out of register.",
+      "html": "<button class=\"ds-btn-stamp\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M3.5 12h16\"/><path d=\"M13.5 6 19.5 12l-6 6\"/></svg>Continuar el menú de hoy</button>",
+      "css": ".ds-btn-stamp { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 20px; border: 2px solid #be1a0d; border-radius: 0; background: #be1a0d; color: #e6e5dc; font: 600 0.92rem/1 'Archivo Narrow', 'Archivo Variable', system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transform: rotate(-0.7deg); box-shadow: 1.5px 1.5px 0 rgb(190 26 13 / 32%); transition: transform 90ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-stamp::after { content: \"\"; position: absolute; inset: 0; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E\"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; } .ds-btn-stamp:hover { background: #a01409; border-color: #a01409; } .ds-btn-stamp:active { transform: rotate(-0.7deg) translateY(1.5px); } .ds-btn-stamp:focus-visible { outline: 2px solid #1b1a15; outline-offset: 3px; } .ds-btn-stamp:disabled { background: #dcdacd; border-color: #8b8778; color: #8b8778; box-shadow: none; cursor: not-allowed; }"
+    },
+    {
+      "name": "Stamp Ghost Button",
+      "kind": "button",
+      "refersTo": "button-stamp-ghost",
+      "description": "The primary's genuine pair: the same stamp, uninked. Used for 'Duplicar el último', which the product treats as the ordinary path.",
+      "html": "<button class=\"ds-btn-stampghost\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M8 3.5h12v12\"/><path d=\"M4 8h12v12.5H4Z\"/></svg>Duplicar el último</button>",
+      "css": ".ds-btn-stampghost { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 20px; border: 2px solid #1b1a15; border-radius: 0; background: transparent; color: #1b1a15; font: 600 0.92rem/1 'Archivo Narrow', 'Archivo Variable', system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transform: rotate(-0.7deg); box-shadow: 1.5px 1.5px 0 rgb(27 26 21 / 20%); transition: transform 90ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-stampghost::after { content: \"\"; position: absolute; inset: 0; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E\"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; } .ds-btn-stampghost:hover { background: rgb(27 26 21 / 7%); } .ds-btn-stampghost:active { transform: rotate(-0.7deg) translateY(1.5px); } .ds-btn-stampghost:focus-visible { outline: 2px solid #be1a0d; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The resting control: a 2px ink rule on bare paper. Restroked in red for a destructive inline confirmation.",
+      "html": "<button class=\"ds-btn-outline\">Eliminar</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 14px; border: 2px solid #be1a0d; border-radius: 0; background: transparent; color: #be1a0d; font: 600 0.82rem/1 'Archivo Narrow', 'Archivo Variable', system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: transform 90ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-outline:hover { background: rgb(27 26 21 / 7%); } .ds-btn-outline:active { transform: translateY(1.5px); } .ds-btn-outline:focus-visible { outline: 2px solid #be1a0d; outline-offset: 3px; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Borderless marginal control: 'Otro' under the verse, 'No' in an inline confirmation.",
+      "html": "<button class=\"ds-btn-quiet\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M20 5.5v5h-5\"/><path d=\"M19.2 10.4A7.6 7.6 0 1 0 19 15\"/></svg>Otro</button>",
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 10px; border: 0; border-radius: 0; background: transparent; color: #615d50; font: 600 0.82rem/1 'Archivo Narrow', 'Archivo Variable', system-ui, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: transform 90ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-quiet:hover { color: #1b1a15; } .ds-btn-quiet:active { transform: translateY(1.5px); } .ds-btn-quiet:focus-visible { outline: 2px solid #be1a0d; outline-offset: 3px; }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "44x44 borderless control carrying one hand-drawn glyph. Always labelled with the menu's long date.",
+      "html": "<button class=\"ds-btn-icon\" aria-label=\"Ver y compartir el menú del miércoles, 12 de agosto\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M2.5 12 12 6l9.5 6-9.5 6Z\"/><path d=\"M10 10.5h4v3h-4Z\"/></svg></button>",
+      "css": ".ds-btn-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 0; background: transparent; color: #615d50; cursor: pointer; transition: transform 90ms cubic-bezier(0.2, 0, 0, 1); } .ds-btn-icon:hover { color: #1b1a15; background: rgb(27 26 21 / 7%); } .ds-btn-icon:active { transform: translateY(1.5px); } .ds-btn-icon:focus-visible { outline: 2px solid #be1a0d; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ink Stamp",
+      "kind": "chip",
+      "refersTo": "ink-stamp",
+      "description": "The relative-day badge (HOY, AYER). A rubber stamp: tilted, red, out of register. Travels inline with the row title, never on the meta line.",
+      "html": "<span class=\"ds-ink-stamp\">Hoy</span>",
+      "css": ".ds-ink-stamp { display: inline-block; transform: rotate(-2.5deg); border: 2px solid #be1a0d; border-radius: 0; color: #be1a0d; padding: 3px 9px 2px; font: 400 0.78rem/1 'Anton', 'Archivo Variable', system-ui, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; box-shadow: 0.5px 0.5px 0 rgb(190 26 13 / 30%); }"
+    },
+    {
+      "name": "Today's Leaf",
+      "kind": "card",
+      "refersTo": "leaf",
+      "description": "The attached sheet: cut edges of the pad above it, an intact perforation band, grained newsprint, no border.",
+      "html": "<div class=\"ds-leaf-wrap\"><span class=\"ds-leaf-edge ds-leaf-edge-1\"></span><span class=\"ds-leaf-edge ds-leaf-edge-2\"></span><span class=\"ds-leaf-edge ds-leaf-edge-3\"></span><section class=\"ds-leaf\"><div class=\"ds-leaf-perf\"></div><div class=\"ds-leaf-body\"><h1 class=\"ds-leaf-lockup\"><span class=\"ds-leaf-figure\">12</span><span class=\"ds-leaf-date\"><span class=\"ds-leaf-weekday\">Miércoles</span><span class=\"ds-leaf-month\">Agosto</span></span></h1><div class=\"ds-leaf-rule\"></div></div></section></div>",
+      "css": ".ds-leaf-wrap { position: relative; padding-top: 12px; background: #0d3826; } .ds-leaf-edge { position: absolute; height: 10px; background: #dcdacd; box-shadow: 0 -1px 0 rgb(9 42 28 / 22%); } .ds-leaf-edge-1 { left: 10px; right: 10px; top: 3px; } .ds-leaf-edge-2 { left: 6px; right: 6px; top: 6px; } .ds-leaf-edge-3 { left: 3px; right: 3px; top: 9px; } .ds-leaf { position: relative; background: #e6e5dc; color: #1b1a15; border-radius: 0; box-shadow: 0 18px 34px rgb(4 20 13 / 34%), 0 2px 4px rgb(4 20 13 / 22%); } .ds-leaf::after { content: \"\"; position: absolute; inset: 0; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E\"); opacity: 0.035; pointer-events: none; } .ds-leaf-perf { height: 12px; background: radial-gradient(circle at center, #0d3826 0 1.6px, transparent 1.7px) repeat-x left center / 9px 4px; } .ds-leaf-body { padding: 12px 32px 24px; } .ds-leaf-lockup { margin: 0; display: flex; align-items: flex-end; column-gap: 14px; } .ds-leaf-figure { font: 400 clamp(4.5rem, 21vw, 15rem)/0.76 'Anton', system-ui, sans-serif; letter-spacing: -0.03em; font-variant-numeric: lining-nums; color: #1b1a15; } .ds-leaf-date { padding-bottom: 0.5em; } .ds-leaf-weekday, .ds-leaf-month { display: block; font: 400 clamp(0.95rem, 2.4vw, 1.5rem)/1.05 'Anton', system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; } .ds-leaf-weekday { color: #be1a0d; } .ds-leaf-rule { height: 2px; background: #1b1a15; margin: 24px 0 16px; }"
+    },
+    {
+      "name": "Torn Archive Row",
+      "kind": "card",
+      "refersTo": "torn-leaf-row",
+      "description": "A detached leaf: ragged top edge, guillotined bottom, stretched-link title, ink stamp, meta line, icon cluster.",
+      "html": "<li class=\"ds-torn-row\"><div class=\"ds-torn-inner\"><div class=\"ds-torn-corner\"><div class=\"ds-torn-day\">12</div><div class=\"ds-torn-wd\">Mié</div></div><div class=\"ds-torn-main\"><div class=\"ds-torn-head\"><button class=\"ds-torn-title\" type=\"button\">Menú del día</button><span class=\"ds-torn-stamp\">Hoy</span></div><div class=\"ds-torn-meta\"><span>24 platillos</span><span class=\"ds-torn-swatchline\"><span class=\"ds-torn-swatch\"></span>Clásica</span></div></div><div class=\"ds-torn-actions\"><button class=\"ds-btn-icon\" aria-label=\"Duplicar\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M8 3.5h12v12\"/><path d=\"M4 8h12v12.5H4Z\"/></svg></button><button class=\"ds-btn-icon\" aria-label=\"Eliminar\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M4 6.5h16M9.5 6.5V3.5h5v3\"/><path d=\"M6.5 6.5 7.5 20.5h9l1-14\"/><path d=\"M10.5 10v7M13.5 10v7\"/></svg></button></div></div></li>",
+      "css": ".ds-torn-row { position: relative; list-style: none; margin-top: 13px; background: #e6e5dc; color: #1b1a15; border-radius: 0; box-shadow: 0 6px 14px rgb(4 20 13 / 26%); } .ds-torn-row::before { content: \"\"; position: absolute; left: 0; right: 0; top: -11px; height: 12px; background: #e6e5dc; -webkit-mask-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='10' viewBox='0 0 96 10'%3E%3Cpath d='M0%205%20L6%205%20L9%203%20L14%204%20L18%202%20L23%204%20L28%204%20L31%206%20L36%203%20L40%205%20L46%205%20L49%202%20L54%204%20L59%203%20L63%205%20L68%205%20L72%203%20L77%204%20L82%202%20L86%204%20L91%204%20L96%203%20L96%2010%20L0%2010%20Z' fill='%23000'/%3E%3C/svg%3E\"); mask-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='10' viewBox='0 0 96 10'%3E%3Cpath d='M0%205%20L6%205%20L9%203%20L14%204%20L18%202%20L23%204%20L28%204%20L31%206%20L36%203%20L40%205%20L46%205%20L49%202%20L54%204%20L59%203%20L63%205%20L68%205%20L72%203%20L77%204%20L82%202%20L86%204%20L91%204%20L96%203%20L96%2010%20L0%2010%20Z' fill='%23000'/%3E%3C/svg%3E\"); -webkit-mask-size: 96px 12px; mask-size: 96px 12px; -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x; } .ds-torn-row:hover .ds-torn-title::after { background: rgb(27 26 21 / 4%); } .ds-torn-inner { position: relative; display: flex; align-items: center; flex-wrap: nowrap; gap: 16px; padding: 12px 20px; } .ds-torn-corner { flex: none; align-self: flex-start; width: 52px; text-align: center; } .ds-torn-day { font: 400 2rem/0.85 'Anton', system-ui, sans-serif; font-variant-numeric: tabular-nums; } .ds-torn-wd { margin-top: 4px; font: 500 0.66rem/1 'Archivo Narrow', system-ui, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: #615d50; } .ds-torn-main { flex: 1 1 auto; min-width: 0; } .ds-torn-head { display: flex; align-items: center; gap: 8px; min-width: 0; } .ds-torn-title { appearance: none; border: 0; background: transparent; padding: 0; max-width: 100%; text-align: left; cursor: pointer; font: 600 1.02rem/1.25 'Archivo Variable', system-ui, sans-serif; color: #1b1a15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; } .ds-torn-title::after { content: \"\"; position: absolute; inset: 0; } .ds-torn-title:focus-visible { outline: none; } .ds-torn-title:focus-visible::after { outline: 2px solid #be1a0d; outline-offset: -3px; } .ds-torn-stamp { flex: none; position: relative; z-index: 1; display: inline-block; transform: rotate(-2.5deg); border: 2px solid #be1a0d; color: #be1a0d; padding: 3px 9px 2px; font: 400 0.78rem/1 'Anton', system-ui, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; box-shadow: 0.5px 0.5px 0 rgb(190 26 13 / 30%); } .ds-torn-meta { margin-top: 3px; display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; font: 500 0.72rem/1.2 'Archivo Narrow', system-ui, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #615d50; font-variant-numeric: tabular-nums; } .ds-torn-swatchline { display: inline-flex; align-items: center; gap: 6px; min-width: 0; } .ds-torn-swatch { width: 9px; height: 9px; flex: none; background: #be1a0d; outline: 1px solid rgb(27 26 21 / 30%); } .ds-torn-actions { position: relative; z-index: 1; display: flex; flex-wrap: nowrap; }"
+    },
+    {
+      "name": "Hanger Strip",
+      "kind": "nav",
+      "refersTo": "hanger-strip",
+      "description": "The sticky tin strip crimped across the top of the pad: drawn sheet metal, two octagonal rivets, die-stamped logo at the left, settings at the right.",
+      "html": "<header class=\"ds-hanger\"><svg class=\"ds-hanger-sheet\" preserveAspectRatio=\"none\" viewBox=\"0 0 100 60\" aria-hidden=\"true\"><defs><linearGradient id=\"ds-tin\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#8f8d82\"/><stop offset=\"0.06\" stop-color=\"#e4e1d8\"/><stop offset=\"0.16\" stop-color=\"#a9a69b\"/><stop offset=\"0.42\" stop-color=\"#c9c6bc\"/><stop offset=\"0.63\" stop-color=\"#a5a298\"/><stop offset=\"0.82\" stop-color=\"#bdbab0\"/><stop offset=\"0.95\" stop-color=\"#807e74\"/><stop offset=\"1\" stop-color=\"#5d5b53\"/></linearGradient></defs><rect width=\"100\" height=\"60\" fill=\"url(#ds-tin)\"/><g stroke=\"#000\" stroke-opacity=\"0.07\" stroke-width=\"0.5\" vector-effect=\"non-scaling-stroke\"><path d=\"M0 13h100M0 27h100M0 44h100\"/></g><g stroke=\"#fff\" stroke-opacity=\"0.22\" stroke-width=\"0.5\" vector-effect=\"non-scaling-stroke\"><path d=\"M0 9h100M0 31h100M0 49h100\"/></g><path d=\"M0 55h100\" stroke=\"#3f3e38\" stroke-opacity=\"0.5\" stroke-width=\"1\" stroke-dasharray=\"4 3\" vector-effect=\"non-scaling-stroke\"/></svg><svg class=\"ds-rivet ds-rivet-l\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><defs><radialGradient id=\"ds-rv-l\" cx=\"0.36\" cy=\"0.3\" r=\"0.75\"><stop offset=\"0\" stop-color=\"#f2efe6\"/><stop offset=\"0.45\" stop-color=\"#9d9a90\"/><stop offset=\"1\" stop-color=\"#5b594f\"/></radialGradient></defs><path d=\"M6 1.5h8L18.5 6v8L14 18.5H6L1.5 14V6Z\" fill=\"#8e8b81\" stroke=\"#4c4a43\" stroke-opacity=\"0.55\"/><path d=\"M6 2.4h8L17.6 6v8L14 17.6\" fill=\"none\" stroke=\"#fff\" stroke-opacity=\"0.28\"/><circle cx=\"10\" cy=\"10\" r=\"4.2\" fill=\"url(#ds-rv-l)\"/><circle cx=\"10\" cy=\"10\" r=\"4.2\" fill=\"none\" stroke=\"#3f3e38\" stroke-opacity=\"0.45\"/></svg><svg class=\"ds-rivet ds-rivet-r\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><defs><radialGradient id=\"ds-rv-r\" cx=\"0.36\" cy=\"0.3\" r=\"0.75\"><stop offset=\"0\" stop-color=\"#f2efe6\"/><stop offset=\"0.45\" stop-color=\"#9d9a90\"/><stop offset=\"1\" stop-color=\"#5b594f\"/></radialGradient></defs><path d=\"M6 1.5h8L18.5 6v8L14 18.5H6L1.5 14V6Z\" fill=\"#8e8b81\" stroke=\"#4c4a43\" stroke-opacity=\"0.55\"/><path d=\"M6 2.4h8L17.6 6v8L14 17.6\" fill=\"none\" stroke=\"#fff\" stroke-opacity=\"0.28\"/><circle cx=\"10\" cy=\"10\" r=\"4.2\" fill=\"url(#ds-rv-r)\"/><circle cx=\"10\" cy=\"10\" r=\"4.2\" fill=\"none\" stroke=\"#3f3e38\" stroke-opacity=\"0.45\"/></svg><span class=\"ds-hanger-mark\">Maranatha</span><span class=\"ds-hanger-gap\"></span><button class=\"ds-hanger-btn\" aria-label=\"Datos del negocio\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M10.1 2.8h3.8l.5 2.4 2 1.2 2.2-1 1.9 3.3-1.7 1.7v2.3l1.7 1.7-1.9 3.3-2.2-1-2 1.2-.5 2.3h-3.8l-.5-2.3-2-1.2-2.2 1-1.9-3.3L5.2 12V9.7L3.5 8l1.9-3.3 2.2 1 2-1.2Z\"/><path d=\"M9.4 12h5.2M12 9.4v5.2\"/></svg></button></header>",
+      "css": ".ds-hanger { position: relative; display: flex; align-items: center; gap: 8px; height: 60px; padding: 0 48px; background: #8d8a7e; border-bottom: 2px solid #092a1c; box-shadow: 0 6px 16px rgb(4 20 13 / 34%); } .ds-hanger-sheet { position: absolute; inset: 0; width: 100%; height: 100%; } .ds-rivet { position: absolute; top: 7px; } .ds-rivet-l { left: 12px; } .ds-rivet-r { right: 12px; } .ds-hanger-mark { position: relative; font: 400 1rem/1 'Anton', system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #be1a0d; } .ds-hanger-gap { flex: 1; } .ds-hanger-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 0; background: transparent; color: #1b1a15; cursor: pointer; } .ds-hanger-btn:hover { background: rgb(27 26 21 / 7%); } .ds-hanger-btn:focus-visible { outline: 2px solid #be1a0d; outline-offset: 3px; }"
+    },
+    {
+      "name": "Errata Band",
+      "kind": "custom",
+      "refersTo": "errata-band",
+      "description": "The error state: a printed correction, announced with a red rule over the text rather than a colored strip at its edge.",
+      "html": "<div class=\"ds-errata\" role=\"alert\"><span class=\"ds-errata-title\">Fe de erratas</span>No se pudo cargar la lista de menús.</div>",
+      "css": ".ds-errata { background: #e6e5dc; border-top: 3px solid #be1a0d; border-radius: 0; padding: 12px 16px; font: 500 0.9rem/1.45 'Archivo Variable', system-ui, sans-serif; color: #1b1a15; } .ds-errata-title { display: block; margin-bottom: 6px; font: 400 0.68rem/1 'Anton', system-ui, sans-serif; letter-spacing: 0.2em; text-transform: uppercase; color: #be1a0d; }"
+    },
+    {
+      "name": "Blank Leaf",
+      "kind": "custom",
+      "refersTo": "leaf",
+      "description": "The empty archive state, and the only place on this screen that explains itself.",
+      "html": "<div class=\"ds-blank\"><svg width=\"40\" height=\"40\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\" class=\"ds-blank-glyph\"><path d=\"M4.5 3.5v6a2.5 2.5 0 0 0 5 0v-6M7 3.5v17\"/><path d=\"M17.5 3.5c1.8 0 3 2 3 4.5s-1.2 4-3 4Zm0 8v9\"/></svg><p class=\"ds-blank-head\">Ninguna hoja arrancada</p><p class=\"ds-blank-body\">Armá el menú de hoy con el botón de arriba: el primero llega con los platillos y precios de siempre, listos para ajustar.</p></div>",
+      "css": ".ds-blank { background: #e6e5dc; color: #1b1a15; border-radius: 0; padding: 48px 24px; text-align: center; box-shadow: 0 6px 14px rgb(4 20 13 / 26%); } .ds-blank-glyph { color: #8b8778; margin-bottom: 16px; } .ds-blank-head { margin: 0; font: 400 1.05rem/1 'Anton', system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; } .ds-blank-body { margin: 12px auto 0; max-width: 46ch; font: 400 0.95rem/1.55 'Archivo Variable', system-ui, sans-serif; color: #615d50; }"
+    },
+    {
+      "name": "Inked Neutral Button",
+      "notes": "MUI contained+inherit as a prop-matcher. MUI's own neutral fill is a system grey that dies on newsprint and made 'Guardar cambios' read as disabled."
+    },
+    {
+      "name": "Text Field",
+      "notes": "Newsprint ground, square, rule hairline at rest, 2px ink rule on focus, uppercase Archivo Narrow label, tabular numerals, 16px input floor."
+    },
+    {
+      "name": "Toggle Button",
+      "notes": "2px ink box; selecting is inking — solid ink fill with newsprint text. Grouped toggles overlap borders by -2px to read as one printed rule."
+    },
+    {
+      "name": "Alert",
+      "notes": "Paper ground with a 3px top rule in the feedback ink; the errata band's grammar applied system-wide. Never a colored left edge."
+    },
+    {
+      "name": "Tooltip",
+      "notes": "Solid ink ground, newsprint text, square, uppercase."
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tear-Off Almanac",
+    "overview": "The home screen is not a dashboard of a menu app. It is a physical object hanging on a kitchen wall: a cheap commercial almanac of the kind given away by a hardware store. It is made of exactly three materials and nothing else — a full-bleed chromo-green backing board, a tin hanger strip crimped across the top edge with two rivets, and a pad of grey newsprint leaves printed in two inks. Today's leaf is still attached, so its perforation is intact and the cut edges of the leaves below show behind it. The leaves already torn off are stacked underneath the board, grouped by month.\n\nThe density is that of a printed sheet, not of an interface. The day figure is the largest object on the page and carries no label above it, because on an almanac leaf a number that size is self-evident. The weekday and month sit beside it in red, not stacked above it, because a kicker over a headline is app grammar and this is print grammar. Secondary data — day of the year, days remaining, the menu's spec — is packed into a marginal column ruled off with a hairline, in condensed uppercase, exactly where an almanac packs its almanac facts. The verse prints in the foot band in the same small marginal voice, next to where a real one prints the saints' calendar and the moon phase.\n\nNothing in this world is round, nothing is soft, and nothing glows. Depth exists only because paper has thickness and a printed sheet casts a shadow on the board behind it. The world explicitly rejects the arrangement this product category always ships: a rounded gradient hero, a pill button, and a grid of elevated cards.",
+    "keyCharacteristics": [
+      "Three materials only: green board, tin hanger, two-ink newsprint. Anything that is not one of those three does not belong on this screen.",
+      "Zero radius everywhere; the only circles are the two hanger rivets, because a rivet is genuinely round.",
+      "Two inks on paper — press black and Sunday red — and nothing else.",
+      "The day figure dominates: one enormous Anton numeral per leaf, unlabelled.",
+      "Deliberate imperfection as material: 3.5% paper grain, -0.7deg stamp rotation, a 1.5px same-hue ink offset, a torn edge whose phase shifts row to row.",
+      "Hand-drawn iconography sharing one hard stroke spec (1.75px, square caps, miter joins, no curve of convenience)."
+    ],
+    "rules": [
+      {
+        "name": "The Three Materials Rule",
+        "body": "Every pixel on this screen is board, tin, or paper. If a new element cannot be described as one of the three, it does not go on this screen.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Inks Rule",
+        "body": "A leaf carries press black and Sunday red and nothing else. No third accent, no tinted surfaces, no colored state backgrounds. The only saturated color allowed to break this is a template's own ink swatch, and only as a 9x9px square with a 1px ink outline inside the meta line.",
+        "section": "colors"
+      },
+      {
+        "name": "The Faint Ink Rule",
+        "body": "ink-faint is 2.89:1 on newsprint and is therefore not a text color. It may stroke a disabled control or a decorative glyph; it may never carry a word a user must read. The quiet end of the marginal column is ink-muted (5.3:1).",
+        "section": "colors"
+      },
+      {
+        "name": "The Board Never Prints Rule",
+        "body": "Text set directly on the green board is newsprint at reduced alpha (82% for the archive heading, 74% for month rules, 22% for their trailing hairline). Ink colors are for paper only.",
+        "section": "colors"
+      },
+      {
+        "name": "The Unlabelled Figure Rule",
+        "body": "The day figure never gets a kicker, an eyebrow, or a caption above it. Supporting date words sit beside it, baseline-aligned to its foot. Nothing is stacked over a headline on this screen.",
+        "section": "typography"
+      },
+      {
+        "name": "The Marginal Voice Rule",
+        "body": "Every fact that is not the date, the title, or an action is set in Archivo Narrow, uppercase, letterspaced, tabular. Counts, dates and specs align in columns because an almanac's data column aligns.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Figure Rule",
+        "body": "Anton is for numerals and short uppercase labels only. It never sets a sentence.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Wrap Row Rule",
+        "body": "An archive row is one line of leaf. Nothing in it wraps to a second line; shrink the type, abbreviate the prose, or drop a redundant control instead.",
+        "section": "layout"
+      },
+      {
+        "name": "The Sticky Under Tin Rule",
+        "body": "Sticky month rules stop at 60px, the hanger's height, and carry the board color. Two sticky layers never overlap.",
+        "section": "layout"
+      },
+      {
+        "name": "The Misregistration Rule",
+        "body": "The stamped button's offset is fixed at 1.5px/1.5px in the button's own hue at <=32% alpha, and the ink stamp's at 0.5px. It is press misregistration and it stays at that size. It must never grow, never darken, never gain blur, and never turn into a hard black offset — at any larger value it stops reading as cheap two-ink printing and becomes a neobrutalist drop shadow, which this world is not.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Cast-Shadow-Only Rule",
+        "body": "All shadows are green-black (rgb(4 20 13 / …)) and vertical: they are the board receiving light from above. No hover lift, no focus glow, no colored ambience. Hover changes ink or a 4-7% wash, never elevation.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Zero Radius Rule",
+        "body": "Every corner in this world is square. If a child component brings a radius, the parent removes it.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Real Round Rule",
+        "body": "A circle is permitted only where the depicted object is round in life. Today that is the two rivets, and nothing else.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Bottom Edge Is Guillotined Rule",
+        "body": "Only the top edge of a torn leaf is ragged. The bottom is a clean cut, because that is where the sheet below was still attached.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do build any new element out of board, tin, or newsprint. If it is none of the three, it does not belong on this screen.",
+      "Do keep every corner square (0 radius), and strip a nested child's radius at the parent when one arrives.",
+      "Do print in two inks only: press black and Sunday red on newsprint.",
+      "Do set data — counts, dates, specs, control labels — in Archivo Narrow, uppercase, letterspaced, tabular.",
+      "Do keep exactly one stamped primary action per screen; everything else is stamp-ghost, outline, quiet, or icon.",
+      "Do hold the paper grain at 3-3.5% on sheets (16% multiply inside a stamped button). Above that it is noise, not paper.",
+      "Do confirm destructive actions inline on the row, and keep every tap target at 44px.",
+      "Do cast shadows in green-black (rgb(4 20 13 / …)) and straight down; they are the board receiving light from the nail.",
+      "Do draw new icons at 1.75px stroke, square caps, miter joins, on a 24x24 box, with no curve of convenience.",
+      "Do vary the torn-edge mask phase per row so no two tears repeat."
+    ],
+    "donts": [
+      "Don't round anything. The two rivets are round because a rivet is round; that is a depicted object, not a corner style.",
+      "Don't let the stamp's 1.5px misregistration grow, darken, blur, or turn black. At any larger value it stops being press misregistration and becomes a drop shadow this world has no room for.",
+      "Don't set a kicker, eyebrow, or label above the day figure, or above any headline here. Supporting words sit beside the figure.",
+      "Don't use ink-faint for text a user must read (2.89:1). Strokes and decorative glyphs only.",
+      "Don't introduce a third ink, a tinted state background, or a colored surface; a template's ink swatch is the only saturated exception and only as a 9x9px outlined square.",
+      "Don't use cream. Cream is the older MUI theme's ground; this paper is grey-raw.",
+      "Don't open a Material dialog, ripple, pill button, or elevated card on this route.",
+      "Don't let an archive row wrap to a second line. Shrink type, abbreviate, or drop a control that the stretched link already covers.",
+      "Don't put explanatory prose on today's leaf. The explanation lives in the blank-leaf state, where it is needed once.",
+      "Don't use an icon font or an icon package; every glyph is authored SVG in the shared stroke spec.",
+      "Don't import src/theme.ts or src/styles/tokens.css tokens into this world, and don't export this world's tokens into the print templates."
+    ]
+  }
+}
